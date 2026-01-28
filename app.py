@@ -62,6 +62,22 @@ st.markdown("""
     h1, h2, h3 {
         color: white !important;
     }
+    .title-container {
+        text-align: center;
+        margin-bottom: 25px;
+    }
+
+    .title-container h1 {
+        color: white;
+        font-size: 2.6em;
+        margin-bottom: 5px;
+    }
+
+    .title-container p {
+        color: #f1f1ff;
+        font-size: 1.15em;
+        font-weight: 400;
+    }
 </style>
 """, unsafe_allow_html=True)
 
