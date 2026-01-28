@@ -9,58 +9,335 @@ import PyPDF2
 import docx2txt
 from openpyxl import Workbook
 from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
-import tempfile
 
 # Configuración de la página
 st.set_page_config(
-    page_title="Sistema de Análisis de Admisión (SDT)",
+    page_title="Sistema de Análisis de Admisión - SDT",
     page_icon="🎓",
-    layout="wide"
+    layout="wide",
+    initial_sidebar_state="collapsed"
 )
 
-# Estilos CSS personalizados
+# Estilos CSS profesionales y modernos
 st.markdown("""
 <style>
+    /* Paleta de colores profesional para educación */
+    :root {
+        --primary-blue: #1E3A8A;
+        --secondary-blue: #3B82F6;
+        --accent-purple: #7C3AED;
+        --success-green: #059669;
+        --warning-orange: #F59E0B;
+        --error-red: #DC2626;
+        --bg-light: #F8FAFC;
+        --text-dark: #1E293B;
+        --text-medium: #64748B;
+    }
+    
+    /* Fondo principal */
     .main {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        padding: 20px;
+        background: linear-gradient(180deg, #EFF6FF 0%, #FFFFFF 100%);
+        padding: 2rem 1rem;
     }
+    
     .stApp {
-        background: transparent;
+        background: #F1F5F9;
     }
+    
+    /* Header personalizado */
+    .app-header {
+        background: linear-gradient(135deg, #1E3A8A 0%, #3B82F6 100%);
+        padding: 2rem;
+        border-radius: 16px;
+        margin-bottom: 2rem;
+        box-shadow: 0 10px 30px rgba(30, 58, 138, 0.2);
+        text-align: center;
+    }
+    
+    .app-title {
+        font-size: 2.5rem;
+        font-weight: 800;
+        color: white;
+        margin: 0;
+        letter-spacing: -0.5px;
+    }
+    
+    .app-subtitle {
+        font-size: 1.1rem;
+        color: #E0E7FF;
+        margin-top: 0.5rem;
+        font-weight: 400;
+    }
+    
+    /* File uploader mejorado */
     div[data-testid="stFileUploader"] {
         background: white;
-        border-radius: 15px;
-        padding: 20px;
-        border: 3px dashed #667eea;
+        border-radius: 12px;
+        padding: 2rem;
+        border: 2px dashed #3B82F6;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
     }
-    .upload-text {
-        text-align: center;
-        color: #333;
-        font-size: 1.1em;
+    
+    div[data-testid="stFileUploader"]:hover {
+        border-color: #1E3A8A;
+        box-shadow: 0 8px 12px rgba(30, 58, 138, 0.1);
     }
+    
+    /* Botones mejorados */
+    .stButton > button {
+        background: linear-gradient(135deg, #1E3A8A 0%, #3B82F6 100%);
+        color: white;
+        border: none;
+        padding: 0.75rem 2rem;
+        font-size: 1rem;
+        font-weight: 600;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(30, 58, 138, 0.3);
+        transition: all 0.3s ease;
+        letter-spacing: 0.3px;
+    }
+    
+    .stButton > button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(30, 58, 138, 0.4);
+    }
+    
+    .stButton > button:active {
+        transform: translateY(0);
+    }
+    
+    /* Métricas mejoradas */
+    div[data-testid="metric-container"] {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        border-left: 4px solid #3B82F6;
+    }
+    
+    div[data-testid="metric-container"] label {
+        color: #64748B;
+        font-size: 0.875rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    
+    div[data-testid="metric-container"] [data-testid="stMetricValue"] {
+        color: #1E3A8A;
+        font-size: 2rem;
+        font-weight: 700;
+    }
+    
+    /* Cards de información */
     .info-card {
         background: white;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        margin: 10px 0;
+        padding: 1.5rem;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        margin: 1rem 0;
+        border-left: 4px solid #3B82F6;
+        transition: all 0.3s ease;
     }
+    
+    .info-card:hover {
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+        transform: translateY(-2px);
+    }
+    
+    /* Score circle mejorado */
     .score-circle {
         display: inline-flex;
-        width: 80px;
-        height: 80px;
+        width: 100px;
+        height: 100px;
         border-radius: 50%;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, #1E3A8A 0%, #3B82F6 100%);
         color: white;
         align-items: center;
         justify-content: center;
-        font-size: 1.8em;
-        font-weight: bold;
-        margin: 10px;
+        font-size: 2.2rem;
+        font-weight: 800;
+        box-shadow: 0 8px 20px rgba(30, 58, 138, 0.3);
+        position: relative;
     }
-    h1, h2, h3 {
-        color: white !important;
+    
+    .score-circle::after {
+        content: '/20';
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        font-size: 0.7rem;
+        opacity: 0.8;
+    }
+    
+    /* Progress bar personalizada */
+    .stProgress > div > div > div > div {
+        background: linear-gradient(90deg, #1E3A8A 0%, #3B82F6 100%);
+    }
+    
+    /* Expander mejorado */
+    .streamlit-expanderHeader {
+        background: white;
+        border-radius: 8px;
+        font-weight: 600;
+        color: #1E3A8A;
+        border: 1px solid #E2E8F0;
+    }
+    
+    .streamlit-expanderHeader:hover {
+        background: #F8FAFC;
+        border-color: #3B82F6;
+    }
+    
+    /* Download button especial */
+    .stDownloadButton > button {
+        background: linear-gradient(135deg, #059669 0%, #10B981 100%);
+        color: white;
+        border: none;
+        padding: 0.75rem 2rem;
+        font-size: 1rem;
+        font-weight: 600;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3);
+    }
+    
+    .stDownloadButton > button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(5, 150, 105, 0.4);
+    }
+    
+    /* Alerts personalizados */
+    .stAlert {
+        border-radius: 8px;
+        border-left: 4px solid;
+    }
+    
+    /* Info boxes */
+    div[data-baseweb="notification"] {
+        border-radius: 8px;
+    }
+    
+    /* Badges de estado */
+    .status-badge {
+        display: inline-block;
+        padding: 0.4rem 1rem;
+        border-radius: 20px;
+        font-weight: 600;
+        font-size: 0.875rem;
+        letter-spacing: 0.3px;
+    }
+    
+    .badge-success {
+        background: #D1FAE5;
+        color: #065F46;
+    }
+    
+    .badge-warning {
+        background: #FEF3C7;
+        color: #92400E;
+    }
+    
+    .badge-error {
+        background: #FEE2E2;
+        color: #991B1B;
+    }
+    
+    .badge-info {
+        background: #DBEAFE;
+        color: #1E40AF;
+    }
+    
+    /* Títulos mejorados */
+    h1 {
+        color: #1E3A8A !important;
+        font-weight: 800 !important;
+        letter-spacing: -0.5px !important;
+    }
+    
+    h2 {
+        color: #1E3A8A !important;
+        font-weight: 700 !important;
+        margin-top: 2rem !important;
+    }
+    
+    h3 {
+        color: #3B82F6 !important;
+        font-weight: 600 !important;
+    }
+    
+    /* Separator line */
+    hr {
+        border: none;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, #3B82F6, transparent);
+        margin: 2rem 0;
+    }
+    
+    /* Caption mejorado */
+    .stCaption {
+        color: #64748B !important;
+        font-size: 0.875rem !important;
+    }
+    
+    /* Spinner personalizado */
+    .stSpinner > div {
+        border-top-color: #3B82F6 !important;
+    }
+    
+    /* Tablas */
+    .dataframe {
+        border-radius: 8px;
+        overflow: hidden;
+    }
+    
+    /* Container principal */
+    .block-container {
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+        max-width: 1400px;
+    }
+    
+    /* Success/Warning/Error boxes específicos */
+    .success-box {
+        background: #D1FAE5;
+        border-left: 4px solid #059669;
+        padding: 1rem;
+        border-radius: 8px;
+        margin: 1rem 0;
+    }
+    
+    .warning-box {
+        background: #FEF3C7;
+        border-left: 4px solid #F59E0B;
+        padding: 1rem;
+        border-radius: 8px;
+        margin: 1rem 0;
+    }
+    
+    .info-box {
+        background: #DBEAFE;
+        border-left: 4px solid #3B82F6;
+        padding: 1rem;
+        border-radius: 8px;
+        margin: 1rem 0;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+        .app-title {
+            font-size: 1.8rem;
+        }
+        
+        .score-circle {
+            width: 80px;
+            height: 80px;
+            font-size: 1.8rem;
+        }
+        
+        .block-container {
+            padding-top: 1rem;
+        }
     }
 </style>
 """, unsafe_allow_html=True)
@@ -68,24 +345,22 @@ st.markdown("""
 # Inicializar cliente OpenAI
 @st.cache_resource
 def get_openai_client():
-    # Primero intenta obtener de secrets (Streamlit Cloud)
     api_key = None
     try:
         api_key = st.secrets["OPENAI_API_KEY"]
     except:
-        # Si no está en secrets, intenta con variable de entorno (local)
         api_key = os.getenv('OPENAI_API_KEY')
     
     if not api_key:
         st.error("⚠️ No se encontró la clave API de OpenAI")
-        st.info("**Para uso local:** Configura la variable de entorno OPENAI_API_KEY en tu archivo .env")
+        st.info("**Para uso local:** Configura OPENAI_API_KEY en .streamlit/secrets.toml")
         st.info("**Para Streamlit Cloud:** Configura OPENAI_API_KEY en Settings → Secrets")
         st.stop()
     return OpenAI(api_key=api_key)
 
 client = get_openai_client()
 
-# Función para extraer texto de PDF
+# Funciones de extracción de texto
 def extract_text_from_pdf(file):
     try:
         pdf_reader = PyPDF2.PdfReader(file)
@@ -97,7 +372,6 @@ def extract_text_from_pdf(file):
         st.error(f"Error al leer PDF: {str(e)}")
         return None
 
-# Función para extraer texto de DOCX
 def extract_text_from_docx(file):
     try:
         text = docx2txt.process(file)
@@ -106,7 +380,6 @@ def extract_text_from_docx(file):
         st.error(f"Error al leer DOCX: {str(e)}")
         return None
 
-# Función para extraer texto de TXT
 def extract_text_from_txt(file):
     try:
         return file.read().decode('utf-8')
@@ -114,7 +387,6 @@ def extract_text_from_txt(file):
         st.error(f"Error al leer TXT: {str(e)}")
         return None
 
-# Función para leer Excel/CSV
 def read_excel_file(file):
     try:
         file_extension = file.name.split('.')[-1].lower()
@@ -221,7 +493,6 @@ Recuerda: responde ÚNICAMENTE con el JSON, sin ningún texto adicional ni bloqu
         
         content = response.choices[0].message.content.strip()
         
-        # Limpiar respuesta de posibles markdown
         if content.startswith('```'):
             content = content.split('```')[1]
             if content.startswith('json'):
@@ -250,10 +521,9 @@ def process_excel_records(df, progress_bar, status_text):
     required_fields = ['Respuesta 1', 'Respuesta 2', 'Respuesta 3']
     
     for idx, row in df.iterrows():
-        status_text.text(f"Procesando registro {idx + 1} de {total}...")
+        status_text.markdown(f"**Procesando:** Registro {idx + 1} de {total}")
         progress_bar.progress((idx + 1) / total)
         
-        # Construir texto del formulario
         form_text = f"""
 Nombre: {row.get('Nombre', 'N/A')}
 Apellidos: {row.get('Apellidos', 'N/A')}
@@ -271,7 +541,6 @@ Pregunta 3: ¿Cómo planeas usar lo que aprendas?
 Respuesta 3: {row.get('Respuesta 3', 'Sin respuesta')}
 """
         
-        # Validar que tenga al menos las respuestas requeridas
         missing_fields = [field for field in required_fields if pd.isna(row.get(field)) or str(row.get(field)).strip() == '']
         
         if missing_fields:
@@ -285,7 +554,6 @@ Respuesta 3: {row.get('Respuesta 3', 'Sin respuesta')}
             })
             continue
         
-        # Analizar con OpenAI
         analysis = analyze_admission_form(form_text)
         
         result = {
@@ -311,8 +579,7 @@ def generate_excel_report(results):
     ws = wb.active
     ws.title = "Resultados Análisis SDT"
     
-    # Estilos
-    header_fill = PatternFill(start_color="667EEA", end_color="667EEA", fill_type="solid")
+    header_fill = PatternFill(start_color="1E3A8A", end_color="1E3A8A", fill_type="solid")
     header_font = Font(bold=True, color="FFFFFF", size=11)
     border = Border(
         left=Side(style='thin'),
@@ -321,7 +588,6 @@ def generate_excel_report(results):
         bottom=Side(style='thin')
     )
     
-    # Encabezados
     headers = [
         'N°', 'Nombre', 'Apellidos', 'Correo', 'Calif. Real', 'Calif. /20',
         'R1 Punt.', 'R1 Justificación', 'R1 Tipo',
@@ -337,12 +603,10 @@ def generate_excel_report(results):
         cell.alignment = Alignment(horizontal='center', vertical='center', wrap_text=True)
         cell.border = border
     
-    # Ajustar anchos de columna
     column_widths = [5, 15, 15, 25, 10, 10, 8, 40, 15, 8, 40, 15, 8, 40, 15, 20, 30, 30, 30, 50]
     for col_num, width in enumerate(column_widths, 1):
         ws.column_dimensions[ws.cell(row=1, column=col_num).column_letter].width = width
     
-    # Datos
     for result in results:
         r = result
         a = r.get('analysis', {})
@@ -370,14 +634,12 @@ def generate_excel_report(results):
             a.get('recomendaciones', '')
         ])
     
-    # Ajustar altura de filas
     for row in ws.iter_rows(min_row=2, max_row=ws.max_row):
         ws.row_dimensions[row[0].row].height = 30
         for cell in row:
             cell.alignment = Alignment(vertical='center', wrap_text=True)
             cell.border = border
     
-    # Guardar en buffer
     buffer = io.BytesIO()
     wb.save(buffer)
     buffer.seek(0)
@@ -385,52 +647,96 @@ def generate_excel_report(results):
 
 # INTERFAZ PRINCIPAL
 def main():
-    st.title("🎓 Sistema de Análisis de Admisión (SDT)")
-    st.markdown("### Sube formularios individuales (PDF/DOCX/TXT) o múltiples registros (Excel/CSV)")
+    # Header profesional
+    st.markdown("""
+    <div class="app-header">
+        <h1 class="app-title">🎓 Sistema de Análisis de Admisión</h1>
+        <p class="app-subtitle">Análisis Motivacional basado en la Teoría de la Autodeterminación (SDT)</p>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # Información de uso
+    col1, col2, col3 = st.columns([1, 2, 1])
+    with col2:
+        st.markdown("""
+        <div style='background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); text-align: center;'>
+            <p style='margin: 0; color: #64748B; font-size: 0.95rem;'>
+                <strong style='color: #1E3A8A;'>📄 Análisis Individual:</strong> PDF, DOCX, TXT | 
+                <strong style='color: #1E3A8A;'>📊 Análisis Masivo:</strong> XLSX, XLS, CSV
+            </p>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    st.markdown("<br>", unsafe_allow_html=True)
     
     # Upload de archivo
     uploaded_file = st.file_uploader(
-        "📎 Selecciona un archivo",
+        "📎 Seleccionar Archivo",
         type=['pdf', 'docx', 'doc', 'txt', 'xlsx', 'xls', 'csv'],
-        help="Formatos soportados: PDF, DOCX, TXT para análisis individual | XLSX, XLS, CSV para análisis masivo"
+        help="Arrastra el archivo o haz clic para seleccionar",
+        label_visibility="collapsed"
     )
     
     if uploaded_file:
         file_extension = uploaded_file.name.split('.')[-1].lower()
-        file_size = uploaded_file.size / (1024 * 1024)  # MB
-        
-        st.info(f"📄 **Archivo:** {uploaded_file.name} ({file_size:.2f} MB)")
-        
+        file_size = uploaded_file.size / (1024 * 1024)
         is_batch = file_extension in ['xlsx', 'xls', 'csv']
         
-        if is_batch:
-            st.warning("📊 **Modo Masivo Detectado** - Se procesarán múltiples registros")
+        # Info del archivo
+        col1, col2, col3 = st.columns([2, 1, 1])
+        with col1:
+            st.markdown(f"""
+            <div class='info-box'>
+                📁 <strong>{uploaded_file.name}</strong>
+            </div>
+            """, unsafe_allow_html=True)
+        with col2:
+            st.markdown(f"""
+            <div class='info-box'>
+                💾 {file_size:.2f} MB
+            </div>
+            """, unsafe_allow_html=True)
+        with col3:
+            mode_badge = "badge-info" if is_batch else "badge-success"
+            mode_text = "Modo Masivo" if is_batch else "Modo Individual"
+            st.markdown(f"""
+            <div class='info-box'>
+                <span class='status-badge {mode_badge}'>{mode_text}</span>
+            </div>
+            """, unsafe_allow_html=True)
         
-        # Botón de análisis
-        if st.button("🚀 Analizar Formulario(s)", type="primary", use_container_width=True):
-            with st.spinner("Procesando..."):
+        st.markdown("<br>", unsafe_allow_html=True)
+        
+        # Botón de análisis centrado
+        col1, col2, col3 = st.columns([1, 2, 1])
+        with col2:
+            analyze_button = st.button("🚀 Iniciar Análisis", type="primary", use_container_width=True)
+        
+        if analyze_button:
+            with st.spinner("🔄 Procesando análisis..."):
                 if is_batch:
                     # PROCESAMIENTO MASIVO
                     df = read_excel_file(uploaded_file)
                     
                     if df is not None:
-                        st.success(f"✅ {len(df)} registros encontrados")
+                        st.success(f"✅ {len(df)} registros detectados")
                         
                         progress_bar = st.progress(0)
                         status_text = st.empty()
                         
                         results = process_excel_records(df, progress_bar, status_text)
                         
-                        status_text.text("✅ Análisis completado!")
+                        status_text.markdown("✅ **Análisis completado exitosamente**")
                         progress_bar.progress(1.0)
                         
-                        # Guardar en session state
                         st.session_state['batch_results'] = results
                         st.session_state['batch_filename'] = uploaded_file.name
                         
-                        # Mostrar resultados
-                        st.markdown("---")
-                        st.header("📊 Resultados del Análisis Masivo")
+                        # Separador
+                        st.markdown("<hr>", unsafe_allow_html=True)
+                        
+                        # Resultados
+                        st.markdown("## 📊 Resultados del Análisis Masivo")
                         
                         success_count = sum(1 for r in results if r.get('success'))
                         avg_score = sum(
@@ -439,54 +745,72 @@ def main():
                             if r.get('success') and r.get('analysis', {}).get('calificacion_sobre_20')
                         ) / success_count if success_count > 0 else 0
                         
+                        # Métricas
                         col1, col2, col3, col4 = st.columns(4)
                         with col1:
                             st.metric("📋 Total Registros", len(results))
                         with col2:
-                            st.metric("✅ Procesados", success_count)
+                            st.metric("✅ Exitosos", success_count)
                         with col3:
-                            st.metric("❌ Errores", len(results) - success_count)
+                            st.metric("⚠️ Con Errores", len(results) - success_count)
                         with col4:
-                            st.metric("📊 Promedio", f"{avg_score:.2f}/20")
+                            st.metric("📈 Promedio", f"{avg_score:.2f}/20")
+                        
+                        st.markdown("<br>", unsafe_allow_html=True)
                         
                         # Botón de descarga
                         excel_buffer = generate_excel_report(results)
-                        st.download_button(
-                            label="📥 Descargar Resultados (Excel)",
-                            data=excel_buffer,
-                            file_name=f"Resultados_Analisis_{datetime.now().strftime('%Y%m%d_%H%M%S')}.xlsx",
-                            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                            type="primary"
-                        )
+                        col1, col2, col3 = st.columns([1, 2, 1])
+                        with col2:
+                            st.download_button(
+                                label="📥 Descargar Reporte Completo (Excel)",
+                                data=excel_buffer,
+                                file_name=f"Analisis_SDT_{datetime.now().strftime('%Y%m%d_%H%M%S')}.xlsx",
+                                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                                use_container_width=True
+                            )
                         
-                        # Tabla de resultados
-                        st.markdown("### Detalle por Postulante")
+                        st.markdown("<br>", unsafe_allow_html=True)
+                        
+                        # Detalle por postulante
+                        st.markdown("### 👥 Detalle por Postulante")
+                        
                         for i, result in enumerate(results):
-                            with st.expander(f"**{result['registro_numero']}. {result['apellidos']}, {result['nombre']}** - {result['correo']}"):
+                            with st.expander(
+                                f"**{result['registro_numero']}. {result['apellidos']}, {result['nombre']}** • {result['correo']}",
+                                expanded=False
+                            ):
                                 if result.get('success'):
                                     analysis = result['analysis']
                                     
                                     col1, col2 = st.columns([1, 3])
                                     with col1:
-                                        st.markdown(f"<div style='text-align: center;'><div class='score-circle'>{analysis.get('calificacion_sobre_20', 'N/A')}</div></div>", unsafe_allow_html=True)
+                                        st.markdown(f"""
+                                        <div style='text-align: center; padding: 1rem;'>
+                                            <div class='score-circle'>{analysis.get('calificacion_sobre_20', 'N/A')}</div>
+                                        </div>
+                                        """, unsafe_allow_html=True)
                                     with col2:
-                                        st.markdown(f"**Calificación Real:** {analysis.get('calificacion_real', 'N/A')}/18")
-                                        st.markdown(f"**Nivel Motivacional:** {analysis.get('nivel_motivacional_general', 'N/A')}")
+                                        st.markdown(f"**📊 Calificación Real:** {analysis.get('calificacion_real', 'N/A')}/18")
+                                        nivel = analysis.get('nivel_motivacional_general', 'N/A')
+                                        st.markdown(f"**🎯 Nivel Motivacional:** {nivel}")
+                                    
+                                    st.markdown("---")
                                     
                                     # Evaluación motivacional
-                                    st.markdown("#### 📝 Evaluación Motivacional")
+                                    st.markdown("#### 📝 Evaluación Motivacional Detallada")
                                     eval_mot = analysis.get('evaluacion_motivacional', {})
                                     
                                     col1, col2, col3 = st.columns(3)
                                     with col1:
                                         if 'eleccion_carrera' in eval_mot:
-                                            st.info(f"**R1:** {eval_mot['eleccion_carrera'].get('puntaje')}/6\n\n{eval_mot['eleccion_carrera'].get('tipo_motivacion')}")
+                                            st.info(f"**R1: Elección de Carrera**\n\n{eval_mot['eleccion_carrera'].get('puntaje')}/6 • {eval_mot['eleccion_carrera'].get('tipo_motivacion')}")
                                     with col2:
                                         if 'experiencia_relacionada' in eval_mot:
-                                            st.info(f"**R2:** {eval_mot['experiencia_relacionada'].get('puntaje')}/6\n\n{eval_mot['experiencia_relacionada'].get('tipo_motivacion')}")
+                                            st.info(f"**R2: Experiencia**\n\n{eval_mot['experiencia_relacionada'].get('puntaje')}/6 • {eval_mot['experiencia_relacionada'].get('tipo_motivacion')}")
                                     with col3:
                                         if 'uso_futuro' in eval_mot:
-                                            st.info(f"**R3:** {eval_mot['uso_futuro'].get('puntaje')}/6\n\n{eval_mot['uso_futuro'].get('tipo_motivacion')}")
+                                            st.info(f"**R3: Proyección**\n\n{eval_mot['uso_futuro'].get('puntaje')}/6 • {eval_mot['uso_futuro'].get('tipo_motivacion')}")
                                     
                                     # Necesidades psicológicas
                                     if 'necesidades_psicologicas' in analysis:
@@ -494,18 +818,18 @@ def main():
                                         nec = analysis['necesidades_psicologicas']
                                         col1, col2, col3 = st.columns(3)
                                         with col1:
-                                            st.success(f"**Autonomía:**\n{nec.get('autonomia', 'N/A')}")
+                                            st.success(f"**Autonomía**\n\n{nec.get('autonomia', 'N/A')}")
                                         with col2:
-                                            st.success(f"**Competencia:**\n{nec.get('competencia', 'N/A')}")
+                                            st.success(f"**Competencia**\n\n{nec.get('competencia', 'N/A')}")
                                         with col3:
-                                            st.success(f"**Relación:**\n{nec.get('relacion', 'N/A')}")
+                                            st.success(f"**Relación**\n\n{nec.get('relacion', 'N/A')}")
                                     
                                     # Recomendaciones
                                     if 'recomendaciones' in analysis:
-                                        st.markdown("#### 💡 Recomendaciones")
+                                        st.markdown("#### 💡 Recomendaciones Pedagógicas")
                                         st.info(analysis['recomendaciones'])
                                 else:
-                                    st.error(f"❌ Error: {result.get('error', 'Error desconocido')}")
+                                    st.error(f"❌ **Error:** {result.get('error', 'Error desconocido')}")
                 
                 else:
                     # PROCESAMIENTO INDIVIDUAL
@@ -519,71 +843,97 @@ def main():
                         text_content = extract_text_from_txt(uploaded_file)
                     
                     if text_content and text_content.strip():
-                        st.success(f"✅ Texto extraído ({len(text_content)} caracteres)")
+                        st.success(f"✅ Texto extraído correctamente ({len(text_content)} caracteres)")
                         
                         analysis = analyze_admission_form(text_content)
                         
                         if analysis.get('success'):
-                            st.markdown("---")
-                            st.header("📊 Resultado del Análisis")
+                            # Separador
+                            st.markdown("<hr>", unsafe_allow_html=True)
+                            
+                            st.markdown("## 📊 Resultado del Análisis Individual")
                             
                             # Información básica
                             info = analysis.get('informacion_extraida', {})
                             col1, col2, col3 = st.columns(3)
                             with col1:
-                                st.info(f"**Nombre:** {info.get('nombre', 'N/A')}")
+                                st.info(f"**👤 Nombre**\n\n{info.get('nombre', 'N/A')}")
                             with col2:
-                                st.info(f"**Edad:** {info.get('edad', 'N/A')}")
+                                st.info(f"**📅 Edad**\n\n{info.get('edad', 'N/A')}")
                             with col3:
-                                st.info(f"**Programa:** {info.get('programa', 'N/A')}")
+                                st.info(f"**🎓 Programa**\n\n{info.get('programa', 'N/A')}")
+                            
+                            st.markdown("<br>", unsafe_allow_html=True)
                             
                             # Calificaciones
                             col1, col2 = st.columns([1, 2])
                             with col1:
-                                st.markdown(f"<div style='text-align: center;'><div class='score-circle'>{analysis.get('calificacion_sobre_20', 'N/A')}</div><p style='text-align: center; color: white;'>Calificación sobre 20</p></div>", unsafe_allow_html=True)
+                                st.markdown(f"""
+                                <div style='text-align: center; padding: 2rem;'>
+                                    <div class='score-circle'>{analysis.get('calificacion_sobre_20', 'N/A')}</div>
+                                    <p style='color: #64748B; margin-top: 1rem; font-weight: 600;'>Calificación Final</p>
+                                </div>
+                                """, unsafe_allow_html=True)
                             with col2:
-                                st.metric("Calificación Real", f"{analysis.get('calificacion_real', 'N/A')}/18")
-                                st.metric("Nivel Motivacional", analysis.get('nivel_motivacional_general', 'N/A'))
+                                st.metric("📊 Calificación Real", f"{analysis.get('calificacion_real', 'N/A')}/18", 
+                                         help="Suma de los 3 puntajes (máximo 18)")
+                                st.metric("🎯 Nivel Motivacional", analysis.get('nivel_motivacional_general', 'N/A'),
+                                         help="Perfil predominante según SDT")
+                            
+                            st.markdown("<br>", unsafe_allow_html=True)
                             
                             # Evaluación motivacional
                             st.markdown("### 📝 Evaluación Motivacional Detallada")
                             eval_mot = analysis.get('evaluacion_motivacional', {})
                             
-                            for key, label in [
-                                ('eleccion_carrera', 'R1: Elección de Carrera'),
-                                ('experiencia_relacionada', 'R2: Experiencia Relacionada'),
-                                ('uso_futuro', 'R3: Uso Futuro')
+                            for key, label, icon in [
+                                ('eleccion_carrera', 'Elección de Carrera', '🎯'),
+                                ('experiencia_relacionada', 'Experiencia Relacionada', '📚'),
+                                ('uso_futuro', 'Proyección Futura', '🚀')
                             ]:
                                 if key in eval_mot:
                                     item = eval_mot[key]
-                                    with st.expander(f"**{label}** - {item.get('puntaje')}/6 ({item.get('tipo_motivacion')})"):
-                                        st.write(f"**Justificación:** {item.get('justificacion')}")
+                                    with st.expander(f"{icon} **{label}** • Puntaje: {item.get('puntaje')}/6 • Tipo: {item.get('tipo_motivacion')}", expanded=True):
+                                        st.markdown(f"**Justificación:** {item.get('justificacion')}")
+                            
+                            st.markdown("<br>", unsafe_allow_html=True)
                             
                             # Necesidades psicológicas
                             if 'necesidades_psicologicas' in analysis:
-                                st.markdown("### 🧠 Necesidades Psicológicas (SDT)")
+                                st.markdown("### 🧠 Análisis de Necesidades Psicológicas (SDT)")
                                 nec = analysis['necesidades_psicologicas']
                                 col1, col2, col3 = st.columns(3)
                                 with col1:
-                                    st.success(f"**Autonomía:**\n\n{nec.get('autonomia', 'N/A')}")
+                                    st.success(f"**🎯 Autonomía**\n\n{nec.get('autonomia', 'N/A')}")
                                 with col2:
-                                    st.success(f"**Competencia:**\n\n{nec.get('competencia', 'N/A')}")
+                                    st.success(f"**💪 Competencia**\n\n{nec.get('competencia', 'N/A')}")
                                 with col3:
-                                    st.success(f"**Relación:**\n\n{nec.get('relacion', 'N/A')}")
+                                    st.success(f"**🤝 Relación**\n\n{nec.get('relacion', 'N/A')}")
+                            
+                            st.markdown("<br>", unsafe_allow_html=True)
                             
                             # Recomendaciones
                             if 'recomendaciones' in analysis:
-                                st.markdown("### 💡 Recomendaciones")
+                                st.markdown("### 💡 Recomendaciones Pedagógicas")
                                 st.info(analysis['recomendaciones'])
                             
                             # Metadata
-                            st.markdown("---")
-                            st.caption(f"**Archivo:** {uploaded_file.name} | **Tokens:** {analysis.get('tokens_used', 'N/A')} | **Procesado:** {datetime.fromisoformat(analysis.get('timestamp')).strftime('%Y-%m-%d %H:%M:%S')}")
+                            st.markdown("<hr>", unsafe_allow_html=True)
+                            st.caption(f"📄 **Archivo:** {uploaded_file.name} | 🔢 **Tokens:** {analysis.get('tokens_used', 'N/A')} | ⏰ **Procesado:** {datetime.fromisoformat(analysis.get('timestamp')).strftime('%d/%m/%Y %H:%M:%S')}")
                         
                         else:
-                            st.error(f"❌ Error: {analysis.get('error', 'Error desconocido')}")
+                            st.error(f"❌ **Error en el análisis:** {analysis.get('error', 'Error desconocido')}")
                     else:
                         st.error("❌ No se pudo extraer texto del archivo o el archivo está vacío")
+    
+    # Footer informativo
+    st.markdown("<br><br>", unsafe_allow_html=True)
+    st.markdown("""
+    <div style='text-align: center; padding: 2rem; color: #94A3B8; font-size: 0.85rem;'>
+        <p>Sistema de Análisis de Admisión • Universidad Continental</p>
+        <p>Basado en la Teoría de la Autodeterminación (SDT) de Ryan y Deci</p>
+    </div>
+    """, unsafe_allow_html=True)
 
 if __name__ == "__main__":
     main()
