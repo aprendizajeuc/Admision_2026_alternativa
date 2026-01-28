@@ -13,7 +13,7 @@ import tempfile
 
 # Configuración de la página
 st.set_page_config(
-    page_title="IA Admisión Test",
+    page_title="Sistema de Análisis de Admisión (SDT)",
     page_icon="🎓",
     layout="wide"
 )
@@ -21,70 +21,46 @@ st.set_page_config(
 # Estilos CSS personalizados
 st.markdown("""
 <style>
-    /* Fondo general */
-    .stApp {
-        background-color: #0E1117;
-    }
-
-    /* Contenedor principal */
     .main {
-        background-color: #0E1117;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         padding: 20px;
     }
-
-    /* File uploader */
+    .stApp {
+        background: transparent;
+    }
     div[data-testid="stFileUploader"] {
-        background-color: #FFFFFF;
-        border-radius: 12px;
+        background: white;
+        border-radius: 15px;
         padding: 20px;
-        border: 2px dashed #4F46E5;
+        border: 3px dashed #667eea;
     }
-
-    /* Título */
-    h1, h2, h3 {
-        color: #FFFFFF !important;
-    }
-
-    /* Contenedor del título */
-    .title-container {
+    .upload-text {
         text-align: center;
-        margin-bottom: 25px;
-    }
-
-    .title-container h1 {
-        font-size: 2.4em;
-        margin-bottom: 6px;
-        color: #FFFFFF;
-    }
-
-    .title-container p {
-        color: #D1D5DB;
+        color: #333;
         font-size: 1.1em;
-        font-weight: 400;
     }
-
-    /* Tarjetas */
     .info-card {
-        background-color: #FFFFFF;
-        padding: 18px;
+        background: white;
+        padding: 20px;
         border-radius: 10px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         margin: 10px 0;
     }
-
-    /* Score */
     .score-circle {
         display: inline-flex;
         width: 80px;
         height: 80px;
         border-radius: 50%;
-        background-color: #4F46E5;
-        color: #FFFFFF;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
         align-items: center;
         justify-content: center;
         font-size: 1.8em;
         font-weight: bold;
         margin: 10px;
+    }
+    h1, h2, h3 {
+        color: white !important;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -409,28 +385,8 @@ def generate_excel_report(results):
 
 # INTERFAZ PRINCIPAL
 def main():
-    st.markdown("""
-    <div style="text-align:center; margin-bottom: 25px;">
-        <h1 style="color:white; margin-bottom: 8px;">
-            🎓 IA Admisión Test
-        </h1>
-        <p style="
-            color:#f1f1ff;
-            font-size:1.15em;
-            font-weight:400;
-            margin-top:0;
-        ">
-            Sube formularios individuales (PDF/DOCX/TXT) o múltiples registros (Excel/CSV)
-        </p>
-    </div>
-    """, unsafe_allow_html=True)
-
-    
-    # Verificar API Key
-    if not os.getenv('OPENAI_API_KEY'):
-        st.error("⚠️ No se encontró la clave API de OpenAI")
-        st.info("Por favor, configura la variable de entorno OPENAI_API_KEY antes de usar la aplicación")
-        st.stop()
+    st.title("🎓 Sistema de Análisis de Admisión (SDT)")
+    st.markdown("### Sube formularios individuales (PDF/DOCX/TXT) o múltiples registros (Excel/CSV)")
     
     # Upload de archivo
     uploaded_file = st.file_uploader(
