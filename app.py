@@ -21,62 +21,70 @@ st.set_page_config(
 # Estilos CSS personalizados
 st.markdown("""
 <style>
-    .main {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        padding: 20px;
-    }
+    /* Fondo general */
     .stApp {
-        background: transparent;
+        background-color: #0E1117;
     }
+
+    /* Contenedor principal */
+    .main {
+        background-color: #0E1117;
+        padding: 20px;
+    }
+
+    /* File uploader */
     div[data-testid="stFileUploader"] {
-        background: white;
-        border-radius: 15px;
+        background-color: #FFFFFF;
+        border-radius: 12px;
         padding: 20px;
-        border: 3px dashed #667eea;
+        border: 2px dashed #4F46E5;
     }
-    .upload-text {
-        text-align: center;
-        color: #333;
-        font-size: 1.1em;
-    }
-    .info-card {
-        background: white;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        margin: 10px 0;
-    }
-    .score-circle {
-        display: inline-flex;
-        width: 80px;
-        height: 80px;
-        border-radius: 50%;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.8em;
-        font-weight: bold;
-        margin: 10px;
-    }
+
+    /* Título */
     h1, h2, h3 {
-        color: white !important;
+        color: #FFFFFF !important;
     }
+
+    /* Contenedor del título */
     .title-container {
         text-align: center;
         margin-bottom: 25px;
     }
 
     .title-container h1 {
-        color: white;
-        font-size: 2.6em;
-        margin-bottom: 5px;
+        font-size: 2.4em;
+        margin-bottom: 6px;
+        color: #FFFFFF;
     }
 
     .title-container p {
-        color: #f1f1ff;
-        font-size: 1.15em;
+        color: #D1D5DB;
+        font-size: 1.1em;
         font-weight: 400;
+    }
+
+    /* Tarjetas */
+    .info-card {
+        background-color: #FFFFFF;
+        padding: 18px;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        margin: 10px 0;
+    }
+
+    /* Score */
+    .score-circle {
+        display: inline-flex;
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        background-color: #4F46E5;
+        color: #FFFFFF;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.8em;
+        font-weight: bold;
+        margin: 10px;
     }
 </style>
 """, unsafe_allow_html=True)
