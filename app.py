@@ -36,7 +36,7 @@ st.markdown("""
     
     /* Fondo principal */
     .main {
-        background: #F8FAFC;
+        background: linear-gradient(180deg, #EFF6FF 0%, #FFFFFF 100%);
         padding: 2rem 1rem;
     }
     
@@ -46,28 +46,27 @@ st.markdown("""
     
     /* Header personalizado */
     .app-header {
-        background: linear-gradient(135deg, #2563EB 0%, #60A5FA 100%);
+        background: linear-gradient(135deg, #1E3A8A 0%, #3B82F6 100%);
         padding: 2rem;
         border-radius: 16px;
         margin-bottom: 2rem;
-        box-shadow: 0 10px 30px rgba(37, 99, 235, 0.3);
+        box-shadow: 0 10px 30px rgba(30, 58, 138, 0.2);
         text-align: center;
     }
     
     .app-title {
         font-size: 2.5rem;
         font-weight: 800;
-        color: #FFFFFF !important;
+        color: white;
         margin: 0;
         letter-spacing: -0.5px;
     }
     
     .app-subtitle {
         font-size: 1.1rem;
-        color: #FFFFFF !important;
+        color: #E0E7FF;
         margin-top: 0.5rem;
         font-weight: 400;
-        opacity: 0.95;
     }
     
     /* File uploader mejorado */
@@ -219,15 +218,6 @@ st.markdown("""
         border-radius: 8px;
     }
     
-    /* Textos en general */
-    p, span, div {
-        color: #1E293B;
-    }
-    
-    .stMarkdown {
-        color: #1E293B;
-    }
-    
     /* Badges de estado */
     .status-badge {
         display: inline-block;
@@ -260,24 +250,19 @@ st.markdown("""
     
     /* Títulos mejorados */
     h1 {
-        color: #1E293B !important;
+        color: #1E3A8A !important;
         font-weight: 800 !important;
         letter-spacing: -0.5px !important;
     }
     
     h2 {
-        color: #1E293B !important;
+        color: #1E3A8A !important;
         font-weight: 700 !important;
         margin-top: 2rem !important;
     }
     
     h3 {
-        color: #475569 !important;
-        font-weight: 600 !important;
-    }
-    
-    h4 {
-        color: #1E293B !important;
+        color: #3B82F6 !important;
         font-weight: 600 !important;
     }
     
@@ -450,7 +435,6 @@ Debes analizar el formulario buscando evidencia de estos niveles motivacionales 
 {
   "informacion_extraida": {
     "nombre": "...",
-    "apellidos": "...",
     "edad": "...",
     "programa": "...",
     "otros_campos": {}
@@ -675,10 +659,10 @@ def main():
     col1, col2, col3 = st.columns([1, 2, 1])
     with col2:
         st.markdown("""
-        <div style='background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); text-align: center; border: 1px solid #E2E8F0;'>
-            <p style='margin: 0; color: #475569; font-size: 0.95rem;'>
-                <strong style='color: #1E293B;'>📄 Análisis Individual:</strong> PDF, DOCX, TXT | 
-                <strong style='color: #1E293B;'>📊 Análisis Masivo:</strong> XLSX, XLS, CSV
+        <div style='background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); text-align: center;'>
+            <p style='margin: 0; color: #64748B; font-size: 0.95rem;'>
+                <strong style='color: #1E3A8A;'>📄 Análisis Individual:</strong> PDF, DOCX, TXT | 
+                <strong style='color: #1E3A8A;'>📊 Análisis Masivo:</strong> XLSX, XLS, CSV
             </p>
         </div>
         """, unsafe_allow_html=True)
@@ -792,24 +776,8 @@ def main():
                         st.markdown("### 👥 Detalle por Postulante")
                         
                         for i, result in enumerate(results):
-                            # Obtener nombre y apellidos, primero del análisis, luego del registro
-                            if result.get('success') and result.get('analysis'):
-                                info_extraida = result['analysis'].get('informacion_extraida', {})
-                                nombre_display = info_extraida.get('nombre', result.get('nombre', 'Sin nombre'))
-                                apellidos_display = info_extraida.get('apellidos', result.get('apellidos', 'Sin apellidos'))
-                                # Si aún son N/A, usar los del registro original
-                                if nombre_display == 'N/A' or nombre_display == '...':
-                                    nombre_display = result.get('nombre', 'Sin nombre')
-                                if apellidos_display == 'N/A' or apellidos_display == '...':
-                                    apellidos_display = result.get('apellidos', 'Sin apellidos')
-                            else:
-                                nombre_display = result.get('nombre', 'Sin nombre')
-                                apellidos_display = result.get('apellidos', 'Sin apellidos')
-                            
-                            correo_display = result.get('correo', 'Sin correo')
-                            
                             with st.expander(
-                                f"**{result['registro_numero']}. {apellidos_display}, {nombre_display}** • {correo_display}",
+                                f"**{result['registro_numero']}. {result['apellidos']}, {result['nombre']}** • {result['correo']}",
                                 expanded=False
                             ):
                                 if result.get('success'):
