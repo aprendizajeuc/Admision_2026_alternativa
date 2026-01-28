@@ -374,7 +374,7 @@ def generate_excel_report(results):
     for row in ws.iter_rows(min_row=2, max_row=ws.max_row):
         ws.row_dimensions[row[0].row].height = 30
         for cell in row:
-            cell.alignment = Alignment(vertical='middle', wrap_text=True)
+            cell.alignment = Alignment(vertical='center', wrap_text=True)
             cell.border = border
     
     # Guardar en buffer
