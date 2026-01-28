@@ -13,7 +13,7 @@ import tempfile
 
 # Configuración de la página
 st.set_page_config(
-    page_title="Sistema de Análisis de Admisión (SDT)",
+    page_title="IA Admisión Test",
     page_icon="🎓",
     layout="wide"
 )
@@ -385,7 +385,12 @@ def generate_excel_report(results):
 
 # INTERFAZ PRINCIPAL
 def main():
-    st.title("🎓 Sistema de Análisis de Admisión (SDT)")
+    st.markdown("""
+    <h1 style="color:white; text-align:center; margin-bottom: 20px;">
+    IA Admisión Test
+    </h1>
+    """, unsafe_allow_html=True)
+
     st.markdown("### Sube formularios individuales (PDF/DOCX/TXT) o múltiples registros (Excel/CSV)")
     
     # Verificar API Key
