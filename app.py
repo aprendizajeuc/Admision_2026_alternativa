@@ -401,14 +401,22 @@ def generate_excel_report(results):
 
 # INTERFAZ PRINCIPAL
 def main():
-   st.markdown("""
-    <div class="title-container">
-        <h1>🎓 IA Admisión Test</h1>
-        <p>
+    st.markdown("""
+    <div style="text-align:center; margin-bottom: 25px;">
+        <h1 style="color:white; margin-bottom: 8px;">
+            🎓 IA Admisión Test
+        </h1>
+        <p style="
+            color:#f1f1ff;
+            font-size:1.15em;
+            font-weight:400;
+            margin-top:0;
+        ">
             Sube formularios individuales (PDF/DOCX/TXT) o múltiples registros (Excel/CSV)
         </p>
     </div>
     """, unsafe_allow_html=True)
+
     
     # Verificar API Key
     if not os.getenv('OPENAI_API_KEY'):
