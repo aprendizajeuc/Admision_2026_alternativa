@@ -91,6 +91,35 @@ st.markdown("""
         font-weight: 500 !important;
     }
     
+    /* CORRECCIÓN: Botón "Browse files" en blanco */
+    div[data-testid="stFileUploader"] button {
+        background-color: #3B82F6 !important;
+        color: white !important;
+        border: none !important;
+        font-weight: 600 !important;
+    }
+    
+    div[data-testid="stFileUploader"] button:hover {
+        background-color: #1E3A8A !important;
+    }
+    
+    /* CORRECCIÓN: Nombre del archivo en negro */
+    div[data-testid="stFileUploader"] section {
+        color: #1E293B !important;
+    }
+    
+    div[data-testid="stFileUploader"] section div {
+        color: #1E293B !important;
+    }
+    
+    div[data-testid="stFileUploader"] section small {
+        color: #475569 !important;
+    }
+    
+    div[data-testid="stFileUploader"] span {
+        color: #1E293B !important;
+    }
+    
     /* Botones mejorados */
     .stButton > button {
         background: linear-gradient(135deg, #1E3A8A 0%, #3B82F6 100%);
@@ -839,14 +868,23 @@ def main():
                         st.markdown("## 📊 Resultados del Análisis Masivo")
                         
                         success_count = sum(1 for r in results if r.get('success'))
-                        avg_score = sum(
+                        
+                        # Calcular promedio sobre 20
+                        avg_score_20 = sum(
                             float(r['analysis']['calificacion_sobre_20']) 
                             for r in results 
                             if r.get('success') and r.get('analysis', {}).get('calificacion_sobre_20')
                         ) / success_count if success_count > 0 else 0
                         
-                        # Métricas
-                        col1, col2, col3, col4 = st.columns(4)
+                        # Calcular promedio real (sobre 18)
+                        avg_score_real = sum(
+                            float(r['analysis']['calificacion_real']) 
+                            for r in results 
+                            if r.get('success') and r.get('analysis', {}).get('calificacion_real')
+                        ) / success_count if success_count > 0 else 0
+                        
+                        # Métricas - ahora con 5 columnas para incluir ambos promedios
+                        col1, col2, col3, col4, col5 = st.columns(5)
                         with col1:
                             st.metric("📋 Total Registros", len(results))
                         with col2:
@@ -854,7 +892,9 @@ def main():
                         with col3:
                             st.metric("⚠️ Con Errores", len(results) - success_count)
                         with col4:
-                            st.metric("📈 Promedio", f"{avg_score:.2f}/20")
+                            st.metric("📊 Promedio Real", f"{avg_score_real:.2f}/18")
+                        with col5:
+                            st.metric("📈 Promedio /20", f"{avg_score_20:.2f}/20")
                         
                         st.markdown("<br>", unsafe_allow_html=True)
                         
@@ -876,10 +916,20 @@ def main():
                         st.markdown("### 👥 Detalle por Postulante")
                         
                         for i, result in enumerate(results):
-                            with st.expander(
-                                f"**{result['registro_numero']}. {result['apellidos']}, {result['nombre']}** • {result['correo']}",
-                                expanded=False
-                            ):
+                            # Preparar el título del expander
+                            nombre_completo = f"{result['registro_numero']}. {result['apellidos']}, {result['nombre']}"
+                            correo_display = result['correo']
+                            
+                            # Obtener la nota si existe
+                            nota_display = ""
+                            if result.get('success') and result.get('analysis', {}).get('calificacion_sobre_20'):
+                                nota = result['analysis']['calificacion_sobre_20']
+                                nota_display = f" • 📊 {nota}/20"
+                            
+                            # Crear título sin markdown interno para evitar problemas con asteriscos
+                            titulo_expander = f"{nombre_completo} • {correo_display}{nota_display}"
+                            
+                            with st.expander(titulo_expander, expanded=False):
                                 if result.get('success'):
                                     analysis = result['analysis']
                                     
