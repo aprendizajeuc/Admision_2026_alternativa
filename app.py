@@ -266,11 +266,31 @@ st.markdown("""
         border-color: #3B82F6;
     }
     
-    /* CORRECCIÓN: Header del expander cuando está EXPANDIDO - mantener mismo fondo blanco */
+    /* CORRECCIÓN CRÍTICA: Forzar fondo blanco cuando está expandido */
     details[open] > summary.streamlit-expanderHeader {
-        background: white !important;  /* Mismo blanco, sin cambio visual */
+        background: white !important;
+        background-color: white !important;
         color: #1E3A8A !important;
-        border-bottom: 2px solid #3B82F6;  /* Solo borde inferior para indicar expansión */
+        border-bottom: 2px solid #3B82F6;
+    }
+    
+    /* Selector más específico para sobrescribir estilos de Streamlit */
+    div[data-testid="stExpander"] details[open] > summary {
+        background: white !important;
+        background-color: white !important;
+        color: #1E3A8A !important;
+    }
+    
+    div[data-testid="stExpander"] details > summary {
+        background: white !important;
+        background-color: white !important;
+        color: #1E3A8A !important;
+    }
+    
+    /* Forzar en todos los estados */
+    details > summary {
+        background: white !important;
+        background-color: white !important;
     }
     
     /* CORRECCIÓN: Todo el texto dentro del header debe ser visible */
@@ -279,6 +299,10 @@ st.markdown("""
     }
     
     details[open] > summary.streamlit-expanderHeader * {
+        color: #1E3A8A !important;
+    }
+    
+    div[data-testid="stExpander"] details > summary * {
         color: #1E3A8A !important;
     }
     
