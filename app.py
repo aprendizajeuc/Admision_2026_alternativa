@@ -398,6 +398,19 @@ st.markdown("""
         color: #1E293B !important;
     }
     
+    /* CORRECCIÓN: Nombre del archivo subido en negro */
+    div[data-testid="stFileUploader"] section {
+        color: #1E293B !important;
+    }
+    
+    div[data-testid="stFileUploader"] section div {
+        color: #1E293B !important;
+    }
+    
+    div[data-testid="stFileUploader"] section small {
+        color: #475569 !important;
+    }
+    
     /* Responsive */
     @media (max-width: 768px) {
         .app-title {
@@ -543,8 +556,11 @@ Debes analizar el formulario buscando evidencia de estos niveles motivacionales 
 }
 
 IMPORTANTE:
+- Evalúa SOLO la motivación expresada, NO la ortografía
+- Sé objetivo, claro y no valorativo
+- Usa evidencia textual del formulario
 - Responde ÚNICAMENTE con el JSON (sin markdown ni bloques de código)
-- Si hay campos obligatorios faltantes, inferir lo posible del texto
+- Si hay campos faltantes, usa "N/A" o infiere del contexto
 - Calcula calificacion_sobre_20 = (calificacion_real / 18) * 20
 - Redondea a 2 decimales
 """
@@ -600,20 +616,27 @@ def process_excel_records(df, progress_bar, status_text):
         status_text.markdown(f"<div style='color: #1E3A8A; font-weight: 600;'>🔄 Procesando: Registro {idx + 1} de {total}</div>", unsafe_allow_html=True)
         progress_bar.progress((idx + 1) / total)
         
+        # Extraer datos del Excel (usar los nombres de columnas correctos)
+        apellidos_excel = row.get('Apellido(s)', row.get('Apellidos', ''))
+        nombre_excel = row.get('Nombre', '')
+        correo_excel = row.get('Dirección de correo', row.get('Correo electrónico', ''))
+        edad_excel = row.get('Edad', '')
+        programa_excel = row.get('Programa', row.get('Carrera', ''))
+        
         form_text = f"""
-Nombre: {row.get('Nombre', 'N/A')}
-Apellidos: {row.get('Apellidos', 'N/A')}
-Correo: {row.get('Correo electrónico', 'N/A')}
-Edad: {row.get('Edad', 'N/A')}
-Programa: {row.get('Programa', 'N/A')}
+Apellido(s): {apellidos_excel}
+Nombre: {nombre_excel}
+Correo: {correo_excel}
+Edad: {edad_excel}
+Programa: {programa_excel}
 
-Pregunta 1: ¿Por qué elegiste esta carrera?
+Pregunta 1: ¿Qué características de esta carrera llamaron tu atención?
 Respuesta 1: {row.get('Respuesta 1', 'Sin respuesta')}
 
-Pregunta 2: ¿Qué experiencia tienes relacionada con esta carrera?
+Pregunta 2: Experiencia relacionada con la carrera
 Respuesta 2: {row.get('Respuesta 2', 'Sin respuesta')}
 
-Pregunta 3: ¿Cómo planeas usar lo que aprendas?
+Pregunta 3: ¿Cómo aplicarías lo aprendido?
 Respuesta 3: {row.get('Respuesta 3', 'Sin respuesta')}
 """
         
@@ -623,20 +646,21 @@ Respuesta 3: {row.get('Respuesta 3', 'Sin respuesta')}
             results.append({
                 'success': False,
                 'registro_numero': idx + 1,
-                'nombre': row.get('Nombre', 'N/A'),
-                'apellidos': row.get('Apellidos', 'N/A'),
-                'correo': row.get('Correo electrónico', 'N/A'),
+                'nombre': nombre_excel,
+                'apellidos': apellidos_excel,
+                'correo': correo_excel,
                 'error': f"Campos faltantes: {', '.join(missing_fields)}"
             })
             continue
         
         analysis = analyze_admission_form(form_text)
         
+        # Usar datos del Excel directamente (como hace server.js)
         result = {
             'registro_numero': idx + 1,
-            'nombre': row.get('Nombre', 'N/A'),
-            'apellidos': row.get('Apellidos', 'N/A'),
-            'correo': row.get('Correo electrónico', 'N/A'),
+            'apellidos': apellidos_excel,
+            'nombre': nombre_excel,
+            'correo': correo_excel,
             'success': analysis.get('success', False),
         }
         
@@ -665,7 +689,7 @@ def generate_excel_report(results):
     )
     
     headers = [
-        'N°', 'Nombre', 'Apellidos', 'Correo', 'Calif. Real', 'Calif. /20',
+        'N°', 'Apellido(s)', 'Nombre', 'Dirección de correo', 'Calif. Real', 'Calif. /20',
         'R1 Punt.', 'R1 Justificación', 'R1 Tipo',
         'R2 Punt.', 'R2 Justificación', 'R2 Tipo',
         'R3 Punt.', 'R3 Justificación', 'R3 Tipo',
@@ -689,8 +713,8 @@ def generate_excel_report(results):
         
         ws.append([
             r.get('registro_numero', ''),
-            r.get('nombre', ''),
             r.get('apellidos', ''),
+            r.get('nombre', ''),
             r.get('correo', ''),
             a.get('calificacion_real', ''),
             a.get('calificacion_sobre_20', ''),
@@ -1001,15 +1025,6 @@ def main():
                             st.error(f"❌ **Error en el análisis:** {analysis.get('error', 'Error desconocido')}")
                     else:
                         st.error("❌ No se pudo extraer texto del archivo o el archivo está vacío")
-    
-    # Footer informativo CON MEJOR CONTRASTE
-    st.markdown("<br><br>", unsafe_allow_html=True)
-    st.markdown("""
-    <div style='text-align: center; padding: 2rem; color: #64748B; font-size: 0.85rem;'>
-        <p style='color: #475569;'>Sistema de Análisis de Admisión • Universidad Continental</p>
-        <p style='color: #64748B;'>Basado en la Teoría de la Autodeterminación (SDT) de Ryan y Deci</p>
-    </div>
-    """, unsafe_allow_html=True)
 
 if __name__ == "__main__":
     main()
