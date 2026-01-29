@@ -258,6 +258,7 @@ st.markdown("""
         font-weight: 600;
         color: #1E3A8A !important;
         border: 1px solid #E2E8F0;
+        transition: all 0.2s ease;
     }
     
     .streamlit-expanderHeader:hover {
@@ -265,11 +266,11 @@ st.markdown("""
         border-color: #3B82F6;
     }
     
-    /* CORRECCIÓN CRÍTICA: Header del expander cuando está EXPANDIDO (evitar fondo negro) */
+    /* CORRECCIÓN: Header del expander cuando está EXPANDIDO - mantener mismo fondo blanco */
     details[open] > summary.streamlit-expanderHeader {
-        background: #F1F5F9 !important;
+        background: white !important;  /* Mismo blanco, sin cambio visual */
         color: #1E3A8A !important;
-        border-bottom: 2px solid #3B82F6;
+        border-bottom: 2px solid #3B82F6;  /* Solo borde inferior para indicar expansión */
     }
     
     /* CORRECCIÓN: Todo el texto dentro del header debe ser visible */
