@@ -103,7 +103,20 @@ st.markdown("""
         background-color: #1E3A8A !important;
     }
     
-    /* CORRECCIÓN: Nombre del archivo en negro */
+    /* CORRECCIÓN CRÍTICA: Texto "Drag and drop" en negro */
+    div[data-testid="stFileUploader"] label[data-testid="stFileUploaderDropzone"] {
+        color: #1E293B !important;
+    }
+    
+    div[data-testid="stFileUploader"] div[data-testid="stFileUploaderDropzoneInstructions"] {
+        color: #1E293B !important;
+    }
+    
+    div[data-testid="stFileUploader"] p {
+        color: #1E293B !important;
+    }
+    
+    /* CORRECCIÓN CRÍTICA: Nombre del archivo en negro (ej: "13.xlsx") */
     div[data-testid="stFileUploader"] section {
         color: #1E293B !important;
     }
@@ -118,6 +131,16 @@ st.markdown("""
     
     div[data-testid="stFileUploader"] span {
         color: #1E293B !important;
+    }
+    
+    /* CORRECCIÓN: Todo el contenido del uploader en negro */
+    div[data-testid="stFileUploader"] * {
+        color: #1E293B !important;
+    }
+    
+    /* Excepción solo para el botón que debe ser blanco */
+    div[data-testid="stFileUploader"] button * {
+        color: white !important;
     }
     
     /* Botones mejorados */
@@ -239,6 +262,22 @@ st.markdown("""
     .streamlit-expanderHeader:hover {
         background: #F8FAFC !important;
         border-color: #3B82F6;
+    }
+    
+    /* CORRECCIÓN CRÍTICA: Header del expander cuando está EXPANDIDO (evitar fondo negro) */
+    details[open] > summary.streamlit-expanderHeader {
+        background: #F1F5F9 !important;
+        color: #1E3A8A !important;
+        border-bottom: 2px solid #3B82F6;
+    }
+    
+    /* CORRECCIÓN: Todo el texto dentro del header debe ser visible */
+    .streamlit-expanderHeader * {
+        color: #1E3A8A !important;
+    }
+    
+    details[open] > summary.streamlit-expanderHeader * {
+        color: #1E3A8A !important;
     }
     
     /* CORRECCIÓN: Contenido del expander con contraste */
@@ -916,23 +955,17 @@ def main():
                         st.markdown("### 👥 Detalle por Postulante")
                         
                         for i, result in enumerate(results):
-                            # Preparar el título del expander
-                            nombre_completo = f"{result['registro_numero']}. {result['apellidos']}, {result['nombre']}"
-                            correo_display = result['correo']
-                            
-                            # Obtener la nota si existe
-                            nota_display = ""
-                            if result.get('success') and result.get('analysis', {}).get('calificacion_sobre_20'):
-                                nota = result['analysis']['calificacion_sobre_20']
-                                nota_display = f" • 📊 {nota}/20"
-                            
-                            # Crear título sin markdown interno para evitar problemas con asteriscos
-                            titulo_expander = f"{nombre_completo} • {correo_display}{nota_display}"
+                            # Título solo con nombre y apellidos (SIN nota, SIN correo)
+                            titulo_expander = f"{result['registro_numero']}. {result['apellidos']}, {result['nombre']}"
                             
                             with st.expander(titulo_expander, expanded=False):
                                 if result.get('success'):
                                     analysis = result['analysis']
                                     
+                                    # INFORMACIÓN DE CONTACTO AL INICIO
+                                    st.markdown(f"<div style='color: #475569; margin-bottom: 1rem;'>📧 <strong>Correo:</strong> {result['correo']}</div>", unsafe_allow_html=True)
+                                    
+                                    # CALIFICACIONES CON CÍRCULO Y DATOS
                                     col1, col2 = st.columns([1, 3])
                                     with col1:
                                         st.markdown(f"""
@@ -942,6 +975,7 @@ def main():
                                         """, unsafe_allow_html=True)
                                     with col2:
                                         st.markdown(f"<div style='color: #1E293B;'><strong style='color: #1E3A8A;'>📊 Calificación Real:</strong> {analysis.get('calificacion_real', 'N/A')}/18</div>", unsafe_allow_html=True)
+                                        st.markdown(f"<div style='color: #1E293B;'><strong style='color: #1E3A8A;'>📈 Calificación /20:</strong> {analysis.get('calificacion_sobre_20', 'N/A')}/20</div>", unsafe_allow_html=True)
                                         nivel = analysis.get('nivel_motivacional_general', 'N/A')
                                         st.markdown(f"<div style='color: #1E293B;'><strong style='color: #1E3A8A;'>🎯 Nivel Motivacional:</strong> {nivel}</div>", unsafe_allow_html=True)
                                     
