@@ -103,20 +103,20 @@ st.markdown("""
         background-color: #1E3A8A !important;
     }
     
-    /* CORRECCIÓN CRÍTICA: Texto "Drag and drop" en negro */
+    /* CORRECCIÓN: Texto "Drag and drop" y límites en GRIS OSCURO (visible pero no negro) */
     div[data-testid="stFileUploader"] label[data-testid="stFileUploaderDropzone"] {
-        color: #1E293B !important;
+        color: #64748B !important;
     }
     
     div[data-testid="stFileUploader"] div[data-testid="stFileUploaderDropzoneInstructions"] {
-        color: #1E293B !important;
+        color: #64748B !important;
     }
     
     div[data-testid="stFileUploader"] p {
-        color: #1E293B !important;
+        color: #64748B !important;
     }
     
-    /* CORRECCIÓN CRÍTICA: Nombre del archivo en negro (ej: "13.xlsx") */
+    /* CORRECCIÓN: Nombre del archivo en negro (ej: "13.xlsx") */
     div[data-testid="stFileUploader"] section {
         color: #1E293B !important;
     }
@@ -130,15 +130,16 @@ st.markdown("""
     }
     
     div[data-testid="stFileUploader"] span {
-        color: #1E293B !important;
+        color: #64748B !important;
     }
     
-    /* CORRECCIÓN: Todo el contenido del uploader en negro */
-    div[data-testid="stFileUploader"] * {
-        color: #1E293B !important;
+    /* El texto de límites y tipos de archivo en gris */
+    div[data-testid="stFileUploader"] small {
+        color: #64748B !important;
     }
     
-    /* Excepción solo para el botón que debe ser blanco */
+    /* Excepción: el botón Browse Files debe mantener texto blanco */
+    div[data-testid="stFileUploader"] button,
     div[data-testid="stFileUploader"] button * {
         color: white !important;
     }
