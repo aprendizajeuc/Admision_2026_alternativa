@@ -18,7 +18,7 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# Estilos CSS profesionales y modernos CON CONTRASTE CORREGIDO
+# Estilos CSS profesionales y modernos
 st.markdown("""
 <style>
     /* Paleta de colores profesional para educación */
@@ -84,66 +84,6 @@ st.markdown("""
         box-shadow: 0 8px 12px rgba(30, 58, 138, 0.1);
     }
     
-    /* CORRECCIÓN: Labels del file uploader con mejor contraste */
-    div[data-testid="stFileUploader"] label,
-    div[data-testid="stFileUploader"] small {
-        color: #1E293B !important;
-        font-weight: 500 !important;
-    }
-    
-    /* CORRECCIÓN: Botón "Browse files" en blanco */
-    div[data-testid="stFileUploader"] button {
-        background-color: #3B82F6 !important;
-        color: white !important;
-        border: none !important;
-        font-weight: 600 !important;
-    }
-    
-    div[data-testid="stFileUploader"] button:hover {
-        background-color: #1E3A8A !important;
-    }
-    
-    /* CORRECCIÓN: Texto "Drag and drop" y límites en GRIS OSCURO (visible pero no negro) */
-    div[data-testid="stFileUploader"] label[data-testid="stFileUploaderDropzone"] {
-        color: #64748B !important;
-    }
-    
-    div[data-testid="stFileUploader"] div[data-testid="stFileUploaderDropzoneInstructions"] {
-        color: #64748B !important;
-    }
-    
-    div[data-testid="stFileUploader"] p {
-        color: #64748B !important;
-    }
-    
-    /* CORRECCIÓN: Nombre del archivo en negro (ej: "13.xlsx") */
-    div[data-testid="stFileUploader"] section {
-        color: #1E293B !important;
-    }
-    
-    div[data-testid="stFileUploader"] section div {
-        color: #1E293B !important;
-    }
-    
-    div[data-testid="stFileUploader"] section small {
-        color: #475569 !important;
-    }
-    
-    div[data-testid="stFileUploader"] span {
-        color: #64748B !important;
-    }
-    
-    /* El texto de límites y tipos de archivo en gris */
-    div[data-testid="stFileUploader"] small {
-        color: #64748B !important;
-    }
-    
-    /* Excepción: el botón Browse Files debe mantener texto blanco */
-    div[data-testid="stFileUploader"] button,
-    div[data-testid="stFileUploader"] button * {
-        color: white !important;
-    }
-    
     /* Botones mejorados */
     .stButton > button {
         background: linear-gradient(135deg, #1E3A8A 0%, #3B82F6 100%);
@@ -167,7 +107,7 @@ st.markdown("""
         transform: translateY(0);
     }
     
-    /* Métricas mejoradas CON CONTRASTE CORREGIDO */
+    /* Métricas mejoradas */
     div[data-testid="metric-container"] {
         background: white;
         padding: 1.5rem;
@@ -177,7 +117,7 @@ st.markdown("""
     }
     
     div[data-testid="metric-container"] label {
-        color: #475569 !important;
+        color: #64748B;
         font-size: 0.875rem;
         font-weight: 600;
         text-transform: uppercase;
@@ -185,12 +125,12 @@ st.markdown("""
     }
     
     div[data-testid="metric-container"] [data-testid="stMetricValue"] {
-        color: #1E3A8A !important;
+        color: #1E3A8A;
         font-size: 2rem;
         font-weight: 700;
     }
     
-    /* Cards de información CON CONTRASTE MEJORADO */
+    /* Cards de información */
     .info-card {
         background: white;
         padding: 1.5rem;
@@ -204,20 +144,6 @@ st.markdown("""
     .info-card:hover {
         box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
         transform: translateY(-2px);
-    }
-    
-    /* CORRECCIÓN: Texto en info-card con contraste adecuado */
-    .info-card strong {
-        color: #1E3A8A !important;
-        font-size: 0.95rem;
-        display: block;
-        margin-bottom: 0.5rem;
-    }
-    
-    .info-card-content {
-        color: #1E293B !important;
-        font-size: 1.1rem;
-        font-weight: 600;
     }
     
     /* Score circle mejorado */
@@ -242,8 +168,7 @@ st.markdown("""
         bottom: 10px;
         right: 10px;
         font-size: 0.7rem;
-        opacity: 0.9;
-        color: white;
+        opacity: 0.8;
     }
     
     /* Progress bar personalizada */
@@ -251,71 +176,24 @@ st.markdown("""
         background: linear-gradient(90deg, #1E3A8A 0%, #3B82F6 100%);
     }
     
-    /* Expander mejorado CON CONTRASTE */
+    /* Expander mejorado */
     .streamlit-expanderHeader {
-        background: white !important;
+        background: white;
         border-radius: 8px;
         font-weight: 600;
-        color: #1E3A8A !important;
+        color: #1E3A8A;
         border: 1px solid #E2E8F0;
-        transition: all 0.2s ease;
     }
     
     .streamlit-expanderHeader:hover {
-        background: #F8FAFC !important;
+        background: #F8FAFC;
         border-color: #3B82F6;
-    }
-    
-    /* CORRECCIÓN CRÍTICA: Forzar fondo blanco cuando está expandido */
-    details[open] > summary.streamlit-expanderHeader {
-        background: white !important;
-        background-color: white !important;
-        color: #1E3A8A !important;
-        border-bottom: 2px solid #3B82F6;
-    }
-    
-    /* Selector más específico para sobrescribir estilos de Streamlit */
-    div[data-testid="stExpander"] details[open] > summary {
-        background: white !important;
-        background-color: white !important;
-        color: #1E3A8A !important;
-    }
-    
-    div[data-testid="stExpander"] details > summary {
-        background: white !important;
-        background-color: white !important;
-        color: #1E3A8A !important;
-    }
-    
-    /* Forzar en todos los estados */
-    details > summary {
-        background: white !important;
-        background-color: white !important;
-    }
-    
-    /* CORRECCIÓN: Todo el texto dentro del header debe ser visible */
-    .streamlit-expanderHeader * {
-        color: #1E3A8A !important;
-    }
-    
-    details[open] > summary.streamlit-expanderHeader * {
-        color: #1E3A8A !important;
-    }
-    
-    div[data-testid="stExpander"] details > summary * {
-        color: #1E3A8A !important;
-    }
-    
-    /* CORRECCIÓN: Contenido del expander con contraste */
-    .streamlit-expanderContent {
-        background: white;
-        color: #1E293B !important;
     }
     
     /* Download button especial */
     .stDownloadButton > button {
         background: linear-gradient(135deg, #059669 0%, #10B981 100%);
-        color: white !important;
+        color: white;
         border: none;
         padding: 0.75rem 2rem;
         font-size: 1rem;
@@ -329,18 +207,13 @@ st.markdown("""
         box-shadow: 0 6px 20px rgba(5, 150, 105, 0.4);
     }
     
-    /* Alerts personalizados CON CONTRASTE */
+    /* Alerts personalizados */
     .stAlert {
         border-radius: 8px;
         border-left: 4px solid;
     }
     
-    /* CORRECCIÓN: Asegurar texto visible en alerts */
-    .stSuccess, .stInfo, .stWarning, .stError {
-        color: #1E293B !important;
-    }
-    
-    /* Info boxes CON CONTRASTE MEJORADO */
+    /* Info boxes */
     div[data-baseweb="notification"] {
         border-radius: 8px;
     }
@@ -393,16 +266,6 @@ st.markdown("""
         font-weight: 600 !important;
     }
     
-    h4 {
-        color: #1E293B !important;
-        font-weight: 600 !important;
-    }
-    
-    /* CORRECCIÓN: Párrafos con contraste adecuado */
-    p, li, span, div {
-        color: #1E293B;
-    }
-    
     /* Separator line */
     hr {
         border: none;
@@ -411,9 +274,9 @@ st.markdown("""
         margin: 2rem 0;
     }
     
-    /* Caption mejorado CON CONTRASTE */
+    /* Caption mejorado */
     .stCaption {
-        color: #475569 !important;
+        color: #64748B !important;
         font-size: 0.875rem !important;
     }
     
@@ -422,19 +285,10 @@ st.markdown("""
         border-top-color: #3B82F6 !important;
     }
     
-    /* Tablas CON CONTRASTE */
+    /* Tablas */
     .dataframe {
         border-radius: 8px;
         overflow: hidden;
-    }
-    
-    .dataframe th {
-        background-color: #1E3A8A !important;
-        color: white !important;
-    }
-    
-    .dataframe td {
-        color: #1E293B !important;
     }
     
     /* Container principal */
@@ -444,14 +298,13 @@ st.markdown("""
         max-width: 1400px;
     }
     
-    /* Success/Warning/Error boxes específicos CON CONTRASTE */
+    /* Success/Warning/Error boxes específicos */
     .success-box {
         background: #D1FAE5;
         border-left: 4px solid #059669;
         padding: 1rem;
         border-radius: 8px;
         margin: 1rem 0;
-        color: #065F46 !important;
     }
     
     .warning-box {
@@ -460,7 +313,6 @@ st.markdown("""
         padding: 1rem;
         border-radius: 8px;
         margin: 1rem 0;
-        color: #92400E !important;
     }
     
     .info-box {
@@ -469,40 +321,6 @@ st.markdown("""
         padding: 1rem;
         border-radius: 8px;
         margin: 1rem 0;
-        color: #1E40AF !important;
-    }
-    
-    /* CORRECCIÓN: Info boxes adicionales con contenido visible */
-    .info-box strong {
-        color: #1E3A8A !important;
-    }
-    
-    /* CORRECCIÓN: Asegurar contraste en drag and drop */
-    div[data-testid="stFileUploader"] > div {
-        color: #1E293B !important;
-    }
-    
-    /* CORRECCIÓN: Texto en spinner */
-    .stSpinner > div + div {
-        color: #475569 !important;
-    }
-    
-    /* CORRECCIÓN: Asegurar markdown es visible */
-    .stMarkdown {
-        color: #1E293B !important;
-    }
-    
-    /* CORRECCIÓN: Nombre del archivo subido en negro */
-    div[data-testid="stFileUploader"] section {
-        color: #1E293B !important;
-    }
-    
-    div[data-testid="stFileUploader"] section div {
-        color: #1E293B !important;
-    }
-    
-    div[data-testid="stFileUploader"] section small {
-        color: #475569 !important;
     }
     
     /* Responsive */
@@ -582,88 +400,189 @@ def read_excel_file(file):
         return None
 
 # Función principal de análisis con OpenAI
-def analyze_admission_form(text_content):
+def analyze_admission_form(text_content, retry_count=0):
     system_prompt = """ROL Y CONTEXTO:
 Actúa como experto en Psicología Educativa y Motivación, especializado en la Teoría de la Autodeterminación (Self-Determination Theory, SDT) de Ryan y Deci.
 
-MARCO TEÓRICO - TEORÍA DE LA AUTODETERMINACIÓN (SDT):
-Evalúa la motivación académica basándote en:
-- Motivación intrínseca: interés genuino, disfrute, curiosidad
-- Regulaciones extrínsecas:
-  * Externa: recompensas/presiones externas
-  * Introyectada: presión interna, culpa, orgullo
-  * Identificada: utilidad para metas personales
-  * Integrada: coherencia con identidad y valores
-- Amotivación: sin razón clara o desinterés
-- Necesidades psicológicas básicas: autonomía, competencia, relación
+PROPÓSITO:
+Identificar y caracterizar perfiles motivacionales de estudiantes en relación con su elección de carrera, experiencias formativas y proyección del uso del aprendizaje.
 
 CONTEXTO INSTITUCIONAL:
 Universidad Continental - Modalidad a Distancia
 Población diversa: todo Perú, 18+ años, muchos trabajan y tienen familia
-Objetivo: diagnosticar niveles motivacionales, NO filtrar
+Objetivo: diagnosticar niveles motivacionales, NO filtrar ni evaluar ortografía
 
-CRITERIOS DE EVALUACIÓN (Escala 1-6):
-Cada respuesta se evalúa según nivel motivacional:
-6 = Motivación Intrínseca (interés genuino, disfrute)
-5 = Motivación Integrada (coherencia con identidad y valores)
-4 = Motivación Identificada (utilidad personal significativa)
-3 = Motivación Introyectada (presión interna, orgullo, culpa)
-2 = Motivación Extrínseca (recompensas/presiones externas)
-1 = Amotivación (sin razón clara, desinterés)
+MARCO TEÓRICO - SDT:
+El continuo motivacional es jerárquico y no acumulativo. La regulación menos autónoma presente limita el nivel funcional de autodeterminación.
 
-ESTRUCTURA DE ANÁLISIS:
-Debes analizar el formulario buscando evidencia de estos niveles motivacionales y responder SOLO con un objeto JSON válido (sin markdown, sin ```json) con esta estructura:
+ESCALA DE EVALUACIÓN (1-6):
+6 = Motivación Intrínseca: interés genuino, disfrute, curiosidad inherente
+5 = Regulación Integrada: coherencia con identidad, valores centrales, proyecto de vida
+4 = Regulación Identificada: utilidad personal significativa, metas importantes
+3 = Regulación Introyectada: presión interna, culpa, orgullo, autoexigencia
+2 = Regulación Externa: recompensas/presiones externas, demandas sociales
+1 = Amotivación: sin razón clara, desinterés, resignación
+
+═══════════════════════════════════════════════════════════════════════
+RÚBRICA DETALLADA POR NIVEL
+═══════════════════════════════════════════════════════════════════════
+
+NIVEL 6 - MOTIVACIÓN INTRÍNSECA:
+Criterio general: Interés genuino, disfrute, curiosidad o satisfacción personal.
+- Elección de carrera: Se basa en el agrado inherente por los contenidos o actividades propias de la carrera
+- Experiencia: Disfrute del proceso, interés espontáneo, sensación de flujo. El valor está en realizarla, no en resultados
+- Uso futuro: Desea aplicar lo aprendido por interés y disfrute personal, motivación espontánea
+Indicadores lingüísticos: "me gusta", "lo disfruto", "me interesa mucho", "me resulta entretenido", "me apasiona"
+NO asignar si: el interés se justifica por utilidad, resultados, metas, identidad o impacto social
+
+NIVEL 5 - REGULACIÓN INTEGRADA:
+Criterio general: Coherencia con identidad, valores centrales y proyecto de vida.
+- Elección de carrera: La carrera es coherente con quién es y quién desea ser
+- Experiencia: Fortalece identidad y sentido de coherencia personal, se integra a proyecto de vida
+- Uso futuro: Integra el conocimiento a su identidad futura, aplicarlo es parte de quién quiere ser
+Indicadores lingüísticos: "es coherente con mis valores", "encaja con mi forma de desarrollarme", "es parte de mi proyecto"
+NO asignar si: solo hay disfrute (→6), solo utilidad (→4), o se infiere sin declaración explícita
+
+NIVEL 4 - REGULACIÓN IDENTIFICADA:
+Criterio general: Reconoce importancia y utilidad personal para metas significativas.
+- Elección de carrera: Importante para desarrollo personal, académico o profesional, aunque no siempre la disfrute
+- Experiencia: Valorada porque permitió aprender, desarrollar habilidades o avanzar hacia metas relevantes
+- Uso futuro: Útil para metas personales importantes (trabajo, desarrollo, contribución social)
+Indicadores lingüísticos: "es importante para mí", "me permite desarrollarme", "me ayuda a lograr mis metas"
+NO asignar si: solo hay recompensas externas (→2), se menciona identidad/proyecto vital (→5)
+
+NIVEL 3 - REGULACIÓN INTROYECTADA:
+Criterio general: Presión interna, necesidad de validación, evitar emociones negativas.
+- Elección de carrera: Justifica por culpa, orgullo, evitar decepcionar, necesidad de validación
+- Experiencia: Significativa por orgullo, autoexigencia, evitar culpa, demostrarse capacidad
+- Uso futuro: Aplicar para no fallar, cumplir expectativas internas, evitar sentirse insuficiente
+Indicadores lingüísticos: "sentía que debía", "no quería fallar", "quería demostrar", "me sentiría mal si no"
+NO asignar si: hay demandas externas explícitas (→2), hay valor personal o metas (→4)
+
+NIVEL 2 - REGULACIÓN EXTERNA:
+Criterio general: Recompensas externas, demandas sociales, control externo.
+- Elección de carrera: Por dinero, prestigio, seguridad laboral, expectativas familiares o sociales
+- Experiencia: Importante por notas, premios, reconocimiento, beneficios materiales
+- Uso futuro: Orientado a empleo, dinero, estabilidad, cumplir requisitos externos
+Indicadores lingüísticos: "tiene buena salida laboral", "da estabilidad", "mis padres querían", "para conseguir trabajo"
+NO asignar si: hay culpa/orgullo (→3), valor personal explícito (→4)
+
+NIVEL 1 - AMOTIVACIÓN:
+Criterio general: Incapaz de dar razón clara, desinterés, falta de control.
+- Elección de carrera: Postula por inercia, azar, resignación, no sabe por qué, percibe decisión fuera de control
+- Experiencia: Apatía, desgano, aburrimiento, incompetencia, actividad pasiva o mecánica
+- Uso futuro: No visualiza futuro profesional, duda de ejercer, considera aprendizaje inútil
+Indicadores lingüísticos: "no lo tengo claro", "no sé por qué", "me da igual", "me obligaron", "solo porque toca"
+SE ASIGNA si ocurre AL MENOS UNA condición de amotivación
+
+═══════════════════════════════════════════════════════════════════════
+REGLAS DE ASIGNACIÓN (OBLIGATORIAS)
+═══════════════════════════════════════════════════════════════════════
+
+1. EVIDENCIA EXPLÍCITA: Solo asignar niveles con indicadores EXPLÍCITOS en el texto. NO hacer inferencias implícitas.
+2. UNA SOLA CLASIFICACIÓN: Cada respuesta se clasifica en UN solo nivel por criterio.
+3. NIVEL MENOS AUTÓNOMO: Si coexisten indicadores de varios niveles → asignar el nivel INFERIOR (menos autónomo).
+4. CONDICIONES MÍNIMAS: Para asignar un nivel, TODAS sus condiciones mínimas deben cumplirse. Si falta una → evaluar nivel inferior.
+5. EVALUACIÓN INDEPENDIENTE: Cada pregunta (P1, P2, P3) se evalúa de manera INDEPENDIENTE.
+6. OBJETO PERTINENTE: Intereses generales no vinculados al objeto de la pregunta NO justifican motivación autónoma.
+7. PROCESO vs RESULTADO: Motivación intrínseca = foco en PROCESO; Regulación identificada = foco en RESULTADOS
+8. INTERÉS PROSOCIAL: Si el interés está dirigido a impactos, utilidad social o resultados → NO es intrínseco (→4 o 5)
+9. NOTAS ACLARATORIAS:
+   P2: Asignar intrínseca si hay disfrute genuino del proceso, aun cuando confirme vocación posteriormente
+   P3: Vinculación explícita existe cuando la acción corresponde directamente al ejercicio profesional
+10. PERFIL FINAL:
+    REGLA BASE: Perfil = min(P1, P2, P3)
+    EXCEPCIÓN 2-de-3: Si dos coinciden y tercera está 1 nivel abajo → perfil = nivel coincidente
+    Ejemplos: (4,4,3)→4, (5,5,4)→5, (6,6,5)→6
+    No válidos: (6,5,4)→4, (5,5,3)→3
+    SEGURIDAD: Si alguna = 1 → perfil final máximo = 2
+
+═══════════════════════════════════════════════════════════════════════
+CONDICIONES MÍNIMAS POR PREGUNTA
+═══════════════════════════════════════════════════════════════════════
+
+P1: ELECCIÓN DE CARRERA
+[6] ✓ Interés/disfrute explícito ✓ Objeto: carrera ✓ Sin utilidad/metas/empleo
+[5] ✓ Principios/valores/vocación ✓ Coherencia proyecto vida ✓ Principios estables
+[4] ✓ Valoración explícita ✓ Objeto: carrera ✓ Metas significativas
+[3] ✓ Presión interna ✓ Autoevaluación ✓ Sin recompensas externas
+[2] ✓ Recompensa/demanda externa ✓ Objeto: carrera ✓ Instrumental
+[1] AL MENOS UNA: ✓ Sin razón ✓ Desinterés ✓ Fuera de control
+
+P2: EXPERIENCIA RELACIONADA
+[6] ✓ Disfrute/interés explícito ✓ Objeto: actividad ✓ Foco en PROCESO
+[5] ✓ Conectada con identidad ✓ Refuerzo propósito ✓ Integración proyecto
+[4] ✓ Valoración explícita ✓ Aprendizaje/habilidades ✓ Metas relevantes
+[3] ✓ Orgullo/autoexigencia/culpa ✓ Demostrarse capacidad ✓ Sin recompensas externas
+[2] ✓ Recompensa externa ✓ Valorada por resultado ✓ Control externo
+[1] AL MENOS UNA: ✓ Apatía ✓ Sin sentido ✓ Pasiva
+
+P3: USO FUTURO
+[6] ✓ Interés por aplicar/aprender ✓ Objeto: conocimiento ✓ Espontánea
+[5] ✓ Vinculado identidad futura ✓ Coherencia proyecto ✓ Parte de "quién ser"
+[4] ✓ Utilidad explícita ✓ Metas relevantes ✓ Elección voluntaria
+[3] ✓ Para no fallar ✓ Presión interna ✓ Evaluación del yo
+[2] ✓ Recompensas externas ✓ Empleo/dinero ✓ Control externo
+[1] AL MENOS UNA: ✓ No visualiza ✓ Duda ejercer ✓ Inútil
+
+═══════════════════════════════════════════════════════════════════════
+ESTRUCTURA JSON
+═══════════════════════════════════════════════════════════════════════
 
 {
   "informacion_extraida": {
     "nombre": "...",
+    "apellidos": "...",
     "edad": "...",
     "programa": "...",
-    "otros_campos": {}
+    "correo": "..."
   },
   "evaluacion_motivacional": {
     "eleccion_carrera": {
       "puntaje": 1-6,
-      "tipo_motivacion": "Intrínseca/Integrada/Identificada/Introyectada/Extrínseca/Amotivación",
-      "justificacion": "Evidencia textual breve (1-2 líneas)"
-    },
-    "experiencia_relacionada": {
-      "puntaje": 1-6,
       "tipo_motivacion": "...",
-      "justificacion": "..."
+      "justificacion": "Evidencia textual breve"
     },
-    "uso_futuro": {
-      "puntaje": 1-6,
-      "tipo_motivacion": "...",
-      "justificacion": "..."
-    }
+    "experiencia_relacionada": {...},
+    "uso_futuro": {...}
   },
   "necesidades_psicologicas": {
-    "autonomia": "Alta/Media/Baja - Breve análisis",
-    "competencia": "Alta/Media/Baja - Breve análisis",
-    "relacion": "Alta/Media/Baja - Breve análisis"
+    "autonomia": "Alta/Media/Baja - Análisis",
+    "competencia": "Alta/Media/Baja - Análisis",
+    "relacion": "Alta/Media/Baja - Análisis"
   },
-  "calificacion_real": "suma de puntajes (máx 18)",
-  "calificacion_sobre_20": "calificación_real/18 * 20 (dos decimales)",
-  "recomendaciones": "Basadas en SDT: fortalecer autonomía, competencia o relación según necesidad",
-  "nivel_motivacional_general": "Predominantemente Intrínseco/Integrado/Identificado/Introyectado/Extrínseco/Amotivado"
+  "calificacion_real": 14,
+  "calificacion_sobre_20": 15.56,
+  "perfil_motivacional_final": "Identificado",
+  "regla_aplicada": "min(4,5,4)=4",
+  "recomendaciones": "...",
+  "nivel_motivacional_general": "Predominantemente Identificado"
 }
 
+CÁLCULOS:
+- calificacion_real = P1+P2+P3 (máx 18)
+- calificacion_sobre_20 = (real/18)*20 (2 decimales)
+- perfil = aplicar reglas min/2-de-3/seguridad
+
 IMPORTANTE:
-- Evalúa SOLO la motivación expresada, NO la ortografía
-- Sé objetivo, claro y no valorativo
-- Usa evidencia textual del formulario
-- Responde ÚNICAMENTE con el JSON (sin markdown ni bloques de código)
-- Si hay campos faltantes, usa "N/A" o infiere del contexto
-- Calcula calificacion_sobre_20 = (calificacion_real / 18) * 20
-- Redondea a 2 decimales
+✓ Solo JSON ✓ Sin markdown ✓ Comillas dobles ✓ Evidencia explícita ✓ Solo motivación
 """
 
-    user_prompt = f"""Analiza el siguiente formulario de admisión y proporciona un análisis completo según SDT:
+    user_prompt = f"""PREGUNTAS DEL FORMULARIO:
+1. ¿Qué características de esta carrera llamaron tu atención y cuál es la razón principal por la que decidiste postular a ella?
+2. Relata una experiencia donde hayas puesto en práctica habilidades relacionadas con esta carrera. Describe cómo te sentiste mientras realizabas dicha actividad y qué descubriste de tu vocación profesional.
+3. Imagina que ya terminaste tus estudios. ¿Cómo aplicarías lo aprendido en tu formación profesional y qué impactos te gustaría lograr?
+
+═══════════════════════════════════════════════════════════════════════
+FORMULARIO:
+═══════════════════════════════════════════════════════════════════════
 
 {text_content}
 
-Recuerda: responde ÚNICAMENTE con el JSON, sin ningún texto adicional ni bloques de código markdown."""
+═══════════════════════════════════════════════════════════════════════
+PROCESO: 1)Leer 2)Identificar indicadores 3)Verificar condiciones 4)Si coexisten→inferior 5)Evaluar independiente 6)Calcular perfil 7)JSON
+
+Responde ÚNICAMENTE con JSON válido (sin markdown)"""
 
     try:
         response = client.chat.completions.create(
@@ -672,17 +591,17 @@ Recuerda: responde ÚNICAMENTE con el JSON, sin ningún texto adicional ni bloqu
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": user_prompt}
             ],
-            temperature=0.3,
-            max_tokens=2000
+            temperature=0.2,
+            max_tokens=3500
         )
         
         content = response.choices[0].message.content.strip()
         
+        # Limpiar markdown
         if content.startswith('```'):
-            content = content.split('```')[1]
-            if content.startswith('json'):
-                content = content[4:]
-            content = content.strip()
+            lines = content.split('\n')
+            content = '\n'.join(lines[1:-1]) if len(lines) > 2 else content
+            content = content.replace('```json', '').replace('```', '').strip()
         
         result = json.loads(content)
         result['tokens_used'] = response.usage.total_tokens
@@ -692,10 +611,16 @@ Recuerda: responde ÚNICAMENTE con el JSON, sin ningún texto adicional ni bloqu
         return result
         
     except json.JSONDecodeError as e:
-        st.error(f"Error al parsear respuesta JSON: {str(e)}")
-        return {"success": False, "error": "Error al parsear respuesta de IA"}
+        if retry_count < 2:
+            import time
+            time.sleep(1)
+            return analyze_admission_form(text_content, retry_count + 1)
+        return {
+            "success": False, 
+            "error": f"Error al parsear JSON después de {retry_count + 1} intentos",
+            "detail": str(e)
+        }
     except Exception as e:
-        st.error(f"Error en análisis con OpenAI: {str(e)}")
         return {"success": False, "error": str(e)}
 
 # Función para procesar registros de Excel
@@ -706,31 +631,23 @@ def process_excel_records(df, progress_bar, status_text):
     required_fields = ['Respuesta 1', 'Respuesta 2', 'Respuesta 3']
     
     for idx, row in df.iterrows():
-        # Actualizar UI con mejor contraste
-        status_text.markdown(f"<div style='color: #1E3A8A; font-weight: 600;'>🔄 Procesando: Registro {idx + 1} de {total}</div>", unsafe_allow_html=True)
+        status_text.markdown(f"**Procesando:** Registro {idx + 1} de {total}")
         progress_bar.progress((idx + 1) / total)
         
-        # Extraer datos del Excel (usar los nombres de columnas correctos)
-        apellidos_excel = row.get('Apellido(s)', row.get('Apellidos', ''))
-        nombre_excel = row.get('Nombre', '')
-        correo_excel = row.get('Dirección de correo', row.get('Correo electrónico', ''))
-        edad_excel = row.get('Edad', '')
-        programa_excel = row.get('Programa', row.get('Carrera', ''))
-        
         form_text = f"""
-Apellido(s): {apellidos_excel}
-Nombre: {nombre_excel}
-Correo: {correo_excel}
-Edad: {edad_excel}
-Programa: {programa_excel}
+Nombre: {row.get('Nombre', 'N/A')}
+Apellidos: {row.get('Apellidos', 'N/A')}
+Correo: {row.get('Correo electrónico', 'N/A')}
+Edad: {row.get('Edad', 'N/A')}
+Programa: {row.get('Programa', 'N/A')}
 
-Pregunta 1: ¿Qué características de esta carrera llamaron tu atención?
+Pregunta 1: ¿Por qué elegiste esta carrera?
 Respuesta 1: {row.get('Respuesta 1', 'Sin respuesta')}
 
-Pregunta 2: Experiencia relacionada con la carrera
+Pregunta 2: ¿Qué experiencia tienes relacionada con esta carrera?
 Respuesta 2: {row.get('Respuesta 2', 'Sin respuesta')}
 
-Pregunta 3: ¿Cómo aplicarías lo aprendido?
+Pregunta 3: ¿Cómo planeas usar lo que aprendas?
 Respuesta 3: {row.get('Respuesta 3', 'Sin respuesta')}
 """
         
@@ -740,21 +657,20 @@ Respuesta 3: {row.get('Respuesta 3', 'Sin respuesta')}
             results.append({
                 'success': False,
                 'registro_numero': idx + 1,
-                'nombre': nombre_excel,
-                'apellidos': apellidos_excel,
-                'correo': correo_excel,
+                'nombre': row.get('Nombre', 'N/A'),
+                'apellidos': row.get('Apellidos', 'N/A'),
+                'correo': row.get('Correo electrónico', 'N/A'),
                 'error': f"Campos faltantes: {', '.join(missing_fields)}"
             })
             continue
         
         analysis = analyze_admission_form(form_text)
         
-        # Usar datos del Excel directamente (como hace server.js)
         result = {
             'registro_numero': idx + 1,
-            'apellidos': apellidos_excel,
-            'nombre': nombre_excel,
-            'correo': correo_excel,
+            'nombre': row.get('Nombre', 'N/A'),
+            'apellidos': row.get('Apellidos', 'N/A'),
+            'correo': row.get('Correo electrónico', 'N/A'),
             'success': analysis.get('success', False),
         }
         
@@ -783,7 +699,7 @@ def generate_excel_report(results):
     )
     
     headers = [
-        'N°', 'Apellido(s)', 'Nombre', 'Dirección de correo', 'Calif. Real', 'Calif. /20',
+        'N°', 'Nombre', 'Apellidos', 'Correo', 'Calif. Real', 'Calif. /20',
         'R1 Punt.', 'R1 Justificación', 'R1 Tipo',
         'R2 Punt.', 'R2 Justificación', 'R2 Tipo',
         'R3 Punt.', 'R3 Justificación', 'R3 Tipo',
@@ -807,8 +723,8 @@ def generate_excel_report(results):
         
         ws.append([
             r.get('registro_numero', ''),
-            r.get('apellidos', ''),
             r.get('nombre', ''),
+            r.get('apellidos', ''),
             r.get('correo', ''),
             a.get('calificacion_real', ''),
             a.get('calificacion_sobre_20', ''),
@@ -849,12 +765,12 @@ def main():
     </div>
     """, unsafe_allow_html=True)
     
-    # Información de uso CON MEJOR CONTRASTE
+    # Información de uso
     col1, col2, col3 = st.columns([1, 2, 1])
     with col2:
         st.markdown("""
         <div style='background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); text-align: center;'>
-            <p style='margin: 0; color: #475569; font-size: 0.95rem;'>
+            <p style='margin: 0; color: #64748B; font-size: 0.95rem;'>
                 <strong style='color: #1E3A8A;'>📄 Análisis Individual:</strong> PDF, DOCX, TXT | 
                 <strong style='color: #1E3A8A;'>📊 Análisis Masivo:</strong> XLSX, XLS, CSV
             </p>
@@ -876,18 +792,18 @@ def main():
         file_size = uploaded_file.size / (1024 * 1024)
         is_batch = file_extension in ['xlsx', 'xls', 'csv']
         
-        # Info del archivo CON MEJOR CONTRASTE
+        # Info del archivo
         col1, col2, col3 = st.columns([2, 1, 1])
         with col1:
             st.markdown(f"""
             <div class='info-box'>
-                <strong>Archivo:</strong> {uploaded_file.name}
+                📁 <strong>{uploaded_file.name}</strong>
             </div>
             """, unsafe_allow_html=True)
         with col2:
             st.markdown(f"""
             <div class='info-box'>
-                <strong>Tamaño:</strong> {file_size:.2f} MB
+                💾 {file_size:.2f} MB
             </div>
             """, unsafe_allow_html=True)
         with col3:
@@ -920,7 +836,7 @@ def main():
                         
                         results = process_excel_records(df, progress_bar, status_text)
                         
-                        status_text.markdown("<div style='color: #059669; font-weight: 600;'>✅ Análisis completado exitosamente</div>", unsafe_allow_html=True)
+                        status_text.markdown("✅ **Análisis completado exitosamente**")
                         progress_bar.progress(1.0)
                         
                         st.session_state['batch_results'] = results
@@ -933,23 +849,14 @@ def main():
                         st.markdown("## 📊 Resultados del Análisis Masivo")
                         
                         success_count = sum(1 for r in results if r.get('success'))
-                        
-                        # Calcular promedio sobre 20
-                        avg_score_20 = sum(
+                        avg_score = sum(
                             float(r['analysis']['calificacion_sobre_20']) 
                             for r in results 
                             if r.get('success') and r.get('analysis', {}).get('calificacion_sobre_20')
                         ) / success_count if success_count > 0 else 0
                         
-                        # Calcular promedio real (sobre 18)
-                        avg_score_real = sum(
-                            float(r['analysis']['calificacion_real']) 
-                            for r in results 
-                            if r.get('success') and r.get('analysis', {}).get('calificacion_real')
-                        ) / success_count if success_count > 0 else 0
-                        
-                        # Métricas - ahora con 5 columnas para incluir ambos promedios
-                        col1, col2, col3, col4, col5 = st.columns(5)
+                        # Métricas
+                        col1, col2, col3, col4 = st.columns(4)
                         with col1:
                             st.metric("📋 Total Registros", len(results))
                         with col2:
@@ -957,9 +864,7 @@ def main():
                         with col3:
                             st.metric("⚠️ Con Errores", len(results) - success_count)
                         with col4:
-                            st.metric("📊 Promedio Real", f"{avg_score_real:.2f}/18")
-                        with col5:
-                            st.metric("📈 Promedio /20", f"{avg_score_20:.2f}/20")
+                            st.metric("📈 Promedio", f"{avg_score:.2f}/20")
                         
                         st.markdown("<br>", unsafe_allow_html=True)
                         
@@ -981,17 +886,13 @@ def main():
                         st.markdown("### 👥 Detalle por Postulante")
                         
                         for i, result in enumerate(results):
-                            # Título solo con nombre y apellidos (SIN nota, SIN correo)
-                            titulo_expander = f"{result['registro_numero']}. {result['apellidos']}, {result['nombre']}"
-                            
-                            with st.expander(titulo_expander, expanded=False):
+                            with st.expander(
+                                f"**{result['registro_numero']}. {result['apellidos']}, {result['nombre']}** • {result['correo']}",
+                                expanded=False
+                            ):
                                 if result.get('success'):
                                     analysis = result['analysis']
                                     
-                                    # INFORMACIÓN DE CONTACTO AL INICIO
-                                    st.markdown(f"<div style='color: #475569; margin-bottom: 1rem;'>📧 <strong>Correo:</strong> {result['correo']}</div>", unsafe_allow_html=True)
-                                    
-                                    # CALIFICACIONES CON CÍRCULO Y DATOS
                                     col1, col2 = st.columns([1, 3])
                                     with col1:
                                         st.markdown(f"""
@@ -1000,15 +901,14 @@ def main():
                                         </div>
                                         """, unsafe_allow_html=True)
                                     with col2:
-                                        st.markdown(f"<div style='color: #1E293B;'><strong style='color: #1E3A8A;'>📊 Calificación Real:</strong> {analysis.get('calificacion_real', 'N/A')}/18</div>", unsafe_allow_html=True)
-                                        st.markdown(f"<div style='color: #1E293B;'><strong style='color: #1E3A8A;'>📈 Calificación /20:</strong> {analysis.get('calificacion_sobre_20', 'N/A')}/20</div>", unsafe_allow_html=True)
+                                        st.markdown(f"**📊 Calificación Real:** {analysis.get('calificacion_real', 'N/A')}/18")
                                         nivel = analysis.get('nivel_motivacional_general', 'N/A')
-                                        st.markdown(f"<div style='color: #1E293B;'><strong style='color: #1E3A8A;'>🎯 Nivel Motivacional:</strong> {nivel}</div>", unsafe_allow_html=True)
+                                        st.markdown(f"**🎯 Nivel Motivacional:** {nivel}")
                                     
                                     st.markdown("---")
                                     
                                     # Evaluación motivacional
-                                    st.markdown("<h4 style='color: #1E3A8A;'>📝 Evaluación Motivacional Detallada</h4>", unsafe_allow_html=True)
+                                    st.markdown("#### 📝 Evaluación Motivacional Detallada")
                                     eval_mot = analysis.get('evaluacion_motivacional', {})
                                     
                                     col1, col2, col3 = st.columns(3)
@@ -1024,7 +924,7 @@ def main():
                                     
                                     # Necesidades psicológicas
                                     if 'necesidades_psicologicas' in analysis:
-                                        st.markdown("<h4 style='color: #1E3A8A;'>🧠 Necesidades Psicológicas (SDT)</h4>", unsafe_allow_html=True)
+                                        st.markdown("#### 🧠 Necesidades Psicológicas (SDT)")
                                         nec = analysis['necesidades_psicologicas']
                                         col1, col2, col3 = st.columns(3)
                                         with col1:
@@ -1036,7 +936,7 @@ def main():
                                     
                                     # Recomendaciones
                                     if 'recomendaciones' in analysis:
-                                        st.markdown("<h4 style='color: #1E3A8A;'>💡 Recomendaciones Pedagógicas</h4>", unsafe_allow_html=True)
+                                        st.markdown("#### 💡 Recomendaciones Pedagógicas")
                                         st.info(analysis['recomendaciones'])
                                 else:
                                     st.error(f"❌ **Error:** {result.get('error', 'Error desconocido')}")
@@ -1081,7 +981,7 @@ def main():
                                 st.markdown(f"""
                                 <div style='text-align: center; padding: 2rem;'>
                                     <div class='score-circle'>{analysis.get('calificacion_sobre_20', 'N/A')}</div>
-                                    <p style='color: #475569; margin-top: 1rem; font-weight: 600;'>Calificación Final</p>
+                                    <p style='color: #64748B; margin-top: 1rem; font-weight: 600;'>Calificación Final</p>
                                 </div>
                                 """, unsafe_allow_html=True)
                             with col2:
@@ -1104,7 +1004,7 @@ def main():
                                 if key in eval_mot:
                                     item = eval_mot[key]
                                     with st.expander(f"{icon} **{label}** • Puntaje: {item.get('puntaje')}/6 • Tipo: {item.get('tipo_motivacion')}", expanded=True):
-                                        st.markdown(f"<div style='color: #1E293B;'><strong style='color: #1E3A8A;'>Justificación:</strong> {item.get('justificacion')}</div>", unsafe_allow_html=True)
+                                        st.markdown(f"**Justificación:** {item.get('justificacion')}")
                             
                             st.markdown("<br>", unsafe_allow_html=True)
                             
@@ -1135,6 +1035,15 @@ def main():
                             st.error(f"❌ **Error en el análisis:** {analysis.get('error', 'Error desconocido')}")
                     else:
                         st.error("❌ No se pudo extraer texto del archivo o el archivo está vacío")
+    
+    # Footer informativo
+    st.markdown("<br><br>", unsafe_allow_html=True)
+    st.markdown("""
+    <div style='text-align: center; padding: 2rem; color: #94A3B8; font-size: 0.85rem;'>
+        <p>Sistema de Análisis de Admisión • Universidad Continental</p>
+        <p>Basado en la Teoría de la Autodeterminación (SDT) de Ryan y Deci</p>
+    </div>
+    """, unsafe_allow_html=True)
 
 if __name__ == "__main__":
     main()
