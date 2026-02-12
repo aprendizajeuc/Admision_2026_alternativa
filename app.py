@@ -18,10 +18,12 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# Estilos CSS profesionales y modernos
+# Estilos CSS profesionales con CONTRASTE ÓPTIMO WCAG AAA
 st.markdown("""
 <style>
-    /* Paleta de colores profesional para educación */
+    /* ═══════════════════════════════════════════════════════════
+       VARIABLES DE COLOR - CONTRASTE ÓPTIMO
+       ═══════════════════════════════════════════════════════════ */
     :root {
         --primary-blue: #1E3A8A;
         --secondary-blue: #3B82F6;
@@ -30,11 +32,13 @@ st.markdown("""
         --warning-orange: #F59E0B;
         --error-red: #DC2626;
         --bg-light: #F8FAFC;
-        --text-dark: #1E293B;
-        --text-medium: #64748B;
+        --text-dark: #0F172A;
+        --text-medium: #334155;
+        --text-light: #64748B;
+        --border-color: #E2E8F0;
     }
     
-    /* Fondo principal */
+    /* Fondo general */
     .main {
         background: linear-gradient(180deg, #EFF6FF 0%, #FFFFFF 100%);
         padding: 2rem 1rem;
@@ -44,7 +48,7 @@ st.markdown("""
         background: #F1F5F9;
     }
     
-    /* Header personalizado */
+    /* Header - BLANCO sobre azul oscuro */
     .app-header {
         background: linear-gradient(135deg, #1E3A8A 0%, #3B82F6 100%);
         padding: 2rem;
@@ -57,19 +61,20 @@ st.markdown("""
     .app-title {
         font-size: 2.5rem;
         font-weight: 800;
-        color: white;
+        color: #FFFFFF !important;
         margin: 0;
         letter-spacing: -0.5px;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
     
     .app-subtitle {
         font-size: 1.1rem;
-        color: #E0E7FF;
+        color: #F1F5F9 !important;
         margin-top: 0.5rem;
         font-weight: 400;
     }
     
-    /* File uploader mejorado */
+    /* File uploader - NEGRO sobre blanco */
     div[data-testid="stFileUploader"] {
         background: white;
         border-radius: 12px;
@@ -84,10 +89,30 @@ st.markdown("""
         box-shadow: 0 8px 12px rgba(30, 58, 138, 0.1);
     }
     
-    /* Botones mejorados */
+    div[data-testid="stFileUploader"] label,
+    div[data-testid="stFileUploader"] small,
+    div[data-testid="stFileUploader"] span,
+    div[data-testid="stFileUploader"] p,
+    div[data-testid="stFileUploader"] div {
+        color: #0F172A !important;
+        font-weight: 500 !important;
+    }
+    
+    div[data-testid="stFileUploader"] button {
+        background-color: #3B82F6 !important;
+        color: #FFFFFF !important;
+        border: none !important;
+        font-weight: 600 !important;
+    }
+    
+    div[data-testid="stFileUploader"] button:hover {
+        background-color: #1E3A8A !important;
+    }
+    
+    /* Botones - BLANCO sobre azul */
     .stButton > button {
         background: linear-gradient(135deg, #1E3A8A 0%, #3B82F6 100%);
-        color: white;
+        color: #FFFFFF !important;
         border: none;
         padding: 0.75rem 2rem;
         font-size: 1rem;
@@ -95,7 +120,6 @@ st.markdown("""
         border-radius: 8px;
         box-shadow: 0 4px 12px rgba(30, 58, 138, 0.3);
         transition: all 0.3s ease;
-        letter-spacing: 0.3px;
     }
     
     .stButton > button:hover {
@@ -103,11 +127,7 @@ st.markdown("""
         box-shadow: 0 6px 20px rgba(30, 58, 138, 0.4);
     }
     
-    .stButton > button:active {
-        transform: translateY(0);
-    }
-    
-    /* Métricas mejoradas */
+    /* Métricas - OSCURO sobre blanco */
     div[data-testid="metric-container"] {
         background: white;
         padding: 1.5rem;
@@ -117,20 +137,19 @@ st.markdown("""
     }
     
     div[data-testid="metric-container"] label {
-        color: #64748B;
+        color: #334155 !important;
         font-size: 0.875rem;
         font-weight: 600;
         text-transform: uppercase;
-        letter-spacing: 0.5px;
     }
     
     div[data-testid="metric-container"] [data-testid="stMetricValue"] {
-        color: #1E3A8A;
+        color: #1E3A8A !important;
         font-size: 2rem;
         font-weight: 700;
     }
     
-    /* Cards de información */
+    /* Info cards - OSCURO sobre blanco */
     .info-card {
         background: white;
         padding: 1.5rem;
@@ -141,19 +160,29 @@ st.markdown("""
         transition: all 0.3s ease;
     }
     
-    .info-card:hover {
-        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
-        transform: translateY(-2px);
+    .info-card strong {
+        color: #1E3A8A !important;
+        font-size: 0.95rem;
+        display: block;
+        margin-bottom: 0.5rem;
     }
     
-    /* Score circle mejorado */
+    .info-card p,
+    .info-card span,
+    .info-card div {
+        color: #0F172A !important;
+        font-size: 1rem;
+        font-weight: 500;
+    }
+    
+    /* Score circle - BLANCO sobre azul */
     .score-circle {
         display: inline-flex;
         width: 100px;
         height: 100px;
         border-radius: 50%;
         background: linear-gradient(135deg, #1E3A8A 0%, #3B82F6 100%);
-        color: white;
+        color: #FFFFFF !important;
         align-items: center;
         justify-content: center;
         font-size: 2.2rem;
@@ -168,32 +197,57 @@ st.markdown("""
         bottom: 10px;
         right: 10px;
         font-size: 0.7rem;
-        opacity: 0.8;
+        opacity: 0.9;
+        color: #FFFFFF !important;
     }
     
-    /* Progress bar personalizada */
+    /* Progress bar */
     .stProgress > div > div > div > div {
         background: linear-gradient(90deg, #1E3A8A 0%, #3B82F6 100%);
     }
     
-    /* Expander mejorado */
+    /* Expanders - NEGRO sobre blanco */
     .streamlit-expanderHeader {
-        background: white;
+        background: white !important;
         border-radius: 8px;
         font-weight: 600;
-        color: #1E3A8A;
+        color: #0F172A !important;
         border: 1px solid #E2E8F0;
     }
     
     .streamlit-expanderHeader:hover {
-        background: #F8FAFC;
+        background: #F8FAFC !important;
         border-color: #3B82F6;
     }
     
-    /* Download button especial */
+    .streamlit-expanderHeader *,
+    details[open] > summary.streamlit-expanderHeader *,
+    div[data-testid="stExpander"] details > summary * {
+        color: #0F172A !important;
+    }
+    
+    details[open] > summary.streamlit-expanderHeader {
+        background: white !important;
+        color: #0F172A !important;
+        border-bottom: 2px solid #3B82F6;
+    }
+    
+    .streamlit-expanderContent {
+        background: white;
+        color: #0F172A !important;
+    }
+    
+    .streamlit-expanderContent p,
+    .streamlit-expanderContent div,
+    .streamlit-expanderContent span,
+    .streamlit-expanderContent strong {
+        color: #0F172A !important;
+    }
+    
+    /* Download button - BLANCO sobre verde */
     .stDownloadButton > button {
         background: linear-gradient(135deg, #059669 0%, #10B981 100%);
-        color: white;
+        color: #FFFFFF !important;
         border: none;
         padding: 0.75rem 2rem;
         font-size: 1rem;
@@ -207,104 +261,183 @@ st.markdown("""
         box-shadow: 0 6px 20px rgba(5, 150, 105, 0.4);
     }
     
-    /* Alerts personalizados */
+    /* Alerts - OSCURO sobre claro */
     .stAlert {
         border-radius: 8px;
         border-left: 4px solid;
     }
     
-    /* Info boxes */
-    div[data-baseweb="notification"] {
-        border-radius: 8px;
+    .stSuccess {
+        background-color: #D1FAE5 !important;
+        color: #065F46 !important;
     }
     
-    /* Badges de estado */
+    .stSuccess * {
+        color: #065F46 !important;
+    }
+    
+    .stInfo {
+        background-color: #DBEAFE !important;
+        color: #1E3A8A !important;
+    }
+    
+    .stInfo * {
+        color: #1E3A8A !important;
+    }
+    
+    .stWarning {
+        background-color: #FEF3C7 !important;
+        color: #92400E !important;
+    }
+    
+    .stWarning * {
+        color: #92400E !important;
+    }
+    
+    .stError {
+        background-color: #FEE2E2 !important;
+        color: #991B1B !important;
+    }
+    
+    .stError * {
+        color: #991B1B !important;
+    }
+    
+    /* Badges */
     .status-badge {
         display: inline-block;
         padding: 0.4rem 1rem;
         border-radius: 20px;
         font-weight: 600;
         font-size: 0.875rem;
-        letter-spacing: 0.3px;
     }
     
     .badge-success {
         background: #D1FAE5;
-        color: #065F46;
+        color: #065F46 !important;
     }
     
     .badge-warning {
         background: #FEF3C7;
-        color: #92400E;
+        color: #92400E !important;
     }
     
     .badge-error {
         background: #FEE2E2;
-        color: #991B1B;
+        color: #991B1B !important;
     }
     
     .badge-info {
         background: #DBEAFE;
-        color: #1E40AF;
+        color: #1E40AF !important;
     }
     
-    /* Títulos mejorados */
+    /* Títulos - NEGRO sobre claro */
     h1 {
-        color: #1E3A8A !important;
+        color: #0F172A !important;
         font-weight: 800 !important;
-        letter-spacing: -0.5px !important;
     }
     
     h2 {
-        color: #1E3A8A !important;
+        color: #0F172A !important;
         font-weight: 700 !important;
         margin-top: 2rem !important;
     }
     
     h3 {
-        color: #3B82F6 !important;
+        color: #1E3A8A !important;
         font-weight: 600 !important;
     }
     
-    /* Separator line */
-    hr {
-        border: none;
-        height: 2px;
-        background: linear-gradient(90deg, transparent, #3B82F6, transparent);
-        margin: 2rem 0;
+    h4 {
+        color: #0F172A !important;
+        font-weight: 600 !important;
     }
     
-    /* Caption mejorado */
-    .stCaption {
-        color: #64748B !important;
+    h5, h6 {
+        color: #334155 !important;
+        font-weight: 600 !important;
+    }
+    
+    /* Textos generales - NEGRO sobre claro */
+    p, li, span, div, label {
+        color: #0F172A !important;
+    }
+    
+    small, .stCaption {
+        color: #334155 !important;
         font-size: 0.875rem !important;
     }
     
-    /* Spinner personalizado */
+    .stMarkdown,
+    .stMarkdown p,
+    .stMarkdown div,
+    .stMarkdown span {
+        color: #0F172A !important;
+    }
+    
+    strong, b {
+        color: #1E3A8A !important;
+        font-weight: 700 !important;
+    }
+    
+    /* Separator */
+    hr {
+        border: none;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, #CBD5E1, transparent);
+        margin: 2rem 0;
+    }
+    
+    /* Spinner */
     .stSpinner > div {
         border-top-color: #3B82F6 !important;
     }
     
-    /* Tablas */
+    .stSpinner > div + div {
+        color: #334155 !important;
+    }
+    
+    /* Tablas - BLANCO sobre azul / NEGRO sobre blanco */
     .dataframe {
         border-radius: 8px;
         overflow: hidden;
     }
     
-    /* Container principal */
+    .dataframe th {
+        background-color: #1E3A8A !important;
+        color: #FFFFFF !important;
+        font-weight: 600 !important;
+    }
+    
+    .dataframe td {
+        color: #0F172A !important;
+        background-color: white !important;
+    }
+    
+    .dataframe tr:nth-child(even) td {
+        background-color: #F8FAFC !important;
+    }
+    
+    /* Container */
     .block-container {
         padding-top: 2rem;
         padding-bottom: 2rem;
         max-width: 1400px;
     }
     
-    /* Success/Warning/Error boxes específicos */
+    /* Info boxes específicos */
     .success-box {
         background: #D1FAE5;
         border-left: 4px solid #059669;
         padding: 1rem;
         border-radius: 8px;
         margin: 1rem 0;
+        color: #065F46 !important;
+    }
+    
+    .success-box * {
+        color: #065F46 !important;
     }
     
     .warning-box {
@@ -313,6 +446,11 @@ st.markdown("""
         padding: 1rem;
         border-radius: 8px;
         margin: 1rem 0;
+        color: #92400E !important;
+    }
+    
+    .warning-box * {
+        color: #92400E !important;
     }
     
     .info-box {
@@ -321,6 +459,20 @@ st.markdown("""
         padding: 1rem;
         border-radius: 8px;
         margin: 1rem 0;
+        color: #1E3A8A !important;
+    }
+    
+    .info-box *,
+    .info-box strong,
+    .info-box span,
+    .info-box p {
+        color: #1E3A8A !important;
+    }
+    
+    /* Inputs */
+    input, textarea, select {
+        color: #0F172A !important;
+        background-color: white !important;
     }
     
     /* Responsive */
@@ -334,12 +486,9 @@ st.markdown("""
             height: 80px;
             font-size: 1.8rem;
         }
-        
-        .block-container {
-            padding-top: 1rem;
-        }
     }
 </style>
+""", unsafe_allow_html=True)
 """, unsafe_allow_html=True)
 
 # Inicializar cliente OpenAI
