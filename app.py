@@ -489,7 +489,6 @@ st.markdown("""
     }
 </style>
 """, unsafe_allow_html=True)
-""", unsafe_allow_html=True)
 
 # Inicializar cliente OpenAI
 @st.cache_resource
