@@ -38,17 +38,97 @@ st.markdown("""
         --border-color: #E2E8F0;
     }
     
-    /* Fondo general */
+    /* ═══════════════════════════════════════════════════════════
+       FORZAR TEMA CLARO EN TODO EL APP
+       ═══════════════════════════════════════════════════════════ */
+    .main,
+    .stApp,
+    [data-testid="stAppViewContainer"],
+    [data-testid="stMain"],
+    [data-testid="stMainBlockContainer"],
+    [data-testid="stVerticalBlock"],
+    [data-testid="stAppViewBlockContainer"],
+    section[data-testid="stSidebar"],
+    .block-container {
+        background-color: #F1F5F9 !important;
+        color: #0F172A !important;
+    }
+    
     .main {
-        background: linear-gradient(180deg, #EFF6FF 0%, #FFFFFF 100%);
+        background: linear-gradient(180deg, #EFF6FF 0%, #F1F5F9 100%) !important;
         padding: 2rem 1rem;
     }
     
-    .stApp {
-        background: #F1F5F9;
+    /* ═══════════════════════════════════════════════════════════
+       FILE UPLOADER - FONDO CLARO (FIX #1)
+       ═══════════════════════════════════════════════════════════ */
+    div[data-testid="stFileUploader"] {
+        background: #FFFFFF !important;
+        border-radius: 12px;
+        padding: 2rem;
+        border: 2px dashed #3B82F6 !important;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
     }
     
-    /* Header - BLANCO sobre azul oscuro */
+    div[data-testid="stFileUploader"]:hover {
+        border-color: #1E3A8A !important;
+        box-shadow: 0 8px 12px rgba(30, 58, 138, 0.1);
+    }
+    
+    /* Todos los textos dentro del uploader */
+    div[data-testid="stFileUploader"] label,
+    div[data-testid="stFileUploader"] small,
+    div[data-testid="stFileUploader"] span,
+    div[data-testid="stFileUploader"] p,
+    div[data-testid="stFileUploader"] div {
+        color: #0F172A !important;
+        font-weight: 500 !important;
+    }
+    
+    /* Zona de drop interna */
+    div[data-testid="stFileUploader"] section,
+    div[data-testid="stFileUploader"] section > div,
+    div[data-testid="stFileUploader"] [data-testid="stFileUploaderDropzone"],
+    div[data-testid="stFileUploader"] [data-testid="stFileUploaderDropzoneInstructions"],
+    [data-testid="stFileUploaderDropzone"] {
+        background-color: #FFFFFF !important;
+        background: #FFFFFF !important;
+        color: #0F172A !important;
+        border-color: #3B82F6 !important;
+    }
+    
+    /* Botón Browse files */
+    div[data-testid="stFileUploader"] button,
+    [data-testid="stFileUploaderDropzone"] button {
+        background-color: #3B82F6 !important;
+        color: #FFFFFF !important;
+        border: none !important;
+        font-weight: 600 !important;
+    }
+    
+    div[data-testid="stFileUploader"] button:hover,
+    [data-testid="stFileUploaderDropzone"] button:hover {
+        background-color: #1E3A8A !important;
+    }
+    
+    /* Drag and drop text */
+    [data-testid="stFileUploaderDropzoneInstructions"] div,
+    [data-testid="stFileUploaderDropzoneInstructions"] span,
+    [data-testid="stFileUploaderDropzoneInstructions"] small {
+        color: #334155 !important;
+    }
+    
+    /* Archivo subido - nombre y tamaño */
+    div[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"],
+    div[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] * {
+        background-color: #F8FAFC !important;
+        color: #0F172A !important;
+    }
+    
+    /* ═══════════════════════════════════════════════════════════
+       HEADER
+       ═══════════════════════════════════════════════════════════ */
     .app-header {
         background: linear-gradient(135deg, #1E3A8A 0%, #3B82F6 100%);
         padding: 2rem;
@@ -74,42 +154,9 @@ st.markdown("""
         font-weight: 400;
     }
     
-    /* File uploader - NEGRO sobre blanco */
-    div[data-testid="stFileUploader"] {
-        background: white;
-        border-radius: 12px;
-        padding: 2rem;
-        border: 2px dashed #3B82F6;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-        transition: all 0.3s ease;
-    }
-    
-    div[data-testid="stFileUploader"]:hover {
-        border-color: #1E3A8A;
-        box-shadow: 0 8px 12px rgba(30, 58, 138, 0.1);
-    }
-    
-    div[data-testid="stFileUploader"] label,
-    div[data-testid="stFileUploader"] small,
-    div[data-testid="stFileUploader"] span,
-    div[data-testid="stFileUploader"] p,
-    div[data-testid="stFileUploader"] div {
-        color: #0F172A !important;
-        font-weight: 500 !important;
-    }
-    
-    div[data-testid="stFileUploader"] button {
-        background-color: #3B82F6 !important;
-        color: #FFFFFF !important;
-        border: none !important;
-        font-weight: 600 !important;
-    }
-    
-    div[data-testid="stFileUploader"] button:hover {
-        background-color: #1E3A8A !important;
-    }
-    
-    /* Botones - BLANCO sobre azul */
+    /* ═══════════════════════════════════════════════════════════
+       BOTONES
+       ═══════════════════════════════════════════════════════════ */
     .stButton > button {
         background: linear-gradient(135deg, #1E3A8A 0%, #3B82F6 100%);
         color: #FFFFFF !important;
@@ -127,9 +174,11 @@ st.markdown("""
         box-shadow: 0 6px 20px rgba(30, 58, 138, 0.4);
     }
     
-    /* Métricas - OSCURO sobre blanco */
+    /* ═══════════════════════════════════════════════════════════
+       MÉTRICAS
+       ═══════════════════════════════════════════════════════════ */
     div[data-testid="metric-container"] {
-        background: white;
+        background: #FFFFFF !important;
         padding: 1.5rem;
         border-radius: 12px;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
@@ -149,33 +198,22 @@ st.markdown("""
         font-weight: 700;
     }
     
-    /* Info cards - OSCURO sobre blanco */
+    /* ═══════════════════════════════════════════════════════════
+       INFO CARDS
+       ═══════════════════════════════════════════════════════════ */
     .info-card {
-        background: white;
+        background: #FFFFFF;
         padding: 1.5rem;
         border-radius: 12px;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
         margin: 1rem 0;
         border-left: 4px solid #3B82F6;
-        transition: all 0.3s ease;
     }
     
-    .info-card strong {
-        color: #1E3A8A !important;
-        font-size: 0.95rem;
-        display: block;
-        margin-bottom: 0.5rem;
-    }
+    .info-card strong { color: #1E3A8A !important; }
+    .info-card p, .info-card span, .info-card div { color: #0F172A !important; }
     
-    .info-card p,
-    .info-card span,
-    .info-card div {
-        color: #0F172A !important;
-        font-size: 1rem;
-        font-weight: 500;
-    }
-    
-    /* Score circle - BLANCO sobre azul */
+    /* Score circle */
     .score-circle {
         display: inline-flex;
         width: 100px;
@@ -206,45 +244,87 @@ st.markdown("""
         background: linear-gradient(90deg, #1E3A8A 0%, #3B82F6 100%);
     }
     
-    /* Expanders - NEGRO sobre blanco */
-    .streamlit-expanderHeader {
-        background: white !important;
-        border-radius: 8px;
+    /* ═══════════════════════════════════════════════════════════
+       EXPANDERS - FIX #3: FONDO CLARO AL DESPLEGAR
+       ═══════════════════════════════════════════════════════════ */
+    /* Contenedor general del expander */
+    div[data-testid="stExpander"] {
+        background-color: #FFFFFF !important;
+        border: 1px solid #E2E8F0 !important;
+        border-radius: 8px !important;
+        margin-bottom: 0.5rem;
+        overflow: hidden;
+    }
+    
+    /* Header del expander - cerrado */
+    div[data-testid="stExpander"] details > summary {
+        background-color: #FFFFFF !important;
+        color: #0F172A !important;
         font-weight: 600;
+        padding: 0.75rem 1rem;
+        border: none !important;
+    }
+    
+    div[data-testid="stExpander"] details > summary:hover {
+        background-color: #F8FAFC !important;
+    }
+    
+    /* Header del expander - abierto */
+    div[data-testid="stExpander"] details[open] > summary {
+        background-color: #FFFFFF !important;
         color: #0F172A !important;
-        border: 1px solid #E2E8F0;
+        border-bottom: 2px solid #3B82F6 !important;
     }
     
-    .streamlit-expanderHeader:hover {
-        background: #F8FAFC !important;
-        border-color: #3B82F6;
-    }
-    
-    .streamlit-expanderHeader *,
-    details[open] > summary.streamlit-expanderHeader *,
-    div[data-testid="stExpander"] details > summary * {
-        color: #0F172A !important;
-    }
-    
-    details[open] > summary.streamlit-expanderHeader {
-        background: white !important;
-        color: #0F172A !important;
-        border-bottom: 2px solid #3B82F6;
-    }
-    
-    .streamlit-expanderContent {
-        background: white;
+    /* Texto dentro del header */
+    div[data-testid="stExpander"] details > summary *,
+    div[data-testid="stExpander"] details > summary span,
+    div[data-testid="stExpander"] details > summary p,
+    div[data-testid="stExpander"] summary [data-testid="stMarkdownContainer"],
+    div[data-testid="stExpander"] summary [data-testid="stMarkdownContainer"] * {
         color: #0F172A !important;
     }
     
-    .streamlit-expanderContent p,
-    .streamlit-expanderContent div,
-    .streamlit-expanderContent span,
-    .streamlit-expanderContent strong {
+    /* Contenido del expander - abierto (FIX PRINCIPAL) */
+    div[data-testid="stExpander"] details > div,
+    div[data-testid="stExpander"] details > div > div,
+    div[data-testid="stExpander"] details[open] > div,
+    div[data-testid="stExpander"] details[open] > div > div,
+    div[data-testid="stExpander"] [data-testid="stExpanderDetails"],
+    [data-testid="stExpanderDetails"] {
+        background-color: #FFFFFF !important;
+        background: #FFFFFF !important;
         color: #0F172A !important;
     }
     
-    /* Download button - BLANCO sobre verde */
+    /* Todo texto dentro del expander abierto */
+    div[data-testid="stExpander"] details[open] p,
+    div[data-testid="stExpander"] details[open] div,
+    div[data-testid="stExpander"] details[open] span,
+    div[data-testid="stExpander"] details[open] strong,
+    div[data-testid="stExpander"] details[open] li,
+    [data-testid="stExpanderDetails"] *,
+    [data-testid="stExpanderDetails"] p,
+    [data-testid="stExpanderDetails"] div,
+    [data-testid="stExpanderDetails"] span {
+        color: #0F172A !important;
+        background-color: transparent !important;
+    }
+    
+    /* Alerts dentro de expanders */
+    div[data-testid="stExpander"] [data-testid="stAlert"],
+    [data-testid="stExpanderDetails"] [data-testid="stAlert"] {
+        background-color: #DBEAFE !important;
+    }
+    
+    div[data-testid="stExpander"] [data-testid="stAlert"] *,
+    [data-testid="stExpanderDetails"] [data-testid="stAlert"] * {
+        color: #1E3A8A !important;
+    }
+    
+    /* ═══════════════════════════════════════════════════════════
+       DOWNLOAD BUTTON
+       ═══════════════════════════════════════════════════════════ */
     .stDownloadButton > button {
         background: linear-gradient(135deg, #059669 0%, #10B981 100%);
         color: #FFFFFF !important;
@@ -261,49 +341,46 @@ st.markdown("""
         box-shadow: 0 6px 20px rgba(5, 150, 105, 0.4);
     }
     
-    /* Alerts - OSCURO sobre claro */
-    .stAlert {
-        border-radius: 8px;
-        border-left: 4px solid;
-    }
+    /* ═══════════════════════════════════════════════════════════
+       ALERTS
+       ═══════════════════════════════════════════════════════════ */
+    .stAlert { border-radius: 8px; border-left: 4px solid; }
     
-    .stSuccess {
+    /* Success alerts */
+    [data-testid="stAlert"][data-baseweb*="positive"],
+    div[data-baseweb="notification"][kind="positive"],
+    .element-container .stSuccess {
         background-color: #D1FAE5 !important;
-        color: #065F46 !important;
     }
+    [data-testid="stAlert"][data-baseweb*="positive"] *,
+    .stSuccess * { color: #065F46 !important; }
     
-    .stSuccess * {
-        color: #065F46 !important;
-    }
-    
-    .stInfo {
+    /* Info alerts */
+    [data-testid="stAlert"][data-baseweb*="info"],
+    div[data-baseweb="notification"][kind="info"],
+    .element-container .stInfo {
         background-color: #DBEAFE !important;
-        color: #1E3A8A !important;
     }
+    [data-testid="stAlert"][data-baseweb*="info"] *,
+    .stInfo * { color: #1E3A8A !important; }
     
-    .stInfo * {
-        color: #1E3A8A !important;
-    }
-    
+    /* Warning alerts */
+    [data-testid="stAlert"][data-baseweb*="warning"],
     .stWarning {
         background-color: #FEF3C7 !important;
-        color: #92400E !important;
     }
+    .stWarning * { color: #92400E !important; }
     
-    .stWarning * {
-        color: #92400E !important;
-    }
-    
+    /* Error alerts */
+    [data-testid="stAlert"][data-baseweb*="negative"],
     .stError {
         background-color: #FEE2E2 !important;
-        color: #991B1B !important;
     }
+    .stError * { color: #991B1B !important; }
     
-    .stError * {
-        color: #991B1B !important;
-    }
-    
-    /* Badges */
+    /* ═══════════════════════════════════════════════════════════
+       BADGES
+       ═══════════════════════════════════════════════════════════ */
     .status-badge {
         display: inline-block;
         padding: 0.4rem 1rem;
@@ -311,77 +388,25 @@ st.markdown("""
         font-weight: 600;
         font-size: 0.875rem;
     }
+    .badge-success { background: #D1FAE5; color: #065F46 !important; }
+    .badge-warning { background: #FEF3C7; color: #92400E !important; }
+    .badge-error   { background: #FEE2E2; color: #991B1B !important; }
+    .badge-info    { background: #DBEAFE; color: #1E40AF !important; }
     
-    .badge-success {
-        background: #D1FAE5;
-        color: #065F46 !important;
-    }
+    /* ═══════════════════════════════════════════════════════════
+       TIPOGRAFÍA
+       ═══════════════════════════════════════════════════════════ */
+    h1 { color: #0F172A !important; font-weight: 800 !important; }
+    h2 { color: #0F172A !important; font-weight: 700 !important; margin-top: 2rem !important; }
+    h3 { color: #1E3A8A !important; font-weight: 600 !important; }
+    h4 { color: #0F172A !important; font-weight: 600 !important; }
+    h5, h6 { color: #334155 !important; font-weight: 600 !important; }
     
-    .badge-warning {
-        background: #FEF3C7;
-        color: #92400E !important;
-    }
+    p, li, span, div, label { color: #0F172A !important; }
+    small, .stCaption { color: #334155 !important; font-size: 0.875rem !important; }
+    .stMarkdown, .stMarkdown p, .stMarkdown div, .stMarkdown span { color: #0F172A !important; }
+    strong, b { color: #1E3A8A !important; font-weight: 700 !important; }
     
-    .badge-error {
-        background: #FEE2E2;
-        color: #991B1B !important;
-    }
-    
-    .badge-info {
-        background: #DBEAFE;
-        color: #1E40AF !important;
-    }
-    
-    /* Títulos - NEGRO sobre claro */
-    h1 {
-        color: #0F172A !important;
-        font-weight: 800 !important;
-    }
-    
-    h2 {
-        color: #0F172A !important;
-        font-weight: 700 !important;
-        margin-top: 2rem !important;
-    }
-    
-    h3 {
-        color: #1E3A8A !important;
-        font-weight: 600 !important;
-    }
-    
-    h4 {
-        color: #0F172A !important;
-        font-weight: 600 !important;
-    }
-    
-    h5, h6 {
-        color: #334155 !important;
-        font-weight: 600 !important;
-    }
-    
-    /* Textos generales - NEGRO sobre claro */
-    p, li, span, div, label {
-        color: #0F172A !important;
-    }
-    
-    small, .stCaption {
-        color: #334155 !important;
-        font-size: 0.875rem !important;
-    }
-    
-    .stMarkdown,
-    .stMarkdown p,
-    .stMarkdown div,
-    .stMarkdown span {
-        color: #0F172A !important;
-    }
-    
-    strong, b {
-        color: #1E3A8A !important;
-        font-weight: 700 !important;
-    }
-    
-    /* Separator */
     hr {
         border: none;
         height: 2px;
@@ -390,102 +415,35 @@ st.markdown("""
     }
     
     /* Spinner */
-    .stSpinner > div {
-        border-top-color: #3B82F6 !important;
-    }
+    .stSpinner > div { border-top-color: #3B82F6 !important; }
+    .stSpinner > div + div { color: #334155 !important; }
     
-    .stSpinner > div + div {
-        color: #334155 !important;
-    }
-    
-    /* Tablas - BLANCO sobre azul / NEGRO sobre blanco */
-    .dataframe {
-        border-radius: 8px;
-        overflow: hidden;
-    }
-    
-    .dataframe th {
-        background-color: #1E3A8A !important;
-        color: #FFFFFF !important;
-        font-weight: 600 !important;
-    }
-    
-    .dataframe td {
-        color: #0F172A !important;
-        background-color: white !important;
-    }
-    
-    .dataframe tr:nth-child(even) td {
-        background-color: #F8FAFC !important;
-    }
+    /* ═══════════════════════════════════════════════════════════
+       TABLAS
+       ═══════════════════════════════════════════════════════════ */
+    .dataframe { border-radius: 8px; overflow: hidden; }
+    .dataframe th { background-color: #1E3A8A !important; color: #FFFFFF !important; font-weight: 600 !important; }
+    .dataframe td { color: #0F172A !important; background-color: #FFFFFF !important; }
+    .dataframe tr:nth-child(even) td { background-color: #F8FAFC !important; }
     
     /* Container */
-    .block-container {
-        padding-top: 2rem;
-        padding-bottom: 2rem;
-        max-width: 1400px;
-    }
+    .block-container { padding-top: 2rem; padding-bottom: 2rem; max-width: 1400px; }
     
-    /* Info boxes específicos */
-    .success-box {
-        background: #D1FAE5;
-        border-left: 4px solid #059669;
-        padding: 1rem;
-        border-radius: 8px;
-        margin: 1rem 0;
-        color: #065F46 !important;
-    }
-    
-    .success-box * {
-        color: #065F46 !important;
-    }
-    
-    .warning-box {
-        background: #FEF3C7;
-        border-left: 4px solid #F59E0B;
-        padding: 1rem;
-        border-radius: 8px;
-        margin: 1rem 0;
-        color: #92400E !important;
-    }
-    
-    .warning-box * {
-        color: #92400E !important;
-    }
-    
-    .info-box {
-        background: #DBEAFE;
-        border-left: 4px solid #3B82F6;
-        padding: 1rem;
-        border-radius: 8px;
-        margin: 1rem 0;
-        color: #1E3A8A !important;
-    }
-    
-    .info-box *,
-    .info-box strong,
-    .info-box span,
-    .info-box p {
-        color: #1E3A8A !important;
-    }
+    /* Info boxes */
+    .success-box { background: #D1FAE5; border-left: 4px solid #059669; padding: 1rem; border-radius: 8px; margin: 1rem 0; }
+    .success-box * { color: #065F46 !important; }
+    .warning-box { background: #FEF3C7; border-left: 4px solid #F59E0B; padding: 1rem; border-radius: 8px; margin: 1rem 0; }
+    .warning-box * { color: #92400E !important; }
+    .info-box { background: #DBEAFE; border-left: 4px solid #3B82F6; padding: 1rem; border-radius: 8px; margin: 1rem 0; }
+    .info-box *, .info-box strong, .info-box span, .info-box p { color: #1E3A8A !important; }
     
     /* Inputs */
-    input, textarea, select {
-        color: #0F172A !important;
-        background-color: white !important;
-    }
+    input, textarea, select { color: #0F172A !important; background-color: #FFFFFF !important; }
     
     /* Responsive */
     @media (max-width: 768px) {
-        .app-title {
-            font-size: 1.8rem;
-        }
-        
-        .score-circle {
-            width: 80px;
-            height: 80px;
-            font-size: 1.8rem;
-        }
+        .app-title { font-size: 1.8rem; }
+        .score-circle { width: 80px; height: 80px; font-size: 1.8rem; }
     }
 </style>
 """, unsafe_allow_html=True)
@@ -508,7 +466,99 @@ def get_openai_client():
 
 client = get_openai_client()
 
-# Funciones de extracción de texto
+
+# ═══════════════════════════════════════════════════════════════════════
+# FIX #2: BÚSQUEDA FLEXIBLE DE COLUMNAS
+# ═══════════════════════════════════════════════════════════════════════
+
+def find_column(df, variants):
+    """
+    Busca una columna en el DataFrame probando múltiples variantes
+    de nombre (case-insensitive, con/sin tildes, singular/plural).
+    Retorna el nombre real de la columna o None.
+    """
+    df_cols_lower = {col.strip().lower(): col for col in df.columns}
+    for variant in variants:
+        key = variant.strip().lower()
+        if key in df_cols_lower:
+            return df_cols_lower[key]
+    return None
+
+
+def build_column_map(df):
+    """
+    Construye un diccionario que mapea nombres lógicos a nombres reales
+    de columnas del DataFrame, probando múltiples variantes comunes.
+    """
+    mappings = {
+        'nombre': [
+            'Nombre', 'Nombres', 'NOMBRE', 'NOMBRES',
+            'nombre', 'nombres', 'Name', 'Primer Nombre',
+            'nombre completo', 'Nombre Completo', 'NOMBRE COMPLETO'
+        ],
+        'apellidos': [
+            'Apellidos', 'Apellido', 'APELLIDOS', 'APELLIDO',
+            'apellidos', 'apellido', 'Last Name', 'Surname',
+            'Apellido Paterno', 'apellido paterno'
+        ],
+        'correo': [
+            'Correo electrónico', 'Correo Electrónico', 'CORREO ELECTRÓNICO',
+            'Correo electronico', 'Correo Electronico', 'CORREO ELECTRONICO',
+            'correo electrónico', 'correo electronico',
+            'Correo', 'correo', 'CORREO',
+            'Email', 'email', 'EMAIL', 'E-mail', 'e-mail',
+            'Mail', 'mail', 'Dirección de correo', 'Direccion de correo'
+        ],
+        'edad': [
+            'Edad', 'edad', 'EDAD', 'Age', 'age'
+        ],
+        'programa': [
+            'Programa', 'programa', 'PROGRAMA',
+            'Carrera', 'carrera', 'CARRERA',
+            'Programa Académico', 'Programa Academico',
+            'programa académico', 'programa academico',
+            'Especialidad', 'especialidad', 'ESPECIALIDAD',
+            'Facultad', 'facultad'
+        ],
+        'respuesta_1': [
+            'Respuesta 1', 'respuesta 1', 'RESPUESTA 1',
+            'Respuesta1', 'respuesta1', 'R1', 'r1',
+            'Pregunta 1', 'pregunta 1', 'P1', 'p1'
+        ],
+        'respuesta_2': [
+            'Respuesta 2', 'respuesta 2', 'RESPUESTA 2',
+            'Respuesta2', 'respuesta2', 'R2', 'r2',
+            'Pregunta 2', 'pregunta 2', 'P2', 'p2'
+        ],
+        'respuesta_3': [
+            'Respuesta 3', 'respuesta 3', 'RESPUESTA 3',
+            'Respuesta3', 'respuesta3', 'R3', 'r3',
+            'Pregunta 3', 'pregunta 3', 'P3', 'p3'
+        ],
+    }
+    
+    col_map = {}
+    for logical_name, variants in mappings.items():
+        found = find_column(df, variants)
+        col_map[logical_name] = found  # None si no se encontró
+    
+    return col_map
+
+
+def safe_get(row, col_name, default='N/A'):
+    """Obtiene valor de una fila de forma segura."""
+    if col_name is None:
+        return default
+    val = row.get(col_name, default)
+    if pd.isna(val) or str(val).strip() == '':
+        return default
+    return str(val).strip()
+
+
+# ═══════════════════════════════════════════════════════════════════════
+# FUNCIONES DE EXTRACCIÓN DE TEXTO
+# ═══════════════════════════════════════════════════════════════════════
+
 def extract_text_from_pdf(file):
     try:
         pdf_reader = PyPDF2.PdfReader(file)
@@ -547,7 +597,11 @@ def read_excel_file(file):
         st.error(f"Error al leer archivo Excel/CSV: {str(e)}")
         return None
 
-# Función principal de análisis con OpenAI
+
+# ═══════════════════════════════════════════════════════════════════════
+# FUNCIÓN DE ANÁLISIS CON OPENAI
+# ═══════════════════════════════════════════════════════════════════════
+
 def analyze_admission_form(text_content, retry_count=0):
     system_prompt = """ROL Y CONTEXTO:
 Actúa como experto en Psicología Educativa y Motivación, especializado en la Teoría de la Autodeterminación (Self-Determination Theory, SDT) de Ryan y Deci.
@@ -571,112 +625,51 @@ ESCALA DE EVALUACIÓN (1-6):
 2 = Regulación Externa: recompensas/presiones externas, demandas sociales
 1 = Amotivación: sin razón clara, desinterés, resignación
 
-═══════════════════════════════════════════════════════════════════════
-RÚBRICA DETALLADA POR NIVEL
-═══════════════════════════════════════════════════════════════════════
+RÚBRICA DETALLADA POR NIVEL:
 
 NIVEL 6 - MOTIVACIÓN INTRÍNSECA:
 Criterio general: Interés genuino, disfrute, curiosidad o satisfacción personal.
 - Elección de carrera: Se basa en el agrado inherente por los contenidos o actividades propias de la carrera
-- Experiencia: Disfrute del proceso, interés espontáneo, sensación de flujo. El valor está en realizarla, no en resultados
-- Uso futuro: Desea aplicar lo aprendido por interés y disfrute personal, motivación espontánea
-Indicadores lingüísticos: "me gusta", "lo disfruto", "me interesa mucho", "me resulta entretenido", "me apasiona"
+- Experiencia: Disfrute del proceso, interés espontáneo, sensación de flujo
+- Uso futuro: Desea aplicar lo aprendido por interés y disfrute personal
+Indicadores: "me gusta", "lo disfruto", "me interesa mucho", "me apasiona"
 NO asignar si: el interés se justifica por utilidad, resultados, metas, identidad o impacto social
 
 NIVEL 5 - REGULACIÓN INTEGRADA:
 Criterio general: Coherencia con identidad, valores centrales y proyecto de vida.
-- Elección de carrera: La carrera es coherente con quién es y quién desea ser
-- Experiencia: Fortalece identidad y sentido de coherencia personal, se integra a proyecto de vida
-- Uso futuro: Integra el conocimiento a su identidad futura, aplicarlo es parte de quién quiere ser
-Indicadores lingüísticos: "es coherente con mis valores", "encaja con mi forma de desarrollarme", "es parte de mi proyecto"
-NO asignar si: solo hay disfrute (→6), solo utilidad (→4), o se infiere sin declaración explícita
+Indicadores: "es coherente con mis valores", "encaja con mi forma de desarrollarme", "es parte de mi proyecto"
+NO asignar si: solo hay disfrute (→6), solo utilidad (→4)
 
 NIVEL 4 - REGULACIÓN IDENTIFICADA:
 Criterio general: Reconoce importancia y utilidad personal para metas significativas.
-- Elección de carrera: Importante para desarrollo personal, académico o profesional, aunque no siempre la disfrute
-- Experiencia: Valorada porque permitió aprender, desarrollar habilidades o avanzar hacia metas relevantes
-- Uso futuro: Útil para metas personales importantes (trabajo, desarrollo, contribución social)
-Indicadores lingüísticos: "es importante para mí", "me permite desarrollarme", "me ayuda a lograr mis metas"
+Indicadores: "es importante para mí", "me permite desarrollarme", "me ayuda a lograr mis metas"
 NO asignar si: solo hay recompensas externas (→2), se menciona identidad/proyecto vital (→5)
 
 NIVEL 3 - REGULACIÓN INTROYECTADA:
 Criterio general: Presión interna, necesidad de validación, evitar emociones negativas.
-- Elección de carrera: Justifica por culpa, orgullo, evitar decepcionar, necesidad de validación
-- Experiencia: Significativa por orgullo, autoexigencia, evitar culpa, demostrarse capacidad
-- Uso futuro: Aplicar para no fallar, cumplir expectativas internas, evitar sentirse insuficiente
-Indicadores lingüísticos: "sentía que debía", "no quería fallar", "quería demostrar", "me sentiría mal si no"
+Indicadores: "sentía que debía", "no quería fallar", "quería demostrar", "me sentiría mal si no"
 NO asignar si: hay demandas externas explícitas (→2), hay valor personal o metas (→4)
 
 NIVEL 2 - REGULACIÓN EXTERNA:
 Criterio general: Recompensas externas, demandas sociales, control externo.
-- Elección de carrera: Por dinero, prestigio, seguridad laboral, expectativas familiares o sociales
-- Experiencia: Importante por notas, premios, reconocimiento, beneficios materiales
-- Uso futuro: Orientado a empleo, dinero, estabilidad, cumplir requisitos externos
-Indicadores lingüísticos: "tiene buena salida laboral", "da estabilidad", "mis padres querían", "para conseguir trabajo"
+Indicadores: "tiene buena salida laboral", "da estabilidad", "mis padres querían", "para conseguir trabajo"
 NO asignar si: hay culpa/orgullo (→3), valor personal explícito (→4)
 
 NIVEL 1 - AMOTIVACIÓN:
 Criterio general: Incapaz de dar razón clara, desinterés, falta de control.
-- Elección de carrera: Postula por inercia, azar, resignación, no sabe por qué, percibe decisión fuera de control
-- Experiencia: Apatía, desgano, aburrimiento, incompetencia, actividad pasiva o mecánica
-- Uso futuro: No visualiza futuro profesional, duda de ejercer, considera aprendizaje inútil
-Indicadores lingüísticos: "no lo tengo claro", "no sé por qué", "me da igual", "me obligaron", "solo porque toca"
+Indicadores: "no lo tengo claro", "no sé por qué", "me da igual", "me obligaron"
 SE ASIGNA si ocurre AL MENOS UNA condición de amotivación
 
-═══════════════════════════════════════════════════════════════════════
-REGLAS DE ASIGNACIÓN (OBLIGATORIAS)
-═══════════════════════════════════════════════════════════════════════
+REGLAS DE ASIGNACIÓN (OBLIGATORIAS):
+1. Solo asignar niveles con indicadores EXPLÍCITOS en el texto
+2. Cada respuesta se clasifica en UN solo nivel por criterio
+3. Si coexisten indicadores de varios niveles → asignar el nivel INFERIOR
+4. Cada pregunta (P1, P2, P3) se evalúa de manera INDEPENDIENTE
+5. PERFIL FINAL: min(P1, P2, P3) con excepción 2-de-3
+   Excepción: Si dos coinciden y tercera está 1 nivel abajo → perfil = nivel coincidente
+   Si alguna = 1 → perfil final máximo = 2
 
-1. EVIDENCIA EXPLÍCITA: Solo asignar niveles con indicadores EXPLÍCITOS en el texto. NO hacer inferencias implícitas.
-2. UNA SOLA CLASIFICACIÓN: Cada respuesta se clasifica en UN solo nivel por criterio.
-3. NIVEL MENOS AUTÓNOMO: Si coexisten indicadores de varios niveles → asignar el nivel INFERIOR (menos autónomo).
-4. CONDICIONES MÍNIMAS: Para asignar un nivel, TODAS sus condiciones mínimas deben cumplirse. Si falta una → evaluar nivel inferior.
-5. EVALUACIÓN INDEPENDIENTE: Cada pregunta (P1, P2, P3) se evalúa de manera INDEPENDIENTE.
-6. OBJETO PERTINENTE: Intereses generales no vinculados al objeto de la pregunta NO justifican motivación autónoma.
-7. PROCESO vs RESULTADO: Motivación intrínseca = foco en PROCESO; Regulación identificada = foco en RESULTADOS
-8. INTERÉS PROSOCIAL: Si el interés está dirigido a impactos, utilidad social o resultados → NO es intrínseco (→4 o 5)
-9. NOTAS ACLARATORIAS:
-   P2: Asignar intrínseca si hay disfrute genuino del proceso, aun cuando confirme vocación posteriormente
-   P3: Vinculación explícita existe cuando la acción corresponde directamente al ejercicio profesional
-10. PERFIL FINAL:
-    REGLA BASE: Perfil = min(P1, P2, P3)
-    EXCEPCIÓN 2-de-3: Si dos coinciden y tercera está 1 nivel abajo → perfil = nivel coincidente
-    Ejemplos: (4,4,3)→4, (5,5,4)→5, (6,6,5)→6
-    No válidos: (6,5,4)→4, (5,5,3)→3
-    SEGURIDAD: Si alguna = 1 → perfil final máximo = 2
-
-═══════════════════════════════════════════════════════════════════════
-CONDICIONES MÍNIMAS POR PREGUNTA
-═══════════════════════════════════════════════════════════════════════
-
-P1: ELECCIÓN DE CARRERA
-[6] ✓ Interés/disfrute explícito ✓ Objeto: carrera ✓ Sin utilidad/metas/empleo
-[5] ✓ Principios/valores/vocación ✓ Coherencia proyecto vida ✓ Principios estables
-[4] ✓ Valoración explícita ✓ Objeto: carrera ✓ Metas significativas
-[3] ✓ Presión interna ✓ Autoevaluación ✓ Sin recompensas externas
-[2] ✓ Recompensa/demanda externa ✓ Objeto: carrera ✓ Instrumental
-[1] AL MENOS UNA: ✓ Sin razón ✓ Desinterés ✓ Fuera de control
-
-P2: EXPERIENCIA RELACIONADA
-[6] ✓ Disfrute/interés explícito ✓ Objeto: actividad ✓ Foco en PROCESO
-[5] ✓ Conectada con identidad ✓ Refuerzo propósito ✓ Integración proyecto
-[4] ✓ Valoración explícita ✓ Aprendizaje/habilidades ✓ Metas relevantes
-[3] ✓ Orgullo/autoexigencia/culpa ✓ Demostrarse capacidad ✓ Sin recompensas externas
-[2] ✓ Recompensa externa ✓ Valorada por resultado ✓ Control externo
-[1] AL MENOS UNA: ✓ Apatía ✓ Sin sentido ✓ Pasiva
-
-P3: USO FUTURO
-[6] ✓ Interés por aplicar/aprender ✓ Objeto: conocimiento ✓ Espontánea
-[5] ✓ Vinculado identidad futura ✓ Coherencia proyecto ✓ Parte de "quién ser"
-[4] ✓ Utilidad explícita ✓ Metas relevantes ✓ Elección voluntaria
-[3] ✓ Para no fallar ✓ Presión interna ✓ Evaluación del yo
-[2] ✓ Recompensas externas ✓ Empleo/dinero ✓ Control externo
-[1] AL MENOS UNA: ✓ No visualiza ✓ Duda ejercer ✓ Inútil
-
-═══════════════════════════════════════════════════════════════════════
-ESTRUCTURA JSON
-═══════════════════════════════════════════════════════════════════════
-
+ESTRUCTURA JSON:
 {
   "informacion_extraida": {
     "nombre": "...",
@@ -710,24 +703,17 @@ ESTRUCTURA JSON
 CÁLCULOS:
 - calificacion_real = P1+P2+P3 (máx 18)
 - calificacion_sobre_20 = (real/18)*20 (2 decimales)
-- perfil = aplicar reglas min/2-de-3/seguridad
 
-IMPORTANTE:
-✓ Solo JSON ✓ Sin markdown ✓ Comillas dobles ✓ Evidencia explícita ✓ Solo motivación
-"""
+IMPORTANTE: Solo JSON, sin markdown, comillas dobles, evidencia explícita"""
 
     user_prompt = f"""PREGUNTAS DEL FORMULARIO:
 1. ¿Qué características de esta carrera llamaron tu atención y cuál es la razón principal por la que decidiste postular a ella?
 2. Relata una experiencia donde hayas puesto en práctica habilidades relacionadas con esta carrera. Describe cómo te sentiste mientras realizabas dicha actividad y qué descubriste de tu vocación profesional.
 3. Imagina que ya terminaste tus estudios. ¿Cómo aplicarías lo aprendido en tu formación profesional y qué impactos te gustaría lograr?
 
-═══════════════════════════════════════════════════════════════════════
 FORMULARIO:
-═══════════════════════════════════════════════════════════════════════
-
 {text_content}
 
-═══════════════════════════════════════════════════════════════════════
 PROCESO: 1)Leer 2)Identificar indicadores 3)Verificar condiciones 4)Si coexisten→inferior 5)Evaluar independiente 6)Calcular perfil 7)JSON
 
 Responde ÚNICAMENTE con JSON válido (sin markdown)"""
@@ -771,44 +757,77 @@ Responde ÚNICAMENTE con JSON válido (sin markdown)"""
     except Exception as e:
         return {"success": False, "error": str(e)}
 
-# Función para procesar registros de Excel
+
+# ═══════════════════════════════════════════════════════════════════════
+# PROCESAR REGISTROS EXCEL (con mapeo flexible de columnas)
+# ═══════════════════════════════════════════════════════════════════════
+
 def process_excel_records(df, progress_bar, status_text):
     results = []
     total = len(df)
     
-    required_fields = ['Respuesta 1', 'Respuesta 2', 'Respuesta 3']
+    # Construir mapeo flexible de columnas
+    col_map = build_column_map(df)
+    
+    # Mostrar qué columnas se detectaron
+    detected = {k: v for k, v in col_map.items() if v is not None}
+    missing = {k for k, v in col_map.items() if v is None}
+    
+    if missing:
+        st.warning(
+            f"⚠️ Columnas no encontradas: **{', '.join(missing)}**. "
+            f"Se usará 'N/A' para esos campos.\n\n"
+            f"**Columnas detectadas en tu archivo:** {', '.join(df.columns.tolist())}"
+        )
     
     for idx, row in df.iterrows():
         status_text.markdown(f"**Procesando:** Registro {idx + 1} de {total}")
         progress_bar.progress((idx + 1) / total)
         
+        # Extraer valores con mapeo flexible
+        nombre = safe_get(row, col_map['nombre'])
+        apellidos = safe_get(row, col_map['apellidos'])
+        correo = safe_get(row, col_map['correo'])
+        edad = safe_get(row, col_map['edad'])
+        programa = safe_get(row, col_map['programa'])
+        resp1 = safe_get(row, col_map['respuesta_1'], 'Sin respuesta')
+        resp2 = safe_get(row, col_map['respuesta_2'], 'Sin respuesta')
+        resp3 = safe_get(row, col_map['respuesta_3'], 'Sin respuesta')
+        
         form_text = f"""
-Nombre: {row.get('Nombre', 'N/A')}
-Apellidos: {row.get('Apellidos', 'N/A')}
-Correo: {row.get('Correo electrónico', 'N/A')}
-Edad: {row.get('Edad', 'N/A')}
-Programa: {row.get('Programa', 'N/A')}
+Nombre: {nombre}
+Apellidos: {apellidos}
+Correo: {correo}
+Edad: {edad}
+Programa: {programa}
 
 Pregunta 1: ¿Por qué elegiste esta carrera?
-Respuesta 1: {row.get('Respuesta 1', 'Sin respuesta')}
+Respuesta 1: {resp1}
 
 Pregunta 2: ¿Qué experiencia tienes relacionada con esta carrera?
-Respuesta 2: {row.get('Respuesta 2', 'Sin respuesta')}
+Respuesta 2: {resp2}
 
 Pregunta 3: ¿Cómo planeas usar lo que aprendas?
-Respuesta 3: {row.get('Respuesta 3', 'Sin respuesta')}
+Respuesta 3: {resp3}
 """
         
-        missing_fields = [field for field in required_fields if pd.isna(row.get(field)) or str(row.get(field)).strip() == '']
+        # Verificar respuestas vacías
+        missing_responses = []
+        if resp1 == 'Sin respuesta':
+            missing_responses.append('Respuesta 1')
+        if resp2 == 'Sin respuesta':
+            missing_responses.append('Respuesta 2')
+        if resp3 == 'Sin respuesta':
+            missing_responses.append('Respuesta 3')
         
-        if missing_fields:
+        if missing_responses:
             results.append({
                 'success': False,
                 'registro_numero': idx + 1,
-                'nombre': row.get('Nombre', 'N/A'),
-                'apellidos': row.get('Apellidos', 'N/A'),
-                'correo': row.get('Correo electrónico', 'N/A'),
-                'error': f"Campos faltantes: {', '.join(missing_fields)}"
+                'nombre': nombre,
+                'apellidos': apellidos,
+                'correo': correo,
+                'error': f"Campos faltantes: {', '.join(missing_responses)}"
             })
             continue
         
@@ -816,9 +835,9 @@ Respuesta 3: {row.get('Respuesta 3', 'Sin respuesta')}
         
         result = {
             'registro_numero': idx + 1,
-            'nombre': row.get('Nombre', 'N/A'),
-            'apellidos': row.get('Apellidos', 'N/A'),
-            'correo': row.get('Correo electrónico', 'N/A'),
+            'nombre': nombre,
+            'apellidos': apellidos,
+            'correo': correo,
             'success': analysis.get('success', False),
         }
         
@@ -831,7 +850,11 @@ Respuesta 3: {row.get('Respuesta 3', 'Sin respuesta')}
     
     return results
 
-# Función para generar Excel de resultados
+
+# ═══════════════════════════════════════════════════════════════════════
+# GENERAR EXCEL DE RESULTADOS
+# ═══════════════════════════════════════════════════════════════════════
+
 def generate_excel_report(results):
     wb = Workbook()
     ws = wb.active
@@ -903,7 +926,11 @@ def generate_excel_report(results):
     buffer.seek(0)
     return buffer
 
+
+# ═══════════════════════════════════════════════════════════════════════
 # INTERFAZ PRINCIPAL
+# ═══════════════════════════════════════════════════════════════════════
+
 def main():
     # Header profesional
     st.markdown("""
@@ -917,8 +944,8 @@ def main():
     col1, col2, col3 = st.columns([1, 2, 1])
     with col2:
         st.markdown("""
-        <div style='background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); text-align: center;'>
-            <p style='margin: 0; color: #64748B; font-size: 0.95rem;'>
+        <div style='background: #FFFFFF; padding: 1.5rem; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); text-align: center;'>
+            <p style='margin: 0; color: #334155; font-size: 0.95rem;'>
                 <strong style='color: #1E3A8A;'>📄 Análisis Individual:</strong> PDF, DOCX, TXT | 
                 <strong style='color: #1E3A8A;'>📊 Análisis Masivo:</strong> XLSX, XLS, CSV
             </p>
@@ -973,11 +1000,18 @@ def main():
         if analyze_button:
             with st.spinner("🔄 Procesando análisis..."):
                 if is_batch:
-                    # PROCESAMIENTO MASIVO
+                    # ═══ PROCESAMIENTO MASIVO ═══
                     df = read_excel_file(uploaded_file)
                     
                     if df is not None:
                         st.success(f"✅ {len(df)} registros detectados")
+                        
+                        # Mostrar columnas encontradas
+                        col_map = build_column_map(df)
+                        with st.expander("🔍 Mapeo de columnas detectado", expanded=False):
+                            for logical, real in col_map.items():
+                                status = f"✅ `{real}`" if real else "❌ No encontrada"
+                                st.markdown(f"**{logical}** → {status}")
                         
                         progress_bar = st.progress(0)
                         status_text = st.empty()
@@ -990,7 +1024,6 @@ def main():
                         st.session_state['batch_results'] = results
                         st.session_state['batch_filename'] = uploaded_file.name
                         
-                        # Separador
                         st.markdown("<hr>", unsafe_allow_html=True)
                         
                         # Resultados
@@ -1034,8 +1067,27 @@ def main():
                         st.markdown("### 👥 Detalle por Postulante")
                         
                         for i, result in enumerate(results):
+                            # Construir label legible
+                            nombre_display = result.get('nombre', 'N/A')
+                            apellidos_display = result.get('apellidos', 'N/A')
+                            correo_display = result.get('correo', 'N/A')
+                            
+                            # Evitar mostrar N/A si no hay datos
+                            label_parts = []
+                            if apellidos_display != 'N/A':
+                                label_parts.append(apellidos_display)
+                            if nombre_display != 'N/A':
+                                label_parts.append(nombre_display)
+                            
+                            if label_parts:
+                                name_label = ", ".join(label_parts)
+                            else:
+                                name_label = f"Registro {result['registro_numero']}"
+                            
+                            extra_info = f" • {correo_display}" if correo_display != 'N/A' else ""
+                            
                             with st.expander(
-                                f"**{result['registro_numero']}. {result['apellidos']}, {result['nombre']}** • {result['correo']}",
+                                f"**{result['registro_numero']}. {name_label}**{extra_info}",
                                 expanded=False
                             ):
                                 if result.get('success'):
@@ -1090,7 +1142,7 @@ def main():
                                     st.error(f"❌ **Error:** {result.get('error', 'Error desconocido')}")
                 
                 else:
-                    # PROCESAMIENTO INDIVIDUAL
+                    # ═══ PROCESAMIENTO INDIVIDUAL ═══
                     text_content = None
                     
                     if file_extension == 'pdf':
@@ -1106,7 +1158,6 @@ def main():
                         analysis = analyze_admission_form(text_content)
                         
                         if analysis.get('success'):
-                            # Separador
                             st.markdown("<hr>", unsafe_allow_html=True)
                             
                             st.markdown("## 📊 Resultado del Análisis Individual")
