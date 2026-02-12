@@ -1233,7 +1233,6 @@ def main():
     st.markdown("""
     <div style='text-align: center; padding: 2rem; color: #94A3B8; font-size: 0.85rem;'>
         <p>Sistema de Análisis de Admisión • Universidad Continental</p>
-        <p>Basado en la Teoría de la Autodeterminación (SDT) de Ryan y Deci</p>
     </div>
     """, unsafe_allow_html=True)
 
