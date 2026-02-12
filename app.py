@@ -10,7 +10,6 @@ import docx2txt
 from openpyxl import Workbook
 from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
 
-# Configuración de la página
 st.set_page_config(
     page_title="Sistema de Análisis de Admisión - SDT",
     page_icon="🎓",
@@ -18,7 +17,6 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# Estilos CSS profesionales con CONTRASTE ÓPTIMO WCAG AAA
 st.markdown("""
 <style>
     /* ═══════════════════════════════════════════════════════════
@@ -465,11 +463,6 @@ def get_openai_client():
     return OpenAI(api_key=api_key)
 
 client = get_openai_client()
-
-
-# ═══════════════════════════════════════════════════════════════════════
-# FIX #2: BÚSQUEDA FLEXIBLE DE COLUMNAS
-# ═══════════════════════════════════════════════════════════════════════
 
 def find_column(df, variants):
     """
