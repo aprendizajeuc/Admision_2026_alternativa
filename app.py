@@ -1232,7 +1232,7 @@ def main():
     st.markdown("<br><br>", unsafe_allow_html=True)
     st.markdown("""
     <div style='text-align: center; padding: 2rem; color: #94A3B8; font-size: 0.85rem;'>
-        <p>Sistema de Análisis de Admisión • Universidad Continental</p>
+        <p>Dirección de Gestión de la Información • Universidad Continental</p>
     </div>
     """, unsafe_allow_html=True)
 
