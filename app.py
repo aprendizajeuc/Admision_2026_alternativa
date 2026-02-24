@@ -9,6 +9,8 @@ import PyPDF2
 import docx2txt
 from openpyxl import Workbook
 from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
+from concurrent.futures import ThreadPoolExecutor, as_completed
+import threading
 
 st.set_page_config(
     page_title="Sistema de Analisis de Admision - SDT",
@@ -407,7 +409,6 @@ def analyze_admission_form(text_content, retry_count=0):
 
 
 def process_excel_records(df, progress_bar, status_text):
-    results = []
     total = len(df)
     col_map = build_column_map(df)
     
@@ -415,10 +416,11 @@ def process_excel_records(df, progress_bar, status_text):
     if missing:
         st.warning(f"Columnas no encontradas: **{', '.join(missing)}**. Se usara 'N/A'.\n\n**Columnas en archivo:** {', '.join(df.columns.tolist())}")
     
+    # Preparar todos los registros antes de procesar
+    tasks = []
+    skipped = []
+    
     for idx, row in df.iterrows():
-        status_text.markdown(f"**Procesando:** Registro {idx + 1} de {total}")
-        progress_bar.progress((idx + 1) / total)
-        
         nombre = safe_get(row, col_map['nombre'])
         apellidos = safe_get(row, col_map['apellidos'])
         correo = safe_get(row, col_map['correo'])
@@ -448,19 +450,58 @@ Pregunta 3 - Uso futuro del aprendizaje:
         if resp2 == 'Sin respuesta': missing_responses.append('Respuesta 2')
         if resp3 == 'Sin respuesta': missing_responses.append('Respuesta 3')
         
-        if missing_responses:
-            results.append({'success': False, 'registro_numero': idx + 1, 'nombre': nombre, 'apellidos': apellidos, 'correo': correo, 'error': f"Campos faltantes: {', '.join(missing_responses)}"})
-            continue
+        base_info = {
+            'registro_numero': idx + 1,
+            'nombre': nombre,
+            'apellidos': apellidos,
+            'correo': correo,
+        }
         
+        if missing_responses:
+            skipped.append({**base_info, 'success': False, 'error': f"Campos faltantes: {', '.join(missing_responses)}"})
+        else:
+            tasks.append((base_info, form_text))
+    
+    # Contador thread-safe para progreso
+    completed_count = [0]
+    lock = threading.Lock()
+    total_to_process = len(tasks) + len(skipped)
+    
+    def process_single(task):
+        base_info, form_text = task
         analysis = analyze_admission_form(form_text)
-        result = {'registro_numero': idx + 1, 'nombre': nombre, 'apellidos': apellidos, 'correo': correo, 'success': analysis.get('success', False)}
+        result = {**base_info, 'success': analysis.get('success', False)}
         if analysis.get('success'):
             result['analysis'] = analysis
         else:
             result['error'] = analysis.get('error', 'Error desconocido')
-        results.append(result)
+        
+        with lock:
+            completed_count[0] += 1
+        
+        return result
     
-    return results
+    # Procesar en paralelo con 5 hilos
+    parallel_results = []
+    max_workers = min(5, len(tasks)) if tasks else 1
+    
+    if tasks:
+        with ThreadPoolExecutor(max_workers=max_workers) as executor:
+            futures = {executor.submit(process_single, task): task[0]['registro_numero'] for task in tasks}
+            
+            for future in as_completed(futures):
+                result = future.result()
+                parallel_results.append(result)
+                
+                done = completed_count[0] + len(skipped)
+                progress_bar.progress(done / total_to_process)
+                status_text.markdown(f"**Procesando:** {done} de {total_to_process} registros ({max_workers} en paralelo)")
+    
+    # Combinar resultados: skipped + procesados, ordenar por numero de registro
+    all_results = skipped + parallel_results
+    all_results.sort(key=lambda x: x['registro_numero'])
+    
+    return all_results
 
 
 def generate_excel_report(results):
