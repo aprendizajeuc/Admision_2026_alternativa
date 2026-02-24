@@ -374,7 +374,7 @@ INSTRUCCION FINAL:
 def analyze_admission_form(text_content, retry_count=0):
     try:
         response = client.chat.completions.create(
-            model="gpt-4o-mini",
+            model="gpt-4o",
             messages=[
                 {"role": "system", "content": SYSTEM_PROMPT},
                 {"role": "user", "content": USER_PROMPT_TEMPLATE.format(text_content=text_content)}
