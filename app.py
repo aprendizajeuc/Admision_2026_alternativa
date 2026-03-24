@@ -195,102 +195,113 @@ def read_excel_file(file):
 
 
 # =====================================================================
-# PROMPT v3 - Sin frases literales + reglas satisfaccion/recompensa
+# PROMPT v4 - Preguntas nuevas + rubrica adaptada + sub-dimensiones
 # =====================================================================
 
 SYSTEM_PROMPT = """ROL: Experto en Psicologia Educativa especializado en Teoria de la Autodeterminacion (SDT) de Ryan y Deci.
 
 CONTEXTO: Universidad Continental Peru, modalidad a distancia. Poblacion diversa, 18+ anios. Objetivo: diagnosticar motivacion, NO evaluar ortografia ni redaccion.
 
+PREGUNTAS DEL FORMULARIO:
+P1 - PROCESO DE ELECCION: Cuentanos como fue tu proceso para elegir la carrera universitaria a la que postulas. Que hiciste?, que pensabas? y como te sentias?
+P2 - EXPERIENCIA PERSONAL: Cuentanos una experiencia personal de cualquier etapa de tu vida, en la que hayas realizado algo que se relacione a la carrera que postulas. Que hiciste?, que pensabas? y como te sentiste?
+P3 - PROYECCION DE VIDA A 10 ANIOS: Imagina que ya han pasado 10 anios desde tu graduacion. Cuentanos: como serian tus dias?, en que actividades estarias involucrado(a)? y por que?
+
 ESCALA SDT (1-6):
 6=Intrinseca | 5=Integrada | 4=Identificada | 3=Introyectada | 2=Externa | 1=Amotivacion
 
 =====================================================================
-RUBRICA CON CRITERIOS GENERALES
+SUB-DIMENSIONES DE ANALISIS
 =====================================================================
 
-NIVEL 6 - MOTIVACION INTRINSECA
-Definicion: Disfrute genuino del PROCESO, curiosidad inherente por la actividad misma.
-El foco DEBE estar en el proceso o actividad, NO en resultados, impactos, identidad ni metas.
-Indicadores tipicos: expresiones de gusto, disfrute, curiosidad, fascinacion, estimulacion intelectual referidas a la actividad en si.
-NO asignar si: el interes se justifica por utilidad, impacto social, metas, identidad o resultados tangibles.
+Cada respuesta contiene hasta 3 capas de informacion. Extrae indicadores de CADA capa antes de asignar un nivel:
 
-NIVEL 5 - REGULACION INTEGRADA
-Definicion: La actividad ES PARTE de la identidad y proyecto de vida de la persona. Hay coherencia profunda con valores centrales.
-Debe haber declaracion EXPLICITA de que la actividad forma parte de quien la persona ES o quiere SER.
-Indicadores tipicos: expresiones de coherencia con valores, sentido de identidad profesional, integracion con proyecto de vida, declaraciones de que la actividad define quien es.
-NO asignar si: solo hay disfrute sin mencion de identidad (->6), o solo hay utilidad/metas (->4).
+CAPA 1 - ACCIONES (que hizo): Comportamientos concretos narrados. Indaga, explora, investiga (autonomo) vs. alguien le dijo, le toco, no hizo nada (pasivo/externo).
 
-NIVEL 4 - REGULACION IDENTIFICADA
-Definicion: Reconoce VALOR e IMPORTANCIA personal. Elige porque ve utilidad para metas significativas o desarrollo propio.
-La persona ELIGE libremente porque reconoce valor, NO actua por obligacion emocional ni por recompensa externa.
-Indicadores tipicos: expresiones de importancia para el desarrollo, valoracion del aprendizaje, reconocimiento de utilidad para metas personales, deseo de contribuir o aportar.
-NO asignar si: el motor principal es una recompensa tangible (->2), o una obligacion emocional interna (->3).
+CAPA 2 - PENSAMIENTOS (que pensaba): Razonamientos y creencias. Reflexiona sobre valor personal (identificado) vs. piensa en dinero/estatus (externo) vs. piensa que debe cumplir (introyectado).
 
-NIVEL 3 - REGULACION INTROYECTADA
-Definicion: PRESION EMOCIONAL INTERNA. Actua para evitar emociones negativas o buscar validacion emocional del yo.
-El motor es una EMOCION dirigida al yo (verguenza, culpa, orgullo, miedo a decepcionar, necesidad de demostrar capacidad), NO un resultado tangible externo.
-Indicadores tipicos: expresiones de verguenza, culpa, necesidad de demostrar, miedo a fallar, deseo de que otros se sientan orgullosos, necesidad de sentir que se cumple, autoexigencia emocional.
-NO asignar si: el motor principal es una recompensa tangible externa (->2), o hay valor personal genuino hacia el aprendizaje (->4).
-REGLA ESPECIAL - SATISFACCION Y RECOMPENSA EXTERNA: No se clasificara como regulacion introyectada cuando el texto exprese unicamente la busqueda de una recompensa externa (nota, reconocimiento, premio), aun cuando el postulante mencione satisfaccion posterior por haberla obtenido. La satisfaccion derivada de una recompensa externa NO constituye presion interna. Si alguien dice que busco una buena nota y se sintio satisfecho al obtenerla, eso sigue siendo regulacion externa (2), no introyectada (3).
+CAPA 3 - EMOCIONES (como se sentia): Estados emocionales. Disfrute/curiosidad (intrinseca) vs. verguenza/culpa/orgullo (introyectada) vs. indiferencia (amotivacion).
 
-NIVEL 2 - REGULACION EXTERNA
-Definicion: RECOMPENSAS O PRESIONES TANGIBLES del exterior. Busca resultados concretos y medibles.
-Lo que motiva es algo TANGIBLE: dinero, empleo, notas, estatus social, estabilidad economica, reconocimiento formal, prestigio, beneficios laborales.
-Indicadores tipicos: expresiones sobre salario, empleabilidad, estabilidad, notas, reconocimiento, prestigio profesional, demanda laboral, beneficios materiales.
-NO asignar si: hay emociones internas como motor principal (verguenza, culpa, orgullo, complacer) (->3), o hay valor personal genuino (->4).
-REGLA ESPECIAL - RECOMPENSA EXTERNA CON EMOCION POSITIVA: Cuando una respuesta contenga simultaneamente una recompensa externa explicita Y una emocion positiva posterior (por ejemplo, satisfaccion por obtener una nota o reconocimiento), se asignara regulacion externa (2), SALVO que exista mencion explicita de culpa, verguenza, orgullo como motor, complacer a otros o autoexigencia. La secuencia "busque X tangible y me senti bien al lograrlo" es regulacion externa, no introyectada.
+REGLA DE INTEGRACION: El nivel final de cada respuesta se determina por el indicador MAS BAJO encontrado en CUALQUIERA de las 3 capas.
 
-NIVEL 1 - AMOTIVACION
-Definicion: Sin razon clara, desinteres, inercia, resignacion, falta de control percibido.
-Indicadores tipicos: ausencia de razon, expresiones de indiferencia, falta de interes, inercia, resignacion, percepcion de falta de control sobre la decision, incertidumbre total sobre el futuro profesional.
-Regla: Basta UNA senal clara de amotivacion para asignar este nivel.
+=====================================================================
+RUBRICA ADAPTADA A LAS NUEVAS PREGUNTAS
+=====================================================================
+
+--- P1: PROCESO DE ELECCION DE CARRERA ---
+
+NIVEL 6 - INTRINSECA: El proceso de eleccion estuvo guiado por curiosidad, fascinacion o disfrute genuino por los contenidos o actividades de la carrera. Busco informacion por interes propio, pensaba en lo mucho que le atraian los temas, se sentia entusiasmado/a al explorar.
+NIVEL 5 - INTEGRADA: La eleccion surge de una reflexion profunda sobre quien es y quien quiere ser. El proceso revela coherencia con valores centrales e identidad. Sentia que la carrera encaja con su esencia.
+NIVEL 4 - IDENTIFICADA: Eligio porque reconoce el valor e importancia de la carrera para sus metas personales o para contribuir. Investigo, evaluo opciones y decidio con conviccion por utilidad significativa.
+NIVEL 3 - INTROYECTADA: El proceso estuvo marcado por presion emocional interna: verguenza, culpa, miedo a decepcionar, necesidad de demostrar. Elegia para complacer, para no sentirse mal, para tener imagen ante otros.
+NIVEL 2 - EXTERNA: Eligio por factores tangibles externos: salario, empleabilidad, estabilidad, prestigio, demanda laboral. El proceso fue guiado por lo que la carrera ofrece materialmente.
+NIVEL 1 - AMOTIVACION: No hubo proceso real de eleccion. Elegia por inercia, sin razon clara, porque alguien decidio por el/ella, o no sabe por que postula.
+
+--- P2: EXPERIENCIA PERSONAL RELACIONADA ---
+
+NIVEL 6 - INTRINSECA: La experiencia fue disfrutada por si misma. Narra el proceso con entusiasmo, curiosidad, sensacion de flujo. Pensaba en lo interesante de la actividad. Se sentia absorto/a, motivado/a, curioso/a.
+NIVEL 5 - INTEGRADA: La experiencia confirmo o fortalecio su identidad. Descubrio que la actividad es parte de quien es. Pensaba en coherencia con sus valores. Se sentia pleno/a, autentico/a, alineado/a.
+NIVEL 4 - IDENTIFICADA: Valoro la experiencia porque le enseno habilidades importantes o le mostro que puede contribuir. Pensaba en lo util del aprendizaje. Se sentia capaz, productivo/a.
+NIVEL 3 - INTROYECTADA: La experiencia estuvo marcada por autoexigencia, necesidad de demostrar, miedo a fallar. Pensaba en no quedar mal o en probar que es capaz. Se sentia presionado/a, aliviado/a al terminar, orgulloso/a de no fallar.
+NIVEL 2 - EXTERNA: La experiencia fue valorada por sus resultados tangibles: nota, reconocimiento, premio, beneficio material. Pensaba en obtener el resultado. Se sentia satisfecho/a por la recompensa obtenida.
+NIVEL 1 - AMOTIVACION: No tiene experiencia relevante, o la narra con indiferencia total. No penso nada especial. No sintio nada.
+
+--- P3: PROYECCION DE VIDA A 10 ANIOS ---
+
+NIVEL 6 - INTRINSECA: Se imagina sus dias realizando actividades de la carrera por DISFRUTE. Sus actividades estan centradas en el placer de hacer, explorar, aprender. El "por que" es porque le fascina, lo disfruta.
+NIVEL 5 - INTEGRADA: Se imagina viviendo de manera COHERENTE CON SU IDENTIDAD. Sus dias reflejan quien quiere ser. Las actividades son expresion de sus valores. El "por que" es porque asi es el/ella.
+NIVEL 4 - IDENTIFICADA: Se imagina ejerciendo con PROPOSITO y contribuyendo. Sus dias incluyen actividades profesionales significativas. El "por que" es porque valora lo que hace y quiere aportar.
+NIVEL 3 - INTROYECTADA: Se imagina cumpliendo para NO FALLAR o para que otros lo validen. Sus actividades buscan demostrar exito. El "por que" es para sentirse a la altura, no decepcionar.
+NIVEL 2 - EXTERNA: Se imagina con ESTABILIDAD MATERIAL. Sus dias giran en torno a empleo estable, buen sueldo, beneficios. El "por que" es por dinero, estatus, seguridad economica.
+NIVEL 1 - AMOTIVACION: No se imagina ejerciendo, o su proyeccion es vaga/desconectada de la carrera. No sabe que haria. El "por que" no existe o es incoherente.
 
 =====================================================================
 REGLAS DE DISCRIMINACION OBLIGATORIAS (D1-D4)
 =====================================================================
 
-Antes de asignar CUALQUIER puntaje, aplica la regla de discriminacion relevante:
-
 --- REGLA D1: Discriminar NIVEL 2 vs NIVEL 3 ---
 Pregunta clave: "Que busca la persona: un RESULTADO TANGIBLE o resolver/gestionar una EMOCION?"
-
 TANGIBLE (dinero, empleo, notas, estatus, reconocimiento, estabilidad) = NIVEL 2
 EMOCION (verguenza, culpa, orgullo como motor, miedo a decepcionar, complacer) = NIVEL 3
 
-Principios de discriminacion:
-- Lo que define el nivel NO es quien aparece en la frase (padres, amigos, jefe), sino QUE TIPO DE COSA motiva la accion.
-- Si el texto menciona estatus social, respeto ajeno y dinero como motivadores = tangibles = NIVEL 2
-- Si el texto menciona verguenza ante otros, evitar decepcionar, buscar que se sientan orgullosos = emociones = NIVEL 3
-- Si el texto menciona buscar buenas notas o reconocimiento y luego sentirse satisfecho = la satisfaccion es consecuencia de lo tangible = NIVEL 2
-- Si el texto menciona elegir algo para que otra persona sea feliz o no sufra = complacer emocionalmente = NIVEL 3
-- Si el texto menciona elegir algo por imagen o presencia ante otros motivado por verguenza = emocion interna = NIVEL 3
+Principios:
+- Lo que define el nivel NO es quien aparece en la frase, sino QUE TIPO DE COSA motiva.
+- Estatus social, respeto ajeno y dinero como motivadores = tangibles = NIVEL 2
+- Verguenza ante otros, evitar decepcionar, buscar que se sientan orgullosos = emociones = NIVEL 3
+- Buscar buenas notas/reconocimiento y luego sentirse satisfecho = satisfaccion es consecuencia de lo tangible = NIVEL 2
+- Elegir algo para que otra persona sea feliz o no sufra = complacer emocionalmente = NIVEL 3
+- Elegir algo por imagen/presencia motivado por verguenza = emocion interna = NIVEL 3
 
 --- REGLA D2: Discriminar NIVEL 3 vs NIVEL 4 ---
 Pregunta clave: "La persona VALORA el aprendizaje/actividad, o actua por OBLIGACION EMOCIONAL?"
+VALORA (reconoce importancia, ve utilidad, quiere contribuir, aprecia aprendizaje) = NIVEL 4
+OBLIGACION (sentir que cumple, demostrar capacidad, no fallar, no decepcionar) = NIVEL 3
 
-VALORA (reconoce importancia, ve utilidad, quiere contribuir, aprecia el aprendizaje) = NIVEL 4
-OBLIGACION (sentir que cumple, demostrar capacidad, no fallar, no decepcionar, autoexigencia) = NIVEL 3
-
-Principios de discriminacion:
-- En nivel 4 la persona ELIGE porque ve valor en lo que aprende o en contribuir.
-- En nivel 3 la persona se SIENTE OBLIGADA emocionalmente (aunque la obligacion venga de si misma).
-- "Quiero contribuir a mejorar mi entorno" (elige por valor) = NIVEL 4
-- "Necesito sentir que cumplo con lo esperado" (obligacion interna) = NIVEL 3
-- "Valore las habilidades que desarrolle" (aprecia aprendizaje) = NIVEL 4
-- "Me esforcé para no sentirme incompetente" (evitar emocion negativa) = NIVEL 3
+Principios:
+- En nivel 4 la persona ELIGE porque ve valor.
+- En nivel 3 se SIENTE OBLIGADA emocionalmente.
+- "Quiero contribuir a mejorar mi entorno" = NIVEL 4
+- "Necesito sentir que cumplo con lo esperado" = NIVEL 3
 
 --- REGLA D3: Discriminar NIVEL 4 vs NIVEL 5 ---
 Pregunta clave: "Habla de METAS/UTILIDAD o de IDENTIDAD/PROYECTO DE VIDA?"
-
 Metas, utilidad, desarrollo profesional, contribucion = NIVEL 4
 Identidad, proyecto vital, coherencia con valores centrales, "quien quiero ser" = NIVEL 5
 
 --- REGLA D4: Discriminar NIVEL 5 vs NIVEL 6 ---
 Pregunta clave: "El foco esta en QUIEN SOY (identidad) o en lo que DISFRUTO HACER (proceso)?"
-
 Coherencia con valores, identidad, proyecto de vida = NIVEL 5
 Disfrute del proceso, curiosidad, placer en la actividad misma = NIVEL 6
+
+=====================================================================
+REGLAS ESPECIALES
+=====================================================================
+
+SATISFACCION Y RECOMPENSA EXTERNA (nivel 3 vs 2):
+No clasificar como introyectada cuando el texto exprese unicamente busqueda de recompensa externa (nota, reconocimiento, premio), aun cuando mencione satisfaccion posterior. La satisfaccion derivada de una recompensa externa NO constituye presion interna.
+
+RECOMPENSA EXTERNA CON EMOCION POSITIVA (nivel 2):
+Cuando haya recompensa externa explicita + emocion positiva posterior, se asigna regulacion externa (2), SALVO que exista mencion explicita de culpa, verguenza, orgullo como motor, complacer a otros o autoexigencia.
 
 =====================================================================
 PROCESO DE EVALUACION (SEGUIR EN ORDEN ESTRICTO)
@@ -298,12 +309,12 @@ PROCESO DE EVALUACION (SEGUIR EN ORDEN ESTRICTO)
 
 Para CADA respuesta (P1, P2, P3):
 1. Leer la respuesta completa sin prejuicios
-2. Identificar TODOS los indicadores motivacionales presentes en el texto
-3. Clasificar cada indicador segun la rubrica
-4. Si hay indicadores de MULTIPLES niveles -> asignar el nivel MAS BAJO (menos autonomo)
+2. Extraer indicadores de las 3 CAPAS: acciones, pensamientos, emociones
+3. Clasificar cada indicador segun la rubrica ESPECIFICA de esa pregunta
+4. Si hay indicadores de MULTIPLES niveles -> asignar el nivel MAS BAJO
 5. VERIFICAR aplicando la regla D1, D2, D3 o D4 segun los niveles en juego
-6. Si hay recompensa externa + satisfaccion posterior -> verificar REGLA ESPECIAL de nivel 2
-7. Escribir justificacion citando la evidencia textual Y la regla aplicada
+6. Si hay recompensa externa + satisfaccion posterior -> verificar REGLA ESPECIAL
+7. Escribir justificacion citando evidencia de las 3 capas + regla aplicada
 
 PERFIL FINAL:
 - Base: Perfil = min(P1, P2, P3)
@@ -328,17 +339,17 @@ JSON DE RESPUESTA (responder SOLO con este JSON, sin markdown)
     "eleccion_carrera": {
       "puntaje": 1-6,
       "tipo_motivacion": "nombre del nivel",
-      "justificacion": "Evidencia: [cita textual]. Regla aplicada: [D1/D2/D3/D4 + explicacion]"
+      "justificacion": "Acciones: [...]. Pensamientos: [...]. Emociones: [...]. Regla aplicada: [D1/D2/D3/D4 + explicacion]"
     },
     "experiencia_relacionada": {
       "puntaje": 1-6,
       "tipo_motivacion": "nombre del nivel",
-      "justificacion": "Evidencia: [cita textual]. Regla aplicada: [D1/D2/D3/D4 + explicacion]"
+      "justificacion": "Acciones: [...]. Pensamientos: [...]. Emociones: [...]. Regla aplicada: [D1/D2/D3/D4 + explicacion]"
     },
-    "uso_futuro": {
+    "proyeccion_vida": {
       "puntaje": 1-6,
       "tipo_motivacion": "nombre del nivel",
-      "justificacion": "Evidencia: [cita textual]. Regla aplicada: [D1/D2/D3/D4 + explicacion]"
+      "justificacion": "Actividades imaginadas: [...]. Razon (por que): [...]. Regla aplicada: [D1/D2/D3/D4 + explicacion]"
     }
   },
   "necesidades_psicologicas": {
@@ -355,20 +366,20 @@ JSON DE RESPUESTA (responder SOLO con este JSON, sin markdown)
 }"""
 
 USER_PROMPT_TEMPLATE = """PREGUNTAS DEL FORMULARIO:
-1. Que caracteristicas de esta carrera llamaron tu atencion y cual es la razon principal por la que decidiste postular a ella?
-2. Relata una experiencia donde hayas puesto en practica habilidades relacionadas con esta carrera. Describe como te sentiste y que descubriste de tu vocacion.
-3. Imagina que ya terminaste tus estudios. Como aplicarias lo aprendido y que impactos te gustaria lograr?
+1. Cuentanos como fue tu proceso para elegir la carrera universitaria a la que postulas. Que hiciste?, que pensabas? y como te sentias?
+2. Cuentanos una experiencia personal de cualquier etapa de tu vida, en la que hayas realizado algo que se relacione a la carrera que postulas. Que hiciste?, que pensabas? y como te sentiste?
+3. Imagina que ya han pasado 10 anios desde tu graduacion. Cuentanos: como serian tus dias?, en que actividades estarias involucrado(a)? y por que?
 
 FORMULARIO:
 {text_content}
 
 INSTRUCCION FINAL:
 1) Lee cada respuesta completa
-2) Identifica todos los indicadores motivacionales
+2) Extrae indicadores de las 3 CAPAS: acciones, pensamientos, emociones
 3) Si hay multiples niveles -> asigna el nivel inferior
 4) APLICA la regla de discriminacion D1/D2/D3/D4 segun corresponda
 5) Si hay recompensa externa + satisfaccion posterior -> verifica REGLA ESPECIAL nivel 2
-6) Justifica con evidencia textual + regla aplicada
+6) Justifica con evidencia de las 3 capas + regla aplicada
 7) Calcula perfil final
 8) Responde SOLO con JSON valido (sin markdown, sin backticks)"""
 
@@ -436,13 +447,13 @@ Correo: {correo}
 Edad: {edad}
 Programa: {programa}
 
-Pregunta 1 - Eleccion de carrera:
+Pregunta 1 - Proceso de eleccion de carrera:
 {resp1}
 
-Pregunta 2 - Experiencia relacionada:
+Pregunta 2 - Experiencia personal relacionada:
 {resp2}
 
-Pregunta 3 - Uso futuro del aprendizaje:
+Pregunta 3 - Proyeccion de vida a 10 anios:
 {resp3}"""
         
         missing_responses = []
@@ -538,9 +549,9 @@ def generate_excel_report(results):
             a.get('evaluacion_motivacional', {}).get('experiencia_relacionada', {}).get('puntaje', ''),
             a.get('evaluacion_motivacional', {}).get('experiencia_relacionada', {}).get('justificacion', ''),
             a.get('evaluacion_motivacional', {}).get('experiencia_relacionada', {}).get('tipo_motivacion', ''),
-            a.get('evaluacion_motivacional', {}).get('uso_futuro', {}).get('puntaje', ''),
-            a.get('evaluacion_motivacional', {}).get('uso_futuro', {}).get('justificacion', ''),
-            a.get('evaluacion_motivacional', {}).get('uso_futuro', {}).get('tipo_motivacion', ''),
+            a.get('evaluacion_motivacional', {}).get('proyeccion_vida', {}).get('puntaje', ''),
+            a.get('evaluacion_motivacional', {}).get('proyeccion_vida', {}).get('justificacion', ''),
+            a.get('evaluacion_motivacional', {}).get('proyeccion_vida', {}).get('tipo_motivacion', ''),
             a.get('nivel_motivacional_general', ''),
             a.get('necesidades_psicologicas', {}).get('autonomia', ''),
             a.get('necesidades_psicologicas', {}).get('competencia', ''),
@@ -674,11 +685,11 @@ def main():
                                         if 'experiencia_relacionada' in eval_mot:
                                             st.info(f"**R2: Experiencia**\n\n{eval_mot['experiencia_relacionada'].get('puntaje')}/6 - {eval_mot['experiencia_relacionada'].get('tipo_motivacion')}")
                                     with c3:
-                                        if 'uso_futuro' in eval_mot:
-                                            st.info(f"**R3: Proyeccion**\n\n{eval_mot['uso_futuro'].get('puntaje')}/6 - {eval_mot['uso_futuro'].get('tipo_motivacion')}")
+                                        if 'proyeccion_vida' in eval_mot:
+                                            st.info(f"**R3: Proyeccion de Vida**\n\n{eval_mot['proyeccion_vida'].get('puntaje')}/6 - {eval_mot['proyeccion_vida'].get('tipo_motivacion')}")
                                     
                                     st.markdown("#### Justificaciones y Reglas Aplicadas")
-                                    for key, label in [('eleccion_carrera', 'R1'), ('experiencia_relacionada', 'R2'), ('uso_futuro', 'R3')]:
+                                    for key, label in [('eleccion_carrera', 'R1 - Proceso de Eleccion'), ('experiencia_relacionada', 'R2 - Experiencia Personal'), ('proyeccion_vida', 'R3 - Proyeccion de Vida')]:
                                         if key in eval_mot:
                                             st.markdown(f"**{label}:** {eval_mot[key].get('justificacion', 'N/A')}")
                                     
@@ -726,7 +737,7 @@ def main():
                             st.markdown("<br>", unsafe_allow_html=True)
                             st.markdown("### Evaluacion Motivacional Detallada")
                             eval_mot = analysis.get('evaluacion_motivacional', {})
-                            for key, label in [('eleccion_carrera', 'Eleccion de Carrera'), ('experiencia_relacionada', 'Experiencia Relacionada'), ('uso_futuro', 'Proyeccion Futura')]:
+                            for key, label in [('eleccion_carrera', 'Proceso de Eleccion'), ('experiencia_relacionada', 'Experiencia Personal'), ('proyeccion_vida', 'Proyeccion de Vida')]:
                                 if key in eval_mot:
                                     item = eval_mot[key]
                                     with st.expander(f"**{label}** - Puntaje: {item.get('puntaje')}/6 - {item.get('tipo_motivacion')}", expanded=True):
