@@ -129,6 +129,7 @@ def get_openai_client():
 client = get_openai_client()
 
 def find_column(df, variants):
+    """Busca columna por nombre exacto (case-insensitive)."""
     df_cols_lower = {col.strip().lower(): col for col in df.columns}
     for variant in variants:
         key = variant.strip().lower()
@@ -136,20 +137,90 @@ def find_column(df, variants):
             return df_cols_lower[key]
     return None
 
+def find_columns_by_prefix(df, prefixes):
+    """Busca columnas que EMPIECEN con alguno de los prefijos dados. Retorna lista ordenada."""
+    found = []
+    for col in df.columns:
+        col_lower = col.strip().lower()
+        for prefix in prefixes:
+            if col_lower.startswith(prefix.strip().lower()):
+                found.append(col)
+                break
+    return found
+
 def build_column_map(df):
     mappings = {
-        'nombre': ['Nombre', 'Nombres', 'NOMBRE', 'NOMBRES', 'nombre', 'nombres', 'Name', 'Primer Nombre', 'nombre completo', 'Nombre Completo'],
-        'apellidos': ['Apellidos', 'Apellido', 'APELLIDOS', 'APELLIDO', 'apellidos', 'apellido', 'Last Name', 'Surname', 'Apellido Paterno'],
-        'correo': ['Correo electronico', 'Correo Electronico', 'correo electronico', 'Correo', 'correo', 'CORREO', 'Email', 'email', 'EMAIL', 'E-mail', 'Mail', 'mail', 'Direccion de correo'],
+        'nombre': [
+            'Nombre', 'Nombres', 'NOMBRE', 'NOMBRES',
+            'nombre', 'nombres', 'Name', 'Primer Nombre',
+            'nombre completo', 'Nombre Completo'
+        ],
+        'apellidos': [
+            'Apellido(s)', 'Apellidos', 'Apellido',
+            'APELLIDO(S)', 'APELLIDOS', 'APELLIDO',
+            'apellido(s)', 'apellidos', 'apellido',
+            'Last Name', 'Surname', 'Apellido Paterno'
+        ],
+        'correo': [
+            'Direccion de correo', 'Dirección de correo',
+            'DIRECCION DE CORREO', 'DIRECCIÓN DE CORREO',
+            'direccion de correo', 'dirección de correo',
+            'Correo electronico', 'Correo Electronico',
+            'Correo electrónico', 'Correo Electrónico',
+            'correo electronico', 'correo electrónico',
+            'Correo', 'correo', 'CORREO',
+            'Email', 'email', 'EMAIL', 'E-mail', 'Mail', 'mail'
+        ],
         'edad': ['Edad', 'edad', 'EDAD', 'Age'],
-        'programa': ['Programa', 'programa', 'PROGRAMA', 'Carrera', 'carrera', 'CARRERA', 'Programa Academico', 'Especialidad', 'especialidad', 'Facultad'],
-        'respuesta_1': ['Respuesta 1', 'respuesta 1', 'RESPUESTA 1', 'Respuesta1', 'R1', 'r1', 'Pregunta 1', 'P1'],
-        'respuesta_2': ['Respuesta 2', 'respuesta 2', 'RESPUESTA 2', 'Respuesta2', 'R2', 'r2', 'Pregunta 2', 'P2'],
-        'respuesta_3': ['Respuesta 3', 'respuesta 3', 'RESPUESTA 3', 'Respuesta3', 'R3', 'r3', 'Pregunta 3', 'P3'],
+        'programa': [
+            'Programa', 'programa', 'PROGRAMA',
+            'Carrera', 'carrera', 'CARRERA',
+            'Programa Academico', 'Programa Académico',
+            'Especialidad', 'especialidad', 'Facultad'
+        ],
+        'respuesta_1': [
+            'Respuesta 1', 'respuesta 1', 'RESPUESTA 1',
+            'Respuesta1', 'R1', 'r1', 'Pregunta 1', 'P1'
+        ],
+        'respuesta_2': [
+            'Respuesta 2', 'respuesta 2', 'RESPUESTA 2',
+            'Respuesta2', 'R2', 'r2', 'Pregunta 2', 'P2'
+        ],
+        'respuesta_3': [
+            'Respuesta 3', 'respuesta 3', 'RESPUESTA 3',
+            'Respuesta3', 'R3', 'r3', 'Pregunta 3', 'P3'
+        ],
     }
     col_map = {}
     for logical_name, variants in mappings.items():
         col_map[logical_name] = find_column(df, variants)
+    
+    # Fallback: si no se encontraron respuestas por nombre exacto,
+    # buscar columnas que empiecen con "Comentario" (formato Moodle/LMS)
+    respuestas_faltantes = (
+        col_map['respuesta_1'] is None or
+        col_map['respuesta_2'] is None or
+        col_map['respuesta_3'] is None
+    )
+    
+    if respuestas_faltantes:
+        comentario_cols = find_columns_by_prefix(df, ['Comentario -', 'Comentario-', 'Comentario'])
+        
+        if len(comentario_cols) >= 3:
+            if col_map['respuesta_1'] is None:
+                col_map['respuesta_1'] = comentario_cols[0]
+            if col_map['respuesta_2'] is None:
+                col_map['respuesta_2'] = comentario_cols[1]
+            if col_map['respuesta_3'] is None:
+                col_map['respuesta_3'] = comentario_cols[2]
+        elif len(comentario_cols) > 0:
+            # Asignar las que haya en orden
+            idx = 0
+            for key in ['respuesta_1', 'respuesta_2', 'respuesta_3']:
+                if col_map[key] is None and idx < len(comentario_cols):
+                    col_map[key] = comentario_cols[idx]
+                    idx += 1
+    
     return col_map
 
 def safe_get(row, col_name, default='N/A'):
