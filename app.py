@@ -642,6 +642,37 @@ def generate_excel_report(results):
     return buffer
 
 
+def generate_csv_report(results):
+    rows = []
+    for result in results:
+        a = result.get('analysis', {})
+        rows.append({
+            'N': result.get('registro_numero', ''),
+            'Nombre': result.get('nombre', ''),
+            'Apellidos': result.get('apellidos', ''),
+            'Correo': result.get('correo', ''),
+            'Calif. Real': a.get('calificacion_real', ''),
+            'Calif. /20': a.get('calificacion_sobre_20', ''),
+            'R1 Punt.': a.get('evaluacion_motivacional', {}).get('eleccion_carrera', {}).get('puntaje', ''),
+            'R1 Justificacion': a.get('evaluacion_motivacional', {}).get('eleccion_carrera', {}).get('justificacion', ''),
+            'R1 Tipo': a.get('evaluacion_motivacional', {}).get('eleccion_carrera', {}).get('tipo_motivacion', ''),
+            'R2 Punt.': a.get('evaluacion_motivacional', {}).get('experiencia_relacionada', {}).get('puntaje', ''),
+            'R2 Justificacion': a.get('evaluacion_motivacional', {}).get('experiencia_relacionada', {}).get('justificacion', ''),
+            'R2 Tipo': a.get('evaluacion_motivacional', {}).get('experiencia_relacionada', {}).get('tipo_motivacion', ''),
+            'R3 Punt.': a.get('evaluacion_motivacional', {}).get('proyeccion_vida', {}).get('puntaje', ''),
+            'R3 Justificacion': a.get('evaluacion_motivacional', {}).get('proyeccion_vida', {}).get('justificacion', ''),
+            'R3 Tipo': a.get('evaluacion_motivacional', {}).get('proyeccion_vida', {}).get('tipo_motivacion', ''),
+            'Nivel General': a.get('nivel_motivacional_general', ''),
+            'Regla Aplicada': a.get('regla_aplicada', ''),
+            'Autonomia': a.get('necesidades_psicologicas', {}).get('autonomia', ''),
+            'Competencia': a.get('necesidades_psicologicas', {}).get('competencia', ''),
+            'Relacion': a.get('necesidades_psicologicas', {}).get('relacion', ''),
+            'Recomendaciones': a.get('recomendaciones', ''),
+        })
+    df = pd.DataFrame(rows)
+    return df.to_csv(index=False, encoding='utf-8-sig').encode('utf-8-sig')
+
+
 def main():
     st.markdown("""
     <div class="app-header">
@@ -717,9 +748,14 @@ def main():
                         
                         st.markdown("<br>", unsafe_allow_html=True)
                         excel_buffer = generate_excel_report(results)
-                        col1, col2, col3 = st.columns([1, 2, 1])
+                        csv_buffer = generate_csv_report(results)
+                        timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+                        
+                        col1, col2 = st.columns(2)
+                        with col1:
+                            st.download_button("Descargar Reporte Excel (.xlsx)", data=excel_buffer, file_name=f"Analisis_SDT_{timestamp}.xlsx", mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", use_container_width=True)
                         with col2:
-                            st.download_button("Descargar Reporte Excel", data=excel_buffer, file_name=f"Analisis_SDT_{datetime.now().strftime('%Y%m%d_%H%M%S')}.xlsx", mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", use_container_width=True)
+                            st.download_button("Descargar Reporte CSV (.csv)", data=csv_buffer, file_name=f"Analisis_SDT_{timestamp}.csv", mime="text/csv", use_container_width=True)
                         
                         st.markdown("<br>", unsafe_allow_html=True)
                         st.markdown("### Detalle por Postulante")
