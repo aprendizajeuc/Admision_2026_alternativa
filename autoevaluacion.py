@@ -563,8 +563,8 @@ def generate_excel_report(results):
 def main():
     st.markdown("""
     <div class="app-header">
-        <h1 class="app-title">Sistema de Analisis de Admision</h1>
-        <p class="app-subtitle">Analisis Motivacional basado en la Teoria de la Autodeterminacion (SDT)</p>
+        <h1 class="app-title">Sistema de Autoevaluación</h1>
+        <p class="app-subtitle">Autoevaluación</p>
     </div>
     """, unsafe_allow_html=True)
     
