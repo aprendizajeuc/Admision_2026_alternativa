@@ -13,7 +13,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 import threading
 
 st.set_page_config(
-    page_title="Sistema de Analisis de Admision - SDT",
+    page_title="Sistema de Autoevaluación",
     page_icon="🎓",
     layout="wide",
     initial_sidebar_state="collapsed"
